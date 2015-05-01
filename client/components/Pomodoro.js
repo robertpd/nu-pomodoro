@@ -1,6 +1,7 @@
 import React from 'react';
 import Rx from 'rx';
 import moment from 'moment';
+import io from 'socket.io-client';
 
 import { States, DefaultTimeLengths, TimerTypes } from '../constants';
 
@@ -30,6 +31,12 @@ const Timer = React.createClass({
   },
 
   componentDidMount() {
+    var socket = io('http://localhost:8000');
+    socket.on('news', (data) => {
+      console.log(data);
+      socket.emit('my other event', { my: 'data' });
+    })
+
     this.pomodoroTimer = Rx.Observable.timer(0, 1000)
       .map(x => DefaultTimeLengths.POMODORO - x * 1000)
       .filter(t => t >= 0)
