@@ -24,17 +24,20 @@ const App = React.createClass({
 
   componentWillMount() {
     this.sessionStore = flux.getStore('session');
-    this.sessionStore.addListener('change', this.updateUser);
-    this.updateUser();
+    this.sessionStore.addListener('change', this._updateSession);
+    this._updateSession();
   },
 
-  updateUser() {
-    this.setState({user: this.sessionStore.getUser()});
+  _updateSession() {
+    this.setState({
+      clientId: this.sessionStore.getClientId(),
+      user: this.sessionStore.getUser()
+    });
   },
 
   render() {
     if (this.state.user) {
-      return <Pomodoro user={this.state.user} />;
+      return <Pomodoro user={this.state.user} clientId={this.state.clientId} />;
     } else {
       return <SignInForm />;
     }

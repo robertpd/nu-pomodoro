@@ -2,6 +2,8 @@ import React from 'react';
 import Rx from 'rx';
 import moment from 'moment';
 import io from 'socket.io-client';
+import uuid from 'node-uuid';
+import _ from 'lodash';
 
 import { States, DefaultTimeLengths, TimerTypes } from '../constants';
 
@@ -10,7 +12,7 @@ export default React.createClass({
     return (
       <div>
         Hello {this.props.user.name}
-        <Timer />
+        <Timer username={this.props.user.name} clientId={this.props.clientId} />
       </div>
     );
   }
@@ -26,16 +28,15 @@ const formatTime = t => {
 const Timer = React.createClass({
   getInitialState() {
     return {
-      remainingTime: DefaultTimeLengths.POMODORO
+      remainingTime: DefaultTimeLengths.POMODORO,
+      otherUsers: []
     };
   },
 
   componentDidMount() {
-    var socket = io('http://localhost:8000');
-    socket.on('news', (data) => {
-      console.log(data);
-      socket.emit('my other event', { my: 'data' });
-    })
+    this.socket = io('http://localhost:8000');
+
+    this.socket.on('action', this._handleRemoteData);
 
     this.pomodoroTimer = Rx.Observable.timer(0, 1000)
       .map(x => DefaultTimeLengths.POMODORO - x * 1000)
@@ -68,6 +69,8 @@ const Timer = React.createClass({
           <button className="pomodoro--start-break">Start Break</button>
           <button className="pomodoro--stop-all">Stop</button>
         </div>
+
+        <OtherPomodoros users={this.state.otherUsers} />
       </div>
     );
   },
@@ -97,6 +100,8 @@ const Timer = React.createClass({
         this.pomodoroTimer.resume();
 
         this.breakTimer.pause();
+
+        this.socket.emit('action', {action: 'pomodoro', username: this.props.username, clientId: this.props.clientId, duration: DefaultTimeLengths.POMODORO});
         break;
 
       case States.PAUSED:
@@ -105,12 +110,16 @@ const Timer = React.createClass({
         // restart if needed
         this.breakTimer.pause();
         this.breakTimer.resume();
+
+        this.socket.emit('action', {action: 'break', username: this.props.username, clientId: this.props.clientId, duration: DefaultTimeLengths.BREAK});
         break;
 
       case States.STOPPED:
         this.pomodoroTimer.pause();
         this.breakTimer.pause();
         this._updateTimer({timerType: TimerTypes.POMODORO, remainingTime: DefaultTimeLengths.POMODORO });
+
+        this.socket.emit('action', {action: 'stop', username: this.props.username, clientId: this.props.clientId});
         break;
 
       default:
@@ -123,5 +132,71 @@ const Timer = React.createClass({
       timerType: timerType,
       remainingTime: remainingTime
     });
+  },
+
+  _handleRemoteData(data) {
+    let users = _.clone(this.state.otherUsers);
+    let user = _.find(users, {clientId: data.clientId});
+
+    if (!user) {
+      user = {};
+      users.push(user);
+    }
+
+    _.assign(user, data);
+
+    if (data.action === 'stop') {
+      users = users.filter(u => data.clientId !== u.clientId);
+    }
+
+    this.setState({
+      otherUsers: users
+    });
+  }
+});
+
+
+const OtherPomodoros = React.createClass({
+  render() {
+    return (
+      <ul>{
+        this.props.users.filter(user => user.clientId).map(user => <OtherPomodoro key={user.clientId} user={user} />)
+      }</ul>
+    );
+  }
+});
+
+const OtherPomodoro = React.createClass({
+  getInitialState() {
+    return {
+      remainingTime: 0
+    }
+  },
+
+  componentDidMount() {
+    const timer = Rx.Observable.timer(0, 1000)
+      .map(x => this.props.user.duration - x * 1000)
+      .filter(t => t >= 0);
+
+    this.sub = timer.subscribe(this._updateTime);
+  },
+
+  componentWillUnmount() {
+    this.sub.dispose();
+  },
+
+  render() {
+    const user = this.props.user;
+    return (
+      <li>
+        {user.username} - {formatTime(this.state.remainingTime)} ({user.action})
+      </li>
+    )
+  },
+
+  _updateTime(remainingTime) {
+    this.setState({
+      remainingTime: remainingTime
+    })
   }
 });

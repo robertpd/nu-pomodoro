@@ -17,17 +17,27 @@ app.use(serveStatic('public/', {'index': ['index.html']}));
 var server = http.createServer(app);
 var io = socketIo(server);
 
+var connections = [];
+
 io.on('connection', function (socket) {
-  socket.emit('news', { hello: 'world' });
-  socket.on('my other event', function (data) {
-    console.log(data);
+  connections.push({socket: socket, data: {}});
+
+  connections.forEach(function (c) {
+    if (socket !== c.socket) {
+      socket.emit('action', c.data);
+    }
+  });
+
+  socket.on('action', function (data) {
+    connections.forEach(function (c) {
+      if (socket !== c.socket) {
+        c.socket.emit('action', data);
+      } else {
+        c.data = data;
+      }
+    });
   });
 });
-
-//setInterval(function () {
-//  sio.sockets.emit('time', Date());
-//}, 5000);
-
 server.listen(8000, function () {
   console.log('listening on http://localhost:8000');
 });

@@ -6,10 +6,10 @@ export const States = {
 
 export const DefaultTimeLengths = {
   POMODORO: 25 * 60 * 1000,
-  BREAK: 5  * 1000
-}
+  BREAK: 5  * 60 * 1000
+};
 
 export const TimerTypes = {
   BREAK: 'break',
   POMODORO: 'pomodoro'
-}
+};

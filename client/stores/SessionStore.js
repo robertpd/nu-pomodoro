@@ -5,16 +5,23 @@ export default class SessionStore extends Store {
     super();
     const userActionIds = flux.getActionIds('session');
     this.register(userActionIds.signIn, this._onSignIn);
+    this.state = {};
   }
 
   getUser() {
-    //return this.state.user;
-    return {name: "jack"};
+    return this.state.user;
+    //return {name: "jack"};
   }
 
-  _onSignIn(user) {
+  getClientId() {
+    return this.state.clientId;
+    //return uuid.v4();
+  }
+
+  _onSignIn(data) {
     this.setState({
-      user: user
+      clientId: data.clientId,
+      user: data.user
     });
   }
 }
