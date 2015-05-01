@@ -8,7 +8,8 @@ export default class SessionStore extends Store {
   }
 
   getUser() {
-    return this.state.user;
+    //return this.state.user;
+    return {name: "jack"};
   }
 
   _onSignIn(user) {

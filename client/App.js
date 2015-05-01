@@ -25,6 +25,7 @@ const App = React.createClass({
   componentWillMount() {
     this.sessionStore = flux.getStore('session');
     this.sessionStore.addListener('change', this.updateUser);
+    this.updateUser();
   },
 
   updateUser() {
