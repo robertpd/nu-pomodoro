@@ -6,6 +6,7 @@ import uuid from 'node-uuid';
 import _ from 'lodash';
 
 import { States, DefaultTimeLengths, TimerTypes } from '../constants';
+import config from '../config';
 
 export default React.createClass({
   render() {
@@ -34,7 +35,7 @@ const Timer = React.createClass({
   },
 
   componentDidMount() {
-    this.socket = io('http://localhost:8000');
+    this.socket = io(config.socketUrl);
 
     this.socket.on('action', this._handleRemoteData);
 
