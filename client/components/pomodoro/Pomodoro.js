@@ -5,8 +5,8 @@ import io from 'socket.io-client';
 import uuid from 'node-uuid';
 import _ from 'lodash';
 
-import { States, DefaultTimeLengths, TimerTypes } from '../constants';
-import config from '../config';
+import { States, DefaultTimeLengths, TimerTypes } from '../../constants';
+import config from '../../config';
 
 export default React.createClass({
   render() {
