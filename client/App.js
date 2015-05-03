@@ -1,9 +1,9 @@
 import React from 'react/addons';
 
-import AppFlux from './AppFlux';
+import AppFlux from 'client/AppFlux';
 
-import Pomodoro from './components/pomodoro/Pomodoro';
-import SignInForm from './components/auth/SignInForm';
+import Pomodoro from 'client/components/pomodoro/Pomodoro';
+import SignInForm from 'client/components/auth/SignInForm';
 
 const flux = new AppFlux();
 
