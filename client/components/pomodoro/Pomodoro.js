@@ -7,24 +7,17 @@ import _ from 'lodash';
 
 import { States, DefaultTimeLengths, TimerTypes } from 'client/constants';
 import config from 'client/config';
+import { formatTime } from 'client/utils/datetime';
 
 export default React.createClass({
   render() {
     return (
       <div>
-        Hello {this.props.user.name}
-        <Timer username={this.props.user.name} clientId={this.props.clientId} />
+        <Timer clientInfo={this.props.clientInfo} />
       </div>
     );
   }
 });
-
-const pad = t => t < 10 ? `0${t}` : `${t}`;
-
-const formatTime = t => {
-  const m = moment.duration(t);
-  return `${pad(m.minutes())}:${pad(m.seconds())}`;
-}
 
 const Timer = React.createClass({
   getInitialState() {
@@ -94,6 +87,8 @@ const Timer = React.createClass({
   },
 
   _handlePomodoroStateChange(state) {
+    const { clientInfo } = this.props;
+
     switch (state) {
       case States.STARTED:
         // restart if needed
@@ -102,7 +97,7 @@ const Timer = React.createClass({
 
         this.breakTimer.pause();
 
-        this.socket.emit('action', {action: 'pomodoro', username: this.props.username, clientId: this.props.clientId, duration: DefaultTimeLengths.POMODORO});
+        this.socket.emit('action', {action: 'pomodoro', username: clientInfo.user.name, clientId: clientInfo.clientId, duration: DefaultTimeLengths.POMODORO});
         break;
 
       case States.PAUSED:
@@ -112,7 +107,7 @@ const Timer = React.createClass({
         this.breakTimer.pause();
         this.breakTimer.resume();
 
-        this.socket.emit('action', {action: 'break', username: this.props.username, clientId: this.props.clientId, duration: DefaultTimeLengths.BREAK});
+        this.socket.emit('action', {action: 'break', username: clientInfo.user.name, clientId: clientInfo.clientId, duration: DefaultTimeLengths.BREAK});
         break;
 
       case States.STOPPED:
@@ -120,7 +115,7 @@ const Timer = React.createClass({
         this.breakTimer.pause();
         this._updateTimer({timerType: TimerTypes.POMODORO, remainingTime: DefaultTimeLengths.POMODORO });
 
-        this.socket.emit('action', {action: 'stop', username: this.props.username, clientId: this.props.clientId});
+        this.socket.emit('action', {action: 'stop', username: clientInfo.user.name, clientId: clientInfo.clientId});
         break;
 
       default:

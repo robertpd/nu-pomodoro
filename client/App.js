@@ -30,14 +30,13 @@ const App = React.createClass({
 
   _updateSession() {
     this.setState({
-      clientId: this.sessionStore.getClientId(),
-      user: this.sessionStore.getUser()
+      clientInfo: this.sessionStore.getClientInfo()
     });
   },
 
   render() {
-    if (this.state.user) {
-      return <Pomodoro user={this.state.user} clientId={this.state.clientId} />;
+    if (this.state.clientInfo.clientId) {
+      return <Pomodoro clientInfo={this.state.clientInfo}  />;
     } else {
       return <SignInForm />;
     }

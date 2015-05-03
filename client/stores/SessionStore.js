@@ -8,14 +8,8 @@ export default class SessionStore extends Store {
     this.state = {};
   }
 
-  getUser() {
-    return this.state.user;
-    //return {name: "jack"};
-  }
-
-  getClientId() {
-    return this.state.clientId;
-    //return uuid.v4();
+  getClientInfo() {
+    return { user: this.state.user, clientId: this.state.clientId };
   }
 
   _onSignIn(data) {
