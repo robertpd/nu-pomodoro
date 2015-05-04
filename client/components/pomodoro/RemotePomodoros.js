@@ -37,20 +37,20 @@ const RemotePomodoro = React.createClass({
   },
 
   componentWillMount() {
-    this.remainingTime = new Rx.Subject();
+    this.remainingTimeSubject = new Rx.Subject();
 
-    // Map remainingTime events to a new timer.
-    const latestTimer = this.remainingTime
+    // Map remainingTimeSubject events to a new timer.
+    const remainingTime = this.remainingTimeSubject
       .flatMapLatest(remainingTime => {
         return Rx.Observable.timer(0, 1000)
           .map(x => remainingTime - x * 1000)
           .filter(t => t >= 0);
       });
 
-    this.ticks = latestTimer.subscribe(this._tick);
+    this.ticks = remainingTime.subscribe(this._tick);
 
-    // Start timer with original remainingTime.
-    this.remainingTime.onNext(this.props.remainingTime);
+    // Start timer with original remainingTimeSubject.
+    this.remainingTimeSubject.onNext(this.props.remainingTime);
   },
 
   componentWillUnmount() {
@@ -59,9 +59,9 @@ const RemotePomodoro = React.createClass({
 
   componentDidUpdate(prevProps) {
     // Only update if remaining time was changed.
-    if (prevProps.remainingTime !== this.props.remainingTime) {
+    if (this.props.remainingTime !== prevProps.remainingTime) {
       console.log('updating remaining time for ' + this.props.user.name);
-      this.remainingTime.onNext(this.props.remainingTime);
+      this.remainingTimeSubject.onNext(this.props.remainingTime);
     }
   },
 
@@ -70,7 +70,7 @@ const RemotePomodoro = React.createClass({
       <div>
         {this.props.user.name} - {formatTime(this.state.remainingTime)} ({this.props.status})
       </div>
-    )
+    );
   },
 
   _tick(remainingTime) {

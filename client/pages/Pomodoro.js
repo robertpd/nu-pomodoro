@@ -52,7 +52,7 @@ export default React.createClass({
       return;
     }
 
-    console.log('Received remote status: ', data);
+    console.log(`Received remote status (${data.status}) for ${data.user.name}`);
 
     let remoteClients = _.clone(this.state.remoteClients);
     let client = _.find(remoteClients, {clientId: data.clientId});

@@ -80,9 +80,9 @@ const Timer = React.createClass({
     const stopAllBtn = element.querySelector('.pomodoro--stop-all');
 
     const startPomodoro = Rx.Observable.fromEvent(startPomodoroBtn, 'click')
-      .map(() => Status.STARTED);
+      .map(() => Status.IN_POMODORO);
     const startBreak = Rx.Observable.fromEvent(startBreakBtn, 'click')
-      .map(() => Status.PAUSED);
+      .map(() => Status.ON_BREAK);
     const stopAll = Rx.Observable.fromEvent(stopAllBtn, 'click')
       .map(() => Status.STOPPED);
 
@@ -94,7 +94,7 @@ const Timer = React.createClass({
     let remainingTime;
 
     switch (status) {
-      case Status.STARTED:
+      case Status.IN_POMODORO:
         // restart if needed
         this.pomodoroTimer.pause();
         this.pomodoroTimer.resume();
@@ -105,7 +105,7 @@ const Timer = React.createClass({
 
         break;
 
-      case Status.PAUSED:
+      case Status.ON_BREAK:
         this.pomodoroTimer.pause();
 
         // restart if needed

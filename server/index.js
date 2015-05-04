@@ -21,33 +21,39 @@ var io = socketIo(server);
 var clients = [];
 
 io.on('connection', function (socket) {
-  clients.push({socket: socket, data: {}});
-
   clients.forEach(function (c) {
-    if (socket !== c.socket) {
+    if (socket !== c.socket && c.data) {
       socket.emit('remoteStatusChange', c.data);
     }
   });
 
   socket.on('statusChange', function (data) {
-    console.log('Received status change: ', data);
-
     clients.forEach(function (c) {
-      if (socket !== c.socket) {
+      if (c.clientId !== data.clientId) {
         c.socket.emit('remoteStatusChange', data);
-      } else {
-        _.assign(c.data, data);
       }
     });
+
+    updateClientData(data, socket);
   });
 
   socket.on('tick', function (data) {
-    var toUpdate = clients.filter((function (c) {
-      return socket === c.socket;
-    }))[0];
-    _.assign(toUpdate.data, data);
+    updateClientData(data, socket);
   })
 });
+
 server.listen(8000, function () {
   console.log('listening on http://localhost:8000');
 });
+
+function updateClientData(data, socket) {
+  var client = _.find(clients, {clientId: data.clientId});
+  if (!client) {
+    console.log('Adding client ' + data.clientId);
+    client = { clientId: data.clientId };
+    clients.push(client);
+  }
+
+  client.socket = socket;
+  client.data = data;
+}

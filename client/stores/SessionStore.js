@@ -5,7 +5,7 @@ export default class SessionStore extends Store {
     super();
     const userActionIds = flux.getActionIds('session');
     this.register(userActionIds.signIn, this._onSignIn);
-    this.state = {};
+    this.state = fetchSessionFromLocalStorage();
   }
 
   getClient() {
@@ -19,3 +19,13 @@ export default class SessionStore extends Store {
     });
   }
 }
+
+
+const fetchSessionFromLocalStorage = () => {
+  const data = window.localStorage.getItem('session-data');
+  if (data) {
+    return JSON.parse(data);
+  } else {
+    return {};
+  }
+};

@@ -1,6 +1,6 @@
 export const Status = {
-  STARTED: 'started',
-  PAUSED: 'paused',
+  IN_POMODORO: 'in_pomodoro',
+  ON_BREAK: 'on_break',
   STOPPED: 'stopped'
 };
 
