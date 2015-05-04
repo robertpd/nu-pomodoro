@@ -22,7 +22,7 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <MyPomodoro client={this.props.client} onStatusChange={this.onStatusChange} />
+        <MyPomodoro client={this.props.client} onStatusChange={this.onStatusChange} onTick={this.onTick} />
         <RemotePomodoros client={this.props.client} remoteClients={this.state.remoteClients} />
       </div>
     );
@@ -30,14 +30,27 @@ export default React.createClass({
 
   onStatusChange(data) {
     this.socket.emit('statusChange', {
-      status: data.status,
       clientId: this.props.client.clientId,
       user: this.props.client.user,
+      status: data.status,
+      remainingTime: data.remainingTime
+    });
+  },
+
+  onTick(data) {
+    this.socket.emit('tick', {
+      clientId: this.props.client.clientId,
+      user: this.props.client.user,
+      status: data.status,
       remainingTime: data.remainingTime
     });
   },
 
   _handleRemoteStatusChange(data) {
+    if (!data.clientId) {
+      return;
+    }
+
     console.log('Received remote status: ', data);
 
     let remoteClients = _.clone(this.state.remoteClients);

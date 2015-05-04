@@ -10,13 +10,16 @@ import { formatTime } from 'client/utils/datetime';
 export default React.createClass({
   propTypes: {
     client: React.PropTypes.object.isRequired,
-    onStatusChange: React.PropTypes.func
+    onStatusChange: React.PropTypes.func,
+    onTick: React.PropTypes.func
   },
 
   render() {
     return (
       <div>
-        <Timer client={this.props.client} onStatusChange={this.props.onStatusChange} />
+        <Timer client={this.props.client}
+               onStatusChange={this.props.onStatusChange}
+               onTick={this.props.onTick} />
       </div>
     );
   }
@@ -127,6 +130,10 @@ const Timer = React.createClass({
         throw new Error(`Invalid status: ${status}`);
     }
 
+    this.setState({
+      status: status
+    });
+
     // Invoke callback from owner.
     this.props.onStatusChange({
       status: status,
@@ -137,6 +144,12 @@ const Timer = React.createClass({
   _tick({timerType, remainingTime}) {
     this.setState({
       timerType: timerType,
+      remainingTime: remainingTime
+    });
+
+    // Invoke callback from owner.
+    this.props.onTick({
+      status: this.state.status,
       remainingTime: remainingTime
     });
   }

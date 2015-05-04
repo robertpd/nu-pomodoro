@@ -3,6 +3,7 @@ var http = require('http');
 var serveStatic = require('serve-static');
 var socketIo = require('socket.io');
 var bodyParser = require('body-parser');
+var _ = require('lodash');
 
 var config = require('./config');
 var app = express();
@@ -34,11 +35,16 @@ io.on('connection', function (socket) {
     clients.forEach(function (c) {
       if (socket !== c.socket) {
         c.socket.emit('remoteStatusChange', data);
-      } else {
-        c.data = data;
       }
     });
   });
+
+  socket.on('tick', function (data) {
+    var toUpdate = clients.filter((function (c) {
+      return socket === c.socket;
+    }))[0];
+    _.assign(toUpdate.data, data);
+  })
 });
 server.listen(8000, function () {
   console.log('listening on http://localhost:8000');
