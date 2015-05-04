@@ -22,6 +22,7 @@ export default React.createClass({
   render() {
     return (
       <div>
+        <h2>Hello {this.props.client.user.name}!</h2>
         <MyPomodoro client={this.props.client} onStatusChange={this.onStatusChange} onTick={this.onTick} />
         <RemotePomodoros client={this.props.client} remoteClients={this.state.remoteClients} />
       </div>
@@ -63,7 +64,7 @@ export default React.createClass({
 
     _.assign(client, data);
 
-    if (data.status === 'stop') {
+    if (data.status === 'stopped') {
       remoteClients = remoteClients.filter(u => data.clientId !== u.clientId);
     }
 

@@ -35,6 +35,8 @@ io.on('connection', function (socket) {
     clients.forEach(function (c) {
       if (socket !== c.socket) {
         c.socket.emit('remoteStatusChange', data);
+      } else {
+        _.assign(c.data, data);
       }
     });
   });
