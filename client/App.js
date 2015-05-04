@@ -1,9 +1,9 @@
 import React from 'react/addons';
 
-import AppFlux from 'client/AppFlux';
+import AppFlux from './AppFlux';
 
-import Pomodoro from 'client/components/pomodoro/Pomodoro';
-import SignInForm from 'client/components/auth/SignInForm';
+import PomodoroPage from './pages/Pomodoro';
+import SignInForm from './components/auth/SignInForm';
 
 const flux = new AppFlux();
 
@@ -30,13 +30,13 @@ const App = React.createClass({
 
   _updateSession() {
     this.setState({
-      clientInfo: this.sessionStore.getClientInfo()
+      client: this.sessionStore.getClient()
     });
   },
 
   render() {
-    if (this.state.clientInfo.clientId) {
-      return <Pomodoro clientInfo={this.state.clientInfo}  />;
+    if (this.state.client.clientId) {
+      return <PomodoroPage client={this.state.client} />;
     } else {
       return <SignInForm />;
     }

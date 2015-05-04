@@ -1,4 +1,4 @@
-export const States = {
+export const Status = {
   STARTED: 'started',
   PAUSED: 'paused',
   STOPPED: 'stopped'

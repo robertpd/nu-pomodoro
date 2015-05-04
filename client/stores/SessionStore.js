@@ -8,7 +8,7 @@ export default class SessionStore extends Store {
     this.state = {};
   }
 
-  getClientInfo() {
+  getClient() {
     return { user: this.state.user, clientId: this.state.clientId };
   }
 

@@ -17,21 +17,23 @@ app.use(serveStatic('public/', {'index': ['index.html']}));
 var server = http.createServer(app);
 var io = socketIo(server);
 
-var connections = [];
+var clients = [];
 
 io.on('connection', function (socket) {
-  connections.push({socket: socket, data: {}});
+  clients.push({socket: socket, data: {}});
 
-  connections.forEach(function (c) {
+  clients.forEach(function (c) {
     if (socket !== c.socket) {
-      socket.emit('action', c.data);
+      socket.emit('remoteStatusChange', c.data);
     }
   });
 
-  socket.on('action', function (data) {
-    connections.forEach(function (c) {
+  socket.on('statusChange', function (data) {
+    console.log('Received status change: ', data);
+
+    clients.forEach(function (c) {
       if (socket !== c.socket) {
-        c.socket.emit('action', data);
+        c.socket.emit('remoteStatusChange', data);
       } else {
         c.data = data;
       }
