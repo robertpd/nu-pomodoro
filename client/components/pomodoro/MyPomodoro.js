@@ -16,7 +16,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div>
+      <div className="my-pomodoro">
         <Timer client={this.props.client}
                onStatusChange={this.props.onStatusChange}
                onTick={this.props.onTick} />
@@ -60,13 +60,13 @@ const Timer = React.createClass({
   render() {
     return (
       <div>
-        <div>
-          <span>{formatTime(this.state.remainingTime)}</span>
+        <div className="my-pomodoro--remaining-time">
+          {formatTime(this.state.remainingTime)}
         </div>
         <div>
-          <button className="pomodoro--start-pomodoro">Start Pomodoro</button>
-          <button className="pomodoro--start-break">Start Break</button>
-          <button className="pomodoro--stop-all">Stop</button>
+          <button className="my-pomodoro--start-pomodoro">Start Pomodoro</button>
+          <button className="my-pomodoro--start-break">Start Break</button>
+          <button className="my-pomodoro--stop-all">Stop</button>
         </div>
       </div>
     );
@@ -75,9 +75,9 @@ const Timer = React.createClass({
   _getStatusChangeObservable() {
     const element = this.getDOMNode();
 
-    const startPomodoroBtn = element.querySelector('.pomodoro--start-pomodoro');
-    const startBreakBtn = element.querySelector('.pomodoro--start-break');
-    const stopAllBtn = element.querySelector('.pomodoro--stop-all');
+    const startPomodoroBtn = element.querySelector('.my-pomodoro--start-pomodoro');
+    const startBreakBtn = element.querySelector('.my-pomodoro--start-break');
+    const stopAllBtn = element.querySelector('.my-pomodoro--stop-all');
 
     const startPomodoro = Rx.Observable.fromEvent(startPomodoroBtn, 'click')
       .map(() => Status.IN_POMODORO);

@@ -3,40 +3,23 @@
 <head>
     <title>Pomodoro</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <style>
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+        }
+        button {
+            padding: .3em .5em;
+            font-size: 20px;
+            margin: 0 .3em 0 0 ;
+        }
+        .my-pomodoro--remaining-time {
+            margin: .5em auto;
+            font-size: 36px;
+        }
+    </style>
 </head>
 <body>
     <div id="app"></div>
     <script src="./bundle.js"></script>
-    <script>
-    //    var lock = new Auth0Lock('7XpPWvhohMHlLgjoNS8GMAmgd6mByIE9', 'jaysoo.auth0.com');
-    //
-    //    var userProfile = null;
-    //
-    //    document.getElementById('btn-login').addEventListener('click', function() {
-    //        lock.show({ authParams: { scope: 'openid' } });
-    //    });
-    //
-    //    var hash = lock.parseHash(window.location.hash);
-    //
-    //    if (hash && hash.id_token) {
-    //        //save the token in the session:
-    //        localStorage.setItem('id_token', hash.id_token);
-    //    }
-    //
-    //    if (hash && hash.error) {
-    //        alert('There was an error: ' + hash.error + '\n' + hash.error_description);
-    //    }
-    //
-    //    //retrieve the profile:
-    //    var id_token = localStorage.getItem('id_token');
-    //    if (id_token) {
-    //        lock.getProfile(id_token, function (err, profile) {
-    //            if (err) {
-    //                return alert('There was an error geting the profile: ' + err.message);
-    //            }
-    //            document.getElementById('name').textContent = profile.name;
-    //        });
-    //    }
-    </script>
 </body>
 </html>
