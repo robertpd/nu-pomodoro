@@ -2,6 +2,10 @@
   "name": "nulogy-pomodoro",
   "version": "1.0.0",
   "description": "Nulogy's pomodoro application",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:nulogy/nu-pomodoro.git"
+  },
   "scripts": {
     "build": "./node_modules/.bin/gulp build --production",
     "start-dev": "node server",
