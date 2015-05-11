@@ -4,7 +4,7 @@ import moment from 'moment';
 import uuid from 'node-uuid';
 import _ from 'lodash';
 
-import { Status, DefaultTimeLengths, TimerTypes } from '../../constants';
+import { Status, DefaultTimeLengths } from '../../constants';
 import { formatTime } from '../../utils/datetime';
 
 export default React.createClass({
@@ -18,6 +18,7 @@ export default React.createClass({
     return (
       <div className="my-pomodoro">
         <Timer client={this.props.client}
+               pomodoro={this.props.pomodoro}
                onStatusChange={this.props.onStatusChange}
                onTick={this.props.onTick} />
       </div>
@@ -26,23 +27,17 @@ export default React.createClass({
 });
 
 const Timer = React.createClass({
-  getInitialState() {
-    return {
-      remainingTime: DefaultTimeLengths.POMODORO
-    };
-  },
-
   componentDidMount() {
     this.pomodoroTimer = Rx.Observable.timer(0, 1000)
       .map(x => DefaultTimeLengths.POMODORO - x * 1000)
       .filter(t => t >= 0)
-      .map(t => ({ timerType: TimerTypes.POMODORO, remainingTime: t }))
+      .map(t => ({ remainingTime: t }))
       .pausable();
 
     this.breakTimer = Rx.Observable.timer(0, 1000)
       .map(x => DefaultTimeLengths.BREAK - x * 1000)
       .filter(t => t >= 0)
-      .map(t => ({ timerType: TimerTypes.BREAK, remainingTime: t }))
+      .map(t => ({ remainingTime: t }))
       .pausable();
 
     this.ticks = Rx.Observable.merge(this.pomodoroTimer, this.breakTimer);
@@ -58,7 +53,7 @@ const Timer = React.createClass({
     return (
       <div>
         <div className="my-pomodoro--remaining-time">
-          {formatTime(this.state.remainingTime)}
+          {formatTime(this.props.pomodoro.remainingTime)}
         </div>
         <div>
           <button className="my-pomodoro--start-pomodoro"
@@ -113,7 +108,7 @@ const Timer = React.createClass({
         this.pomodoroTimer.pause();
         this.breakTimer.pause();
 
-        this._tick({timerType: TimerTypes.POMODORO, remainingTime: DefaultTimeLengths.POMODORO });
+        this._tick({remainingTime: DefaultTimeLengths.POMODORO });
 
         remainingTime = 0;
 
@@ -123,26 +118,14 @@ const Timer = React.createClass({
         throw new Error(`Invalid status: ${status}`);
     }
 
-    this.setState({
-      status: status
-    });
-
     // Invoke callback from owner.
-    this.props.onStatusChange({
-      status: status,
-      remainingTime: remainingTime
-    });
+    this.props.onStatusChange({ status, remainingTime });
   },
 
-  _tick({timerType, remainingTime}) {
-    this.setState({
-      timerType: timerType,
-      remainingTime: remainingTime
-    });
-
+  _tick({ remainingTime }) {
     // Invoke callback from owner.
     this.props.onTick({
-      status: this.state.status,
+      status: this.props.status,
       remainingTime: remainingTime
     });
   }

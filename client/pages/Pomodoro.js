@@ -11,7 +11,7 @@ export default React.createClass({
   },
 
   getInitialState() {
-    return { remoteClients: [] };
+    return { pomodoro: {}, remoteClients: [] };
   },
 
   componentDidMount() {
@@ -22,6 +22,9 @@ export default React.createClass({
 
     this.pomodoroStore.addListener('change', this._updatePomodoro);
     this.remoteClientStore.addListener('change', this._updateRemoteClients);
+
+    this._updatePomodoro();
+    this._updateRemoteClients();
   },
 
   render() {
@@ -30,6 +33,7 @@ export default React.createClass({
         <h2>Hello {this.props.client.user.name}!</h2>
 
         <MyPomodoro client={this.props.client}
+                    pomodoro={this.state.pomodoro}
                     onStatusChange={this.onStatusChange}
                     onTick={this.onTick} />
 
