@@ -1,3 +1,3 @@
 export default {
-  socketUrl: 'http://localhost:8000'
+  socketUrl: 'https://nu-pomodoro.herokuapp.com/'
 };
