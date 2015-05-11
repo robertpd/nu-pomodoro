@@ -16,11 +16,11 @@ gulp.task('html', function () {
 
   return gulp.src(htmlConfig.src)
     .pipe(gulpif(isRelease, revReplace({
-      replaceInExtensions: ['.erb'],
+      replaceInExtensions: ['.html'],
       manifest: jsManifest
     })))
     .pipe(gulpif(isRelease, revReplace({
-      replaceInExtensions: ['.erb'],
+      replaceInExtensions: ['.html'],
       manifest: cssManifest
     })))
     .pipe(gulp.dest(htmlConfig.dest));

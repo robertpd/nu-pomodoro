@@ -24,7 +24,7 @@ module.exports = {
     manifest: 'js-manifest.json'
   },
   html: {
-    src: src + '/index.html',
+    src: src + '/*.html',
     dest: './public'
   },
   fonts: {
