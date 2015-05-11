@@ -8,18 +8,18 @@ var baseConfig = require('../config');
 var htmlConfig = baseConfig.html;
 var jsConfig = baseConfig.browserify;
 var cssConfig = baseConfig.sass;
-var isRelease = baseConfig.isRelease;
+var isProduction = baseConfig.isProduction;
 
 gulp.task('html', function () {
   var jsManifest = gulp.src(jsConfig.dest + '/' + jsConfig.manifest);
   var cssManifest = gulp.src(cssConfig.dest + '/' + cssConfig.manifest);
 
   return gulp.src(htmlConfig.src)
-    .pipe(gulpif(isRelease, revReplace({
+    .pipe(gulpif(isProduction, revReplace({
       replaceInExtensions: ['.html'],
       manifest: jsManifest
     })))
-    .pipe(gulpif(isRelease, revReplace({
+    .pipe(gulpif(isProduction, revReplace({
       replaceInExtensions: ['.html'],
       manifest: cssManifest
     })))

@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Nulogy's pomodoro application",
   "scripts": {
-    "start": "node server",
+    "build": "./node_modules/.bin/gulp build --production",
+    "start-dev": "node server",
+    "start": "node server --production",
     "test": "./node_modules/.bin/mocha client/test-main.js"
   },
   "author": "Engineering <engineering@nulogy.com>",

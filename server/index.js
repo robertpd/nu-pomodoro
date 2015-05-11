@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({
 }));
 app.use(bodyParser.json());
 
-app.use(serveStatic('public/', {'index': ['index.html']}));
+app.use(serveStatic(config.publicPath, {'index': ['index.html']}));
 
 var server = http.createServer(app);
 var io = socketIo(server);

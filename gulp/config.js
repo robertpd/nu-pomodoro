@@ -1,11 +1,11 @@
-var argv = require('yargs').argv;
+var argv = require('yargs').default('production', false).argv;
 
-var dest = './public/assets';
+var isProduction = argv.production;
+var dest = isProduction ? './public/production' : './public/development';
 var src = './client';
-var isRelease = !!argv.release;
 
 module.exports = {
-  isRelease: isRelease,
+  isProduction: isProduction,
 
   sass: {
     src: src + '/styles/application.scss',
@@ -25,7 +25,7 @@ module.exports = {
   },
   html: {
     src: src + '/*.html',
-    dest: './public'
+    dest: dest
   },
   fonts: {
     src: [
@@ -40,7 +40,7 @@ module.exports = {
   watch: {
     js: {
       src: ['client/js/**/*.js', '!client/**/*-spec.js'],
-      tasks: isRelease ? ['watchify', 'html'] : ['watchify'] // revs only change for release mode
+      tasks: isProduction ? ['watchify', 'html'] : ['watchify'] // revs only change for release mode
     },
     styles: {
       src: 'client/styles/**/*.sass',

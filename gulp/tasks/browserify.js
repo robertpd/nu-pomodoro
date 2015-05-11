@@ -15,7 +15,7 @@ var rev = require('gulp-rev');
 var _ = require('lodash');
 
 var config = require('../config').browserify;
-var isRelease = require('../config').isRelease;
+var isProduction = require('../config').isProduction;
 
 gulp.task('browserify', function () {
   return bundle(false);
@@ -58,7 +58,7 @@ function bundle(watch) {
 }
 
 function rebundle(b) {
-  if (isRelease) {
+  if (isProduction) {
     return b.bundle()
       .on('error', gutil.log.bind(gutil, 'Browserify Error'))
       .pipe(source('App.js'))

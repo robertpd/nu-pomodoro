@@ -6,16 +6,16 @@ var buffer = require('gulp-buffer');
 var sourcemaps = require('gulp-sourcemaps');
 
 var config = require('../config.js').sass;
-var isRelease = require('../config').isRelease;
+var isProduction = require('../config').isProduction;
 
 gulp.task('styles', function () {
   return gulp.src(config.src)
-    .pipe(gulpif(!isRelease, sourcemaps.init()))
+    .pipe(gulpif(!isProduction, sourcemaps.init()))
     .pipe(sass(config.settings))
-    .pipe(gulpif(!isRelease, sourcemaps.write()))
+    .pipe(gulpif(!isProduction, sourcemaps.write()))
     .pipe(buffer())
-    .pipe(gulpif(isRelease, rev()))
-    .pipe(gulpif(isRelease, gulp.dest(config.dest)))
-    .pipe(gulpif(isRelease, rev.manifest({ path: config.manifest })))
+    .pipe(gulpif(isProduction, rev()))
+    .pipe(gulpif(isProduction, gulp.dest(config.dest)))
+    .pipe(gulpif(isProduction, rev.manifest({ path: config.manifest })))
     .pipe(gulp.dest(config.dest));
 });
