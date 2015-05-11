@@ -2,10 +2,10 @@ import React from 'react/addons';
 import io from 'socket.io-client';
 
 
-import MyPomodoro from 'client/components/pomodoro/MyPomodoro';
-import RemotePomodoros from 'client/components/pomodoro/RemotePomodoros';
-import config from 'client/config';
-import { Status } from 'client/constants';
+import MyPomodoro from '../components/pomodoro/MyPomodoro';
+import RemotePomodoros from '../components/pomodoro/RemotePomodoros';
+import config from '../config';
+import { Status } from '../constants';
 
 export default React.createClass({
   getInitialState() {

@@ -1,6 +1,6 @@
 import React from 'react/addons';
 
-import AppFlux from 'client/AppFlux';
+import AppFlux from '../../AppFlux';
 
 export default React.createClass({
   mixins: [React.addons.LinkedStateMixin],

@@ -4,8 +4,8 @@ import moment from 'moment';
 import uuid from 'node-uuid';
 import _ from 'lodash';
 
-import { Status, DefaultTimeLengths, TimerTypes } from 'client/constants';
-import { formatTime } from 'client/utils/datetime';
+import { Status, DefaultTimeLengths, TimerTypes } from '../../constants';
+import { formatTime } from '../../utils/datetime';
 
 export default React.createClass({
   propTypes: {
@@ -47,9 +47,6 @@ const Timer = React.createClass({
 
     this.ticks = Rx.Observable.merge(this.pomodoroTimer, this.breakTimer);
     this.ticks.subscribe(this._tick);
-
-    this.statusChange = this._getStatusChangeObservable();
-    this.statusChange.subscribe(this._onStatusChange);
   },
 
   componentWillUnmount() {
@@ -64,33 +61,29 @@ const Timer = React.createClass({
           {formatTime(this.state.remainingTime)}
         </div>
         <div>
-          <button className="my-pomodoro--start-pomodoro">Start Pomodoro</button>
-          <button className="my-pomodoro--start-break">Start Break</button>
-          <button className="my-pomodoro--stop-all">Stop</button>
+          <button className="my-pomodoro--start-pomodoro"
+                  data-status={Status.IN_POMODORO}
+                  onClick={this._onStatusChange}>
+            Start Pomodoro
+          </button>
+          <button className="my-pomodoro--start-break"
+                  data-status={Status.ON_BREAK}
+                  onClick={this._onStatusChange}>
+            Start Break
+          </button>
+          <button className="my-pomodoro--stop-all"
+                  data-status={Status.STOPPED}
+                  onClick={this._onStatusChange}>
+            Stop
+          </button>
         </div>
       </div>
     );
   },
 
-  _getStatusChangeObservable() {
-    const element = this.getDOMNode();
-
-    const startPomodoroBtn = element.querySelector('.my-pomodoro--start-pomodoro');
-    const startBreakBtn = element.querySelector('.my-pomodoro--start-break');
-    const stopAllBtn = element.querySelector('.my-pomodoro--stop-all');
-
-    const startPomodoro = Rx.Observable.fromEvent(startPomodoroBtn, 'click')
-      .map(() => Status.IN_POMODORO);
-    const startBreak = Rx.Observable.fromEvent(startBreakBtn, 'click')
-      .map(() => Status.ON_BREAK);
-    const stopAll = Rx.Observable.fromEvent(stopAllBtn, 'click')
-      .map(() => Status.STOPPED);
-
-    return Rx.Observable.merge(Rx.Observable.just(Status.STOPPED), startPomodoro, startBreak, stopAll);
-  },
-
-  _onStatusChange(status) {
-    const { client } = this.props;
+  _onStatusChange(evt) {
+    const {target: {dataset: {status}}} = evt;
+    const {client} = this.props;
     let remainingTime;
 
     switch (status) {

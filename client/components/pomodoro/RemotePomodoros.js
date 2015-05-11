@@ -1,7 +1,7 @@
 import React from 'react/addons';
 
-import { Status } from 'client/constants';
-import { formatTime } from 'client/utils/datetime';
+import { Status } from '../../constants';
+import { formatTime } from '../../utils/datetime';
 
 export default React.createClass({
   propTypes: {
