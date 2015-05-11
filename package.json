@@ -6,7 +6,7 @@
     "build": "./node_modules/.bin/gulp build --production",
     "start-dev": "node server",
     "start": "node server --production",
-    "test": "./node_modules/.bin/mocha client/test-main.js"
+    "test": "./node_modules/.bin/mocha client/js/test-main.js"
   },
   "author": "Engineering <engineering@nulogy.com>",
   "license": "ISC",

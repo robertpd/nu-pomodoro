@@ -1,21 +1,44 @@
-## Compile assets
+## Getting Started
+
+Requirement:
+
+- NodeJS 0.12+
+
+
+Install dependencies:
 
 ```
-webpack
+npm install
 ```
 
-## Watch and compile assets (dev)
+## Running development server
+
+Run gulp:
 
 ```
-webpack --watch
+gulp watch
 ```
 
-## Run server
+Run server:
 
 ```
-npm start
+npm run start-dev
 ```
 
-## TODO
+## Running production server
 
-- Pass client and pomorodo objects around
+```
+npm run start
+```
+
+## Building production assets
+
+```
+npm run build
+```
+
+## Testing
+
+```
+npm test
+```
