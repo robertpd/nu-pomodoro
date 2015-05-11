@@ -43,8 +43,8 @@ io.on('connection', function (socket) {
   })
 });
 
-server.listen(config.por, function () {
-  console.log('listening on ' + config.url);
+server.listen(config.port, function () {
+  console.log('listening on http://localhost:' + config.port);
 });
 
 function updateClientData(data, socket) {
