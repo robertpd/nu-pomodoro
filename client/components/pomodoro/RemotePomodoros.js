@@ -39,17 +39,17 @@ const RemotePomodoro = React.createClass({
   componentWillMount() {
     this.remainingTimeSubject = new Rx.Subject();
 
-    // Map remainingTimeSubject events to a new timer.
+    // Only observe the latest timer object.
     const remainingTime = this.remainingTimeSubject
-      .flatMapLatest(remainingTime => {
+      .flatMapLatest(newRemainingTime => {
         return Rx.Observable.timer(0, 1000)
-          .map(x => remainingTime - x * 1000)
+          .map(x => newRemainingTime - x * 1000)
           .filter(t => t >= 0);
       });
 
     this.ticks = remainingTime.subscribe(this._tick);
 
-    // Start timer with original remainingTimeSubject.
+    // Start timer.
     this.remainingTimeSubject.onNext(this.props.remainingTime);
   },
 
@@ -74,8 +74,6 @@ const RemotePomodoro = React.createClass({
   },
 
   _tick(remainingTime) {
-    this.setState({
-      remainingTime: remainingTime
-    })
+    this.setState({ remainingTime });
   }
 });

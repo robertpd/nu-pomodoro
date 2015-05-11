@@ -28,6 +28,7 @@ io.on('connection', function (socket) {
   });
 
   socket.on('statusChange', function (data) {
+    console.log('statusChange', data);
     clients.forEach(function (c) {
       if (c.clientId !== data.clientId) {
         c.socket.emit('remoteStatusChange', data);

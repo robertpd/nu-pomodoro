@@ -17,9 +17,7 @@ const App = React.createClass({
   },
 
   getChildContext() {
-    return {
-      flux: flux
-    }
+    return { flux };
   },
 
   componentWillMount() {

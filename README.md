@@ -15,3 +15,7 @@ webpack --watch
 ```
 npm start
 ```
+
+## TODO
+
+- Pass client and pomorodo objects around
