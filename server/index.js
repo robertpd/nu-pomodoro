@@ -43,8 +43,8 @@ io.on('connection', function (socket) {
   })
 });
 
-server.listen(8000, function () {
-  console.log('listening on http://localhost:8000');
+server.listen(config.por, function () {
+  console.log('listening on ' + config.url);
 });
 
 function updateClientData(data, socket) {
