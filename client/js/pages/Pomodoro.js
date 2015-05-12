@@ -79,6 +79,7 @@ export default React.createClass({
   },
 
   _sendHeartbeat() {
+    console.log(this.state.pomodoro);
     this.actions.heartbeat({
       client: this.props.client,
       pomodoro: this.state.pomodoro

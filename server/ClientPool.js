@@ -34,7 +34,6 @@ export default class ClientPool {
   }
 
   heartbeat(id) {
-    clearTimeout(this._heartbeats[id]);
     this._waitForNextHeartbeat(id);
   }
 
@@ -47,7 +46,10 @@ export default class ClientPool {
   }
 
   _waitForNextHeartbeat(id) {
+    clearTimeout(this._heartbeats[id]);
+
     this._heartbeats[id] = setTimeout(() => {
+      console.log('Heartbeat failed', id);
       this.remove(id);
       delete this._heartbeats[id];
     }, this._heartbeatWithin);

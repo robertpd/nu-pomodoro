@@ -38,6 +38,7 @@ io.on('connection', function (socket) {
 
   socket.on('statusChange', function (data) {
     console.log('statusChange', data);
+    console.log('clients', clientPool.size);
 
     clientPool.clients.forEach(function (c) {
       if (c.id !== data.id) {
@@ -59,6 +60,7 @@ io.on('connection', function (socket) {
       remainingTime: data.pomodoro.remainingTime,
       status: data.pomodoro.status
     }, socket);
+
     clientPool.heartbeat(data.client.id);
   });
 });
