@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/gulp build --production",
-    "start-dev": "node server",
+    "start-dev": "./node_modules/.bin/nodemon server/index.js",
     "start": "node server --production",
     "test": "./node_modules/.bin/mocha client/js/test-main.js"
   },
@@ -70,6 +70,7 @@
     "jsdom": "3.1.1",
     "mocha": "2.2.4",
     "node-sass": "2.0.1",
+    "nodemon": "1.3.7",
     "require-dir": "0.1.0",
     "run-sequence": "1.1.0",
     "vinyl-buffer": "1.0.0",
