@@ -10,9 +10,13 @@ export default class PomodoroSocket {
     this.socket.on('remoteStatusChange', this._handleRemoteStatusChange.bind(this));
   }
 
+  heartbeat({ client, pomodoro }) {
+    this.socket.emit('heartbeat', { client, pomodoro });
+  }
+
   tick({client, status, remainingTime}) {
     this.socket.emit('tick', {
-      clientId: client.clientId,
+      id: client.id,
       user: client.user,
       status: status,
       remainingTime: remainingTime
@@ -21,22 +25,22 @@ export default class PomodoroSocket {
 
   changeStatus({ client, status, remainingTime }) {
     this.socket.emit('statusChange', {
-      clientId: client.clientId,
+      id: client.id,
       user: client.user,
       status: status,
       remainingTime: remainingTime
     });
   }
 
-  _handleRemoteStatusChange({ clientId, user, status, remainingTime}) {
-    console.log('socket:status-change', clientId, user, status, remainingTime);
+  _handleRemoteStatusChange({ id, user, status, remainingTime}) {
+    console.log('socket:status-change', id, user, status, remainingTime);
 
-    if (!clientId) {
+    if (!id) {
       return;
     }
 
     this.actions.remoteStatusChange({
-      clientId,
+      id,
       user,
       status,
       remainingTime

@@ -9,12 +9,12 @@ export default class SessionStore extends Store {
   }
 
   getClient() {
-    return { user: this.state.user, clientId: this.state.clientId };
+    return { user: this.state.user, id: this.state.id };
   }
 
   _onSignIn(data) {
     this.setState({
-      clientId: data.clientId,
+      id: data.id,
       user: data.user
     });
   }

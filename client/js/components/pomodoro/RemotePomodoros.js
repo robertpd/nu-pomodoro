@@ -14,8 +14,8 @@ export default React.createClass({
     return (
       <div>{
         this.props.remoteClients
-          .filter(c => c.status !== Status.STOPPED && c.clientId !== this.props.client.clientId)
-          .map(c => <RemotePomodoro key={c.clientId}
+          .filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.id)
+          .map(c => <RemotePomodoro key={c.id}
                                     remainingTime={c.remainingTime}
                                     user={c.user}
                                     status={c.status} />)

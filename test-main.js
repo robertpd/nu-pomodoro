@@ -2,9 +2,9 @@ var jsdom = require('jsdom');
 var glob = require('glob');
 
 require("babel/register")({
-  experimental: true,
+  stage: 1,
   optional: ['runtime'],
-  only: /client\/js/
+  ignore: /node_modules/
 });
 
 // Setup browser environment so that we can test React components.
@@ -16,6 +16,6 @@ global.navigator = {
 global.console.debug = function () {}; // NodeJS does not have console.debug, but React uses it.
 
 // Load all specs.
-glob.sync(__dirname + '/**/__spec__/**/*-spec.js', {}).forEach(function (file) {
+glob.sync(__dirname + '/{client,server}/**/__spec__/**/*-spec.js', {}).forEach(function (file) {
   require(file);
 });

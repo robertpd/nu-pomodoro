@@ -13,16 +13,16 @@ export default class RemoteClientStore extends Store {
     return this.state.remoteClients;
   }
 
-  _handleRemoteStatusChange({ clientId, user, status, remainingTime }) {
+  _handleRemoteStatusChange({ id, user, status, remainingTime }) {
     let remoteClients = _.clone(this.state.remoteClients);
-    let client = _.find(remoteClients, {clientId: clientId});
+    let client = _.find(remoteClients, {id: id});
 
     if (!client) {
       client = {};
       remoteClients.push(client);
     }
 
-    _.assign(client, { clientId, user, status, remainingTime });
+    _.assign(client, { id, user, status, remainingTime });
 
     this.setState({ remoteClients });
   }

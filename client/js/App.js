@@ -33,7 +33,7 @@ const App = React.createClass({
   },
 
   render() {
-    if (this.state.client.clientId) {
+    if (this.state.client.id) {
       return <PomodoroPage client={this.state.client} />;
     } else {
       return <SignInForm />;
