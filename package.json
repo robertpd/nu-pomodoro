@@ -8,7 +8,7 @@
   },
   "scripts": {
     "build": "./node_modules/.bin/gulp build --production",
-    "start-dev": "./node_modules/.bin/nodemon server/index.js",
+    "start-dev": "./node_modules/.bin/nodemon server/index.js --watch server",
     "start": "node server --production",
     "test": "./node_modules/.bin/mocha client/js/test-main.js"
   },
