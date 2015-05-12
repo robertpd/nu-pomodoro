@@ -25,20 +25,24 @@ Run server:
 npm run start-dev
 ```
 
-## Running production server
-
-```
-npm run start
-```
-
-## Building production assets
-
-```
-npm run build
-```
-
 ## Testing
 
 ```
 npm test
 ```
+
+
+## Deploying to production
+
+1. Build production assets:
+
+    ```
+    npm run build
+    ```
+
+2. Deploy to Heroku:
+
+    ```
+    heroku push origin master
+    ```
+
