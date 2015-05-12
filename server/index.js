@@ -55,7 +55,9 @@ io.on('connection', function (socket) {
   socket.on('heartbeat', function (data) {
     updateClientData({
       id: data.client.id,
-      data: data.pomodoro
+      user: data.client.user,
+      remainingTime: data.pomodoro.remainingTime,
+      status: data.pomodoro.status
     }, socket);
     clientPool.heartbeat(data.client.id);
   });

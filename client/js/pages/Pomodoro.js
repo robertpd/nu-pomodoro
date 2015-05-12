@@ -26,12 +26,8 @@ export default React.createClass({
     this._updatePomodoro();
     this._updateRemoteClients();
 
-    this._heartbeat = setInterval(() => {
-      this.actions.heartbeat({
-        client: this.props.client,
-        pomodoro: this.props.pomodoro
-      });
-    }, 5000);
+    this._sendHeartbeat();
+    this._heartbeat = setInterval(this._sendHeartbeat, 5000);
   },
 
   componentWillUnmount() {
@@ -79,6 +75,13 @@ export default React.createClass({
   _updateRemoteClients() {
     this.setState({
       remoteClients: this.remoteClientStore.getRemoteClients()
+    });
+  },
+
+  _sendHeartbeat() {
+    this.actions.heartbeat({
+      client: this.props.client,
+      pomodoro: this.state.pomodoro
     });
   }
 });
