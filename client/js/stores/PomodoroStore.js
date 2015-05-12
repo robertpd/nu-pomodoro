@@ -8,6 +8,7 @@ export default class PomodoroStore extends Store {
     super();
     const pomodoroActionIds = flux.getActionIds('pomodoro');
     this.register(pomodoroActionIds.tick, this._handleTick);
+    this.register(pomodoroActionIds.changeStatus, this._handleChangeStatus);
 
     this.state = {
       pomodoro: {
@@ -21,10 +22,15 @@ export default class PomodoroStore extends Store {
     return this.state.pomodoro;
   }
 
-  _handleTick({ status, remainingTime }) {
-    this.setState({
-      pomodoro: { status, remainingTime }
-    });
+  _handleTick({ remainingTime }) {
+    const pomodoro = this.state.pomodoro;
+    pomodoro.remainingTime = remainingTime;
+    this.setState({ pomodoro });
   }
 
+  _handleChangeStatus({ status }) {
+    const pomodoro = this.state.pomodoro;
+    pomodoro.status = status;
+    this.setState({ pomodoro });
+  }
 }

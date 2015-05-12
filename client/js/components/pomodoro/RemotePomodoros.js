@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import Rx from 'rx';
 
 import { Status } from '../../constants';
 import { formatTime } from '../../utils/datetime';

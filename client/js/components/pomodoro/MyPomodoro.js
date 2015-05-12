@@ -1,7 +1,5 @@
 import React from 'react';
 import Rx from 'rx';
-import moment from 'moment';
-import uuid from 'node-uuid';
 import _ from 'lodash';
 
 import { Status, DefaultTimeLengths } from '../../constants';
@@ -125,7 +123,7 @@ const Timer = React.createClass({
   _tick({ remainingTime }) {
     // Invoke callback from owner.
     this.props.onTick({
-      status: this.props.status,
+      status: this.props.pomodoro.status,
       remainingTime: remainingTime
     });
   }
