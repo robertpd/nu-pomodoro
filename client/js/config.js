@@ -1,3 +1,5 @@
+const {protocol, host} = window.location;
+
 export default {
-  socketUrl: window.location.origin
+  socketUrl: `${protocol}//${host}`
 };
