@@ -25,4 +25,8 @@ gulp.task('watch-assets', function () {
   gulp.watch(config.assets.src, config.assets.tasks);
 });
 
-gulp.task('watch', ['pre-watch', 'watch-js', 'watch-styles', 'watch-assets']);
+gulp.task('watch-html', function () {
+  gulp.watch(config.html.src, config.html.tasks);
+});
+
+gulp.task('watch', ['pre-watch', 'watch-js', 'watch-styles', 'watch-assets', 'watch-html']);

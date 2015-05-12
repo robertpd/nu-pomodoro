@@ -49,6 +49,10 @@ module.exports = {
     assets: {
       src: 'client/{images|fonts}}/**/*.*',
       tasks: ['fonts', 'images', 'html']
+    },
+    html: {
+      src: 'client/**/*.html',
+      tasks: ['html']
     }
   },
   clean: {

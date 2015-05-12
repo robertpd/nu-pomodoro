@@ -1,3 +1,3 @@
 export default {
-  socketUrl: 'https://nu-pomodoro.herokuapp.com/'
+  socketUrl: window.location.origin
 };
