@@ -1,0 +1,18 @@
+.my-pomodoro {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.my-pomodoro--timer {
+  max-width: 60vw;
+}
+
+.my-pomodoro--remaining-time {
+  font-size: 60px;
+  text-align: center;
+}
+
+.my-pomodoro button {
+  margin: 5px 5px;
+}

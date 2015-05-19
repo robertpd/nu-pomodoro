@@ -37,7 +37,11 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <h2>Hello {this.props.client.user.name}!</h2>
+        <div className="navigation">
+          <div className="navigation--item">
+            Hello {this.props.client.user.name}!
+          </div>
+        </div>
 
         <MyPomodoro client={this.props.client}
                     pomodoro={this.state.pomodoro}

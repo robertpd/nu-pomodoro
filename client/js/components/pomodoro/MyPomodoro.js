@@ -15,7 +15,7 @@ export default React.createClass({
   render() {
     return (
       <div className="my-pomodoro">
-        <Timer client={this.props.client}
+        <Timer className="my-pomodoro--timer" client={this.props.client}
                pomodoro={this.props.pomodoro}
                onStatusChange={this.props.onStatusChange}
                onTick={this.props.onTick} />
@@ -54,17 +54,17 @@ const Timer = React.createClass({
           {formatTime(this.props.pomodoro.remainingTime)}
         </div>
         <div>
-          <button className="my-pomodoro--start-pomodoro"
+          <button className="my-pomodoro--start-pomodoro btn btn-lg btn-primary"
                   data-status={Status.IN_POMODORO}
                   onClick={this._onStatusChange}>
             Start Pomodoro
           </button>
-          <button className="my-pomodoro--start-break"
+          <button className="my-pomodoro--start-break btn btn-lg btn-warning"
                   data-status={Status.ON_BREAK}
                   onClick={this._onStatusChange}>
             Start Break
           </button>
-          <button className="my-pomodoro--stop-all"
+          <button className="my-pomodoro--stop-all btn btn-lg btn-danger"
                   data-status={Status.STOPPED}
                   onClick={this._onStatusChange}>
             Stop
