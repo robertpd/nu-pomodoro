@@ -33,6 +33,16 @@ npm run start-dev
 npm test
 ```
 
+---
+
+### Setting up Heroku for deployment
+
+1. Install the [Heroku toolbelt](https://toolbelt.heroku.com/).
+
+2. Login to the account using `heroku login` (email: **engineering@nulogy.com**, password: *usual engineering password*).
+
+3. Add remote: `heroku git:remote nu-pomodoro`.
+
 
 ## Deploying to production
 
