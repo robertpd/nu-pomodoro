@@ -18,12 +18,16 @@ export default React.createClass({
   },
   render() {
     return (
-      <form onSubmit={this._requestSignIn}>
-        <label>
-          Name:
-          <input name="username" type="text" autoFocus valueLink={this.linkState('username')} />
-        </label>
-        <button>Go</button>
+      <form className="sign-in-form" onSubmit={this._requestSignIn}>
+        <div className="sign-in-form--group">
+          <input className="sign-in-form--input"
+                 placeholder="Enter your username"
+                 name="username"
+                 type="text"
+                 autoFocus
+                 valueLink={this.linkState('username')} />
+          <button type="submit" className="sign-in-form--btn btn btn-primary">Go</button>
+        </div>
       </form>
     );
   },

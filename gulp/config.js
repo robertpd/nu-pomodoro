@@ -13,6 +13,7 @@ module.exports = {
     manifest: 'css-manifest.json',
     settings: {
       includePaths: [
+        './node_modules/bootstrap-sass/assets/stylesheets',
         './node_modules/font-awesome/scss/'
       ]
     }
@@ -43,7 +44,7 @@ module.exports = {
       tasks: isProduction ? ['watchify', 'html'] : ['watchify'] // revs only change for release mode
     },
     styles: {
-      src: 'client/styles/**/*.sass',
+      src: 'client/styles/**/*.scss',
       tasks: ['styles', 'html']
     },
     assets: {
