@@ -59,6 +59,6 @@ npm test
 2. Deploy to Heroku:
 
     ```
-    heroku push origin master
+    git push heroku master
     ```
 
