@@ -13,6 +13,8 @@ Install dependencies:
 npm install
 ```
 
+---
+
 ## Running development server
 
 Run gulp:
@@ -27,7 +29,7 @@ Run server:
 npm run start-dev
 ```
 
-## Testing
+### Testing
 
 ```
 npm test
@@ -35,7 +37,7 @@ npm test
 
 ---
 
-### Setting up Heroku for deployment
+## Setting up Heroku for deployment
 
 1. Install the [Heroku toolbelt](https://toolbelt.heroku.com/).
 
@@ -44,7 +46,7 @@ npm test
 3. Add remote: `heroku git:remote nu-pomodoro`.
 
 
-## Deploying to production
+### Deploying to production
 
 1. Build production assets:
 
