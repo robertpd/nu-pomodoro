@@ -53,7 +53,7 @@ npm test
 1. Build production assets:
 
     ```
-    npm run build
+    npm run build && git commit -m 'bump client'
     ```
 
 2. Deploy to Heroku:
