@@ -13,14 +13,22 @@ export default React.createClass({
 
   render() {
     return (
-      <div className="remote-pomodoros">{
-        this.props.remoteClients
-          .filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.id)
-          .map(c => <RemotePomodoro key={c.id}
-                                    remainingTime={c.remainingTime}
-                                    user={c.user}
-                                    status={c.status} />)
-      }</div>
+      <div className="remote-pomodoros" id="remote-pomodoros">
+        <div className="remote-pomodoros__info">
+          <a href="#remote-pomodoros">Active pomodoros</a>
+        </div>
+        {
+          this.props.remoteClients
+            .filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.id)
+            .map(c => <RemotePomodoro key={c.id}
+                                      remainingTime={c.remainingTime}
+                                      user={c.user}
+                                      status={c.status} />)
+        }
+        <div className="remote-pomodoros__back">
+          <a href="#top">Back to top</a>
+        </div>
+      </div>
     );
   }
 });
