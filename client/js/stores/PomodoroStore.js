@@ -12,7 +12,7 @@ export default class PomodoroStore extends Store {
 
     this.state = {
       pomodoro: {
-        remainingTime: DefaultTimeLengths.POMODORO,
+        remainingTime: 0,
         status: Status.STOPPED
       }
     };
@@ -28,9 +28,10 @@ export default class PomodoroStore extends Store {
     this.setState({ pomodoro });
   }
 
-  _handleChangeStatus({ status }) {
+  _handleChangeStatus({ status, remainingTime }) {
     const pomodoro = this.state.pomodoro;
     pomodoro.status = status;
+    pomodoro.remainingTime = remainingTime;
     this.setState({ pomodoro });
   }
 }

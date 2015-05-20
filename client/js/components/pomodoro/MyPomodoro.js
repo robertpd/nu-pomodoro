@@ -33,7 +33,7 @@ const Timer = React.createClass({
       .pausable();
 
     this.breakTimer = Rx.Observable.timer(0, 1000)
-      .map(x => DefaultTimeLengths.BREAK - x * 1000)
+      .map(x => DefaultTimeLengths.SHORT_BREAK - x * 1000)
       .filter(t => t >= 0)
       .map(t => ({ remainingTime: t }))
       .pausable();
@@ -56,11 +56,13 @@ const Timer = React.createClass({
         <div>
           <button className="my-pomodoro--start-pomodoro btn btn-lg btn-primary"
                   data-status={Status.IN_POMODORO}
+                  data-length={DefaultTimeLengths.POMODORO}
                   onClick={this._onStatusChange}>
             Start Pomodoro
           </button>
           <button className="my-pomodoro--start-break btn btn-lg btn-warning"
                   data-status={Status.ON_BREAK}
+                  data-length={DefaultTimeLengths.SHORT_BREAK}
                   onClick={this._onStatusChange}>
             Start Break
           </button>
@@ -75,9 +77,7 @@ const Timer = React.createClass({
   },
 
   _onStatusChange(evt) {
-    const {target: {dataset: {status}}} = evt;
-    const {client} = this.props;
-    let remainingTime;
+    const {target: {dataset: {status, length='0'}}} = evt;
 
     switch (status) {
       case Status.IN_POMODORO:
@@ -86,8 +86,6 @@ const Timer = React.createClass({
         this.pomodoroTimer.resume();
 
         this.breakTimer.pause();
-
-        remainingTime = DefaultTimeLengths.POMODORO;
 
         break;
 
@@ -98,17 +96,11 @@ const Timer = React.createClass({
         this.breakTimer.pause();
         this.breakTimer.resume();
 
-        remainingTime = DefaultTimeLengths.BREAK;
-
         break;
 
       case Status.STOPPED:
         this.pomodoroTimer.pause();
         this.breakTimer.pause();
-
-        this._tick({remainingTime: DefaultTimeLengths.POMODORO });
-
-        remainingTime = 0;
 
         break;
 
@@ -117,6 +109,7 @@ const Timer = React.createClass({
     }
 
     // Invoke callback from owner.
+    const remainingTime = parseInt(length, 10);
     this.props.onStatusChange({ status, remainingTime });
   },
 

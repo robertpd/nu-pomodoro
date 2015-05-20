@@ -12,7 +12,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div>{
+      <div className="remote-pomodoro">{
         this.props.remoteClients
           .filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.id)
           .map(c => <RemotePomodoro key={c.id}
