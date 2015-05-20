@@ -26,6 +26,12 @@ const App = React.createClass({
     this._updateSession();
   },
 
+  componentDidMount() {
+    if (Notification.permission !== 'granted') {
+      Notification.requestPermission();
+    }
+  },
+
   _updateSession() {
     this.setState({
       client: this.sessionStore.getClient()
