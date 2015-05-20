@@ -5,6 +5,7 @@ import RemotePomodoros from '../components/pomodoro/RemotePomodoros';
 import { Status } from '../constants';
 import AppFlux from '../AppFlux';
 import { formatTime } from '../utils/datetime';
+import TimesUp from '../components/notification/TimesUp';
 
 export default React.createClass({
   contextTypes: {
@@ -38,6 +39,7 @@ export default React.createClass({
   render() {
     return (
       <div>
+        <TimesUp remainingTime={this.state.pomodoro.remainingTime} />
         <div className="navigation">
           <div className="navigation--item">
             Hello {this.props.client.user.name}!
@@ -73,11 +75,6 @@ export default React.createClass({
 
   _updatePomodoro() {
     const pomodoro = this.pomodoroStore.getPomodoro();
-
-    // TODO: Move this elsewhere
-    if (pomodoro.remainingTime === 0) {
-      new Notification("Time's up!");
-    }
 
     document.title = formatTime(pomodoro.remainingTime);
 
