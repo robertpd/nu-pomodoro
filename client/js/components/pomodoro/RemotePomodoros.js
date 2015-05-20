@@ -3,6 +3,7 @@ import Rx from 'rx';
 
 import { Status } from '../../constants';
 import { formatTime } from '../../utils/datetime';
+import { humanize } from '../../utils/string';
 
 export default React.createClass({
   propTypes: {
@@ -12,7 +13,7 @@ export default React.createClass({
 
   render() {
     return (
-      <div className="remote-pomodoro">{
+      <div className="remote-pomodoros">{
         this.props.remoteClients
           .filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.id)
           .map(c => <RemotePomodoro key={c.id}
@@ -68,8 +69,10 @@ const RemotePomodoro = React.createClass({
 
   render() {
     return (
-      <div>
-        {this.props.user.name} - {formatTime(this.state.remainingTime)} ({this.props.status})
+      <div className="remote-pomodoro">
+        <span className="remote-pomodoro--user">{this.props.user.name}</span>
+        <span className="remote-pomodoro--time">{formatTime(this.state.remainingTime)}</span>
+        <span className="remote-pomodoro--status">({humanize(this.props.status)})</span>
       </div>
     );
   },

@@ -1,0 +1,1 @@
+export const humanize = s => s.replace(/_/g, ' ');
