@@ -12,14 +12,15 @@ export default React.createClass({
   },
 
   render() {
+    const otherCount = this._others().length;
+
     return (
       <div className="remote-pomodoros" id="remote-pomodoros">
         <div className="remote-pomodoros__info">
-          <a href="#remote-pomodoros">Active pomodoros</a>
+          <a href="#remote-pomodoros">Active pomodoros ({otherCount})</a>
         </div>
         {
-          this.props.remoteClients
-            .filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.id)
+          this._others()
             .map(c => <RemotePomodoro key={c.id}
                                       remainingTime={c.remainingTime}
                                       user={c.user}
@@ -30,6 +31,10 @@ export default React.createClass({
         </div>
       </div>
     );
+  },
+
+  _others() {
+    return this.props.remoteClients.filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.id);
   }
 });
 
