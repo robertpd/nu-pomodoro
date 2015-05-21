@@ -17,7 +17,7 @@ export default React.createClass({
     return (
       <div className="remote-pomodoros">
         <div className="remote-pomodoros__info">
-          <a href="#remote-pomodoros">Active pomodoros ({otherCount})</a>
+          <a href="#remote-pomodoros">Other users ({otherCount})</a>
         </div>
 
         <div className="remote-pomodoros__back">
