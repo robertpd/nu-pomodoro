@@ -1,6 +1,8 @@
-import React from 'react';
+import React from 'react/addons';
 import Rx from 'rx';
 import _ from 'lodash';
+
+const { classSet } = React.addons;
 
 import { Status, DefaultTimeLengths } from '../../constants';
 import { formatTime } from '../../utils/datetime';
@@ -48,27 +50,39 @@ const Timer = React.createClass({
   },
 
   render() {
+    const pomodoro = this.props.pomodoro;
+
+    const classes = classSet({
+      'my-pomodoro__remaining-time': true,
+      'my-pomodoro--in-pomodoro': pomodoro.status === Status.IN_POMODORO,
+      'my-pomodoro--on-break': pomodoro.status === Status.ON_BREAK,
+      'my-pomodoro--stopped': pomodoro.status === Status.STOPPED
+    });
+
     return (
       <div>
-        <div className="my-pomodoro--remaining-time">
-          {formatTime(this.props.pomodoro.remainingTime)}
+        <div className={classes}>
+          {formatTime(pomodoro.remainingTime)}
         </div>
         <div>
           <button className="my-pomodoro--start-pomodoro btn btn-lg btn-primary"
                   data-status={Status.IN_POMODORO}
                   data-length={DefaultTimeLengths.POMODORO}
-                  onClick={this._onStatusChange}>
+                  onClick={this._onStatusChange}
+                  disabled={pomodoro.status === Status.IN_POMODORO}>
             Start Pomodoro
           </button>
           <button className="my-pomodoro--start-break btn btn-lg btn-warning"
                   data-status={Status.ON_BREAK}
                   data-length={DefaultTimeLengths.SHORT_BREAK}
-                  onClick={this._onStatusChange}>
+                  onClick={this._onStatusChange}
+                  disabled={pomodoro.status === Status.ON_BREAK}>
             Start Break
           </button>
           <button className="my-pomodoro--stop-all btn btn-lg btn-danger"
                   data-status={Status.STOPPED}
-                  onClick={this._onStatusChange}>
+                  onClick={this._onStatusChange}
+                  disabled={pomodoro.status === Status.STOPPED}>
             Stop
           </button>
         </div>
