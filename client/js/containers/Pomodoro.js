@@ -6,6 +6,7 @@ import { Status } from '../constants';
 import AppFlux from '../AppFlux';
 import { formatTime } from '../utils/datetime';
 import TimesUp from '../components/notification/TimesUp';
+import TitleUpdater from '../components/TitleUpdater';
 
 export default React.createClass({
   contextTypes: {
@@ -39,7 +40,11 @@ export default React.createClass({
   render() {
     return (
       <div>
-        <TimesUp remainingTime={this.state.pomodoro.remainingTime} />
+        <TitleUpdater remainingTime={this.state.pomodoro.remainingTime} />
+
+        <TimesUp remainingTime={this.state.pomodoro.remainingTime}
+                 status={this.state.pomodoro.status} />
+
         <div className="navigation">
           <div className="navigation--item">
             Hello {this.props.client.user.name}!
@@ -75,8 +80,6 @@ export default React.createClass({
 
   _updatePomodoro() {
     const pomodoro = this.pomodoroStore.getPomodoro();
-
-    document.title = formatTime(pomodoro.remainingTime);
 
     this.setState({
       pomodoro: pomodoro

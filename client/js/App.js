@@ -2,7 +2,7 @@ import React from 'react/addons';
 
 import AppFlux from './AppFlux';
 
-import PomodoroPage from './pages/Pomodoro';
+import PomodoroContainer from './containers/Pomodoro';
 import SignInForm from './components/auth/SignInForm';
 
 const flux = new AppFlux();
@@ -40,7 +40,7 @@ const App = React.createClass({
 
   render() {
     if (this.state.client.id) {
-      return <PomodoroPage client={this.state.client} />;
+      return <PomodoroContainer client={this.state.client} />;
     } else {
       return <SignInForm />;
     }

@@ -1,21 +1,21 @@
 import React from 'react';
-
 import AppFlux from '../../AppFlux';
-
-let isFirst = true;
+import { Status } from '../../constants';
 
 export default React.createClass({
-  componentDidUpdate(prevProps) {
-    if (this.props.remainingTime === 0 && this.props.remainingTime !== prevProps.remainingTime) {
-      if (isFirst) {
-        isFirst = false;
-      } else {
-        new Notification("Time's up!");
-      }
+  getDefaultProps() {
+    return {
+      notificationClass: window.Notification
     }
   },
 
   render() {
+    const Notification = this.props.notificationClass;
+
+    if (this.props.remainingTime === 0 && this.props.status !== Status.STOPPED) {
+      new Notification("Time's up!");
+    }
+
     return null;
   }
 });
