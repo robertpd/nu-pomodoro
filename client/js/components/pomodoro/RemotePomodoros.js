@@ -15,19 +15,23 @@ export default React.createClass({
     const otherCount = this._others().length;
 
     return (
-      <div className="remote-pomodoros" id="remote-pomodoros">
+      <div className="remote-pomodoros">
         <div className="remote-pomodoros__info">
           <a href="#remote-pomodoros">Active pomodoros ({otherCount})</a>
         </div>
-        {
-          this._others()
-            .map(c => <RemotePomodoro key={c.id}
-                                      remainingTime={c.remainingTime}
-                                      user={c.user}
-                                      status={c.status} />)
-        }
+
         <div className="remote-pomodoros__back">
           <a href="#top">Back to top</a>
+        </div>
+
+        <div className="remote-pomodoros__list" id="remote-pomodoros">
+          {
+            this._others()
+              .map(c => <RemotePomodoro key={c.id}
+                                        remainingTime={c.remainingTime}
+                                        user={c.user}
+                                        status={c.status} />)
+          }
         </div>
       </div>
     );
@@ -83,9 +87,15 @@ const RemotePomodoro = React.createClass({
   render() {
     return (
       <div className="remote-pomodoro">
-        <span className="remote-pomodoro--user">{this.props.user.name}</span>
-        <span className="remote-pomodoro--time">{formatTime(this.state.remainingTime)}</span>
-        <span className="remote-pomodoro--status">({humanize(this.props.status)})</span>
+        <div className="remote-pomodoro__content">
+          <span className="remote-pomodoro__user">
+            {this.props.user.name} ({humanize(this.props.status)})
+          </span>
+          <span className="remote-pomodoro__ping">
+            <i className="fa fa-bullhorn"></i>
+          </span>
+          <span className="remote-pomodoro__time">{formatTime(this.state.remainingTime)}</span>
+        </div>
       </div>
     );
   },

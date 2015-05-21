@@ -1,19 +1,22 @@
 .remote-pomodoros {
   position: relative;
-  display: flex;
-  flex-flow: column;
-  align-items: flex-start;
-  justify-content: flex-start;
   min-height: 100vh;
   background-color: lightslategrey;
-  flex-direction: column;
   color: white;
+}
+
+.remote-pomodoros__back {
+  height: 30px;
+  text-align: right;
+  width: 100%;
+  padding: 5px;
+  a { color: white }
 }
 
 .remote-pomodoros__info {
   border-radius: 5px 5px 0 0;
   position: absolute;
-  top: -30px;
+  top: -29px;
   line-height: 30px;
   text-align: center;
   height: 30px;
@@ -24,28 +27,45 @@
   a { color: lightslategrey }
 }
 
+.remote-pomodoros__list {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-flow: row wrap;
+}
+
 .remote-pomodoro {
-  flex: 1;
-  width: 50%;
+  width: 300px;
+  height: 225px;
   padding: 10px;
   font-size: 18px;
 }
 
-.remote-pomodoro--user {
+.remote-pomodoro__content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid white;
+  border-radius: 5px;
+  position: relative;
+}
+
+.remote-pomodoro__ping {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.remote-pomodoro__user {
+  position: absolute;
+  top: 5px;
+  left: 5px;
+}
+
+.remote-pomodoro__time {
   margin-right: .5em;
+  font-size: 36px;
 }
 
-.remote-pomodoro--time {
-  margin-right: .5em;
-}
-
-.remote-pomodoro--status {
-
-}
-
-.remote-pomodoros__back {
-  text-align: right;
-  width: 100%;
-  padding: 5px;
-  a { color: white }
-}
