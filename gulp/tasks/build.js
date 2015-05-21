@@ -6,6 +6,7 @@ var config = require('../config').watch;
 gulp.task('build', function (cb) {
   runSequence(
     ['fonts', 'images'],
+    'assets',
     'styles',
     'browserify',
     'html',

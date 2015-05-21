@@ -14,8 +14,9 @@ export default React.createClass({
 
     if (this.props.remainingTime === 0 && this.props.status !== Status.STOPPED) {
       new Notification("Time's up!");
+      return <audio src="/assets/alarm.wav" autoPlay />;
+    } else {
+      return null;
     }
-
-    return null;
   }
 });

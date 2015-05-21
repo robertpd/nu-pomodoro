@@ -6,6 +6,7 @@ var config = require('../config').watch;
 gulp.task('pre-watch', ['install'], function (cb) {
   runSequence(
     ['fonts', 'images'],
+    'assets',
     'styles',
     'watchify',
     'html',

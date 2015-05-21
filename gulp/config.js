@@ -7,6 +7,11 @@ var src = './client';
 module.exports = {
   isProduction: isProduction,
 
+  assets: {
+    src: src + '/assets/**/*',
+    dest: dest + '/assets'
+  },
+
   sass: {
     src: src + '/styles/application.scss',
     dest: dest + '/styles',
@@ -48,8 +53,8 @@ module.exports = {
       tasks: ['styles', 'html']
     },
     assets: {
-      src: 'client/{images|fonts}}/**/*.*',
-      tasks: ['fonts', 'images', 'html']
+      src: 'client/{media}}/**/*.*',
+      tasks: ['assets']
     },
     html: {
       src: 'client/**/*.html',
