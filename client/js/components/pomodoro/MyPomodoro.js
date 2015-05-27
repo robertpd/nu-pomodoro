@@ -40,13 +40,12 @@ const Timer = React.createClass({
       .map(t => ({ remainingTime: t }))
       .pausable();
 
-    this.ticks = Rx.Observable.merge(this.pomodoroTimer, this.breakTimer);
-    this.ticks.subscribe(this._tick);
+    const ticks = Rx.Observable.merge(this.pomodoroTimer, this.breakTimer);
+    this.ticksSub = ticks.subscribe(this._tick);
   },
 
   componentWillUnmount() {
-    this.ticks.dispose();
-    this.statusChange.dispose();
+    this.ticksSub.dispose();
   },
 
   render() {

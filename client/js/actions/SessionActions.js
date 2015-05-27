@@ -12,4 +12,10 @@ export default class SessionActions extends Actions {
 
     return data;
   }
+
+  signOut() {
+    window.localStorage.removeItem('session-data');
+
+    return {};
+  }
 }
