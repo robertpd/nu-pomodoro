@@ -50,8 +50,10 @@ export default React.createClass({
 
         <div className="navigation">
           <div className="navigation--item">
-            <a href="#" title="Sign out" onClick={this._signOut}>
-              {this.props.client.user.name} <i className="fa fa-power-off"></i>
+            <a href="https://github.com/nulogy/nu-pomodoro/issues">
+              <i className="fa fa-comment"></i> Feedback/Issues
+            </a> | <a href="#" title="Sign out" onClick={this._signOut}>
+              <i className="fa fa-power-off"></i> {this.props.client.user.name}
             </a>
           </div>
         </div>
