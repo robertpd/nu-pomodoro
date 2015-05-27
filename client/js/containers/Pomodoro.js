@@ -105,7 +105,7 @@ export default React.createClass({
 
   _updateTimesUp() {
     this.setState({
-      shouldNotify: this.timesUpStore.shouldUpdate()
+      shouldNotify: this.timesUpStore.shouldNotify()
     });
   },
 

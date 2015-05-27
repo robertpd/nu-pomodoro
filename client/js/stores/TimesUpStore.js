@@ -13,16 +13,8 @@ export default class TimesUpStore extends Store {
   }
 
   _update({ status, remainingTime }) {
-    if (status !== 'stopped' && remainingTime === 0 && this.state.prevRemainingTime !== remainingTime) {
-      this.setState({
-        prevRemainingTime: remainingTime,
-        shouldNotify: true
-      });
-    } else {
-      this.setState({
-        prevRemainingTime: remainingTime,
-        shouldNotify: false
-      });
-    }
+    this.setState({
+      shouldNotify: status !== 'stopped' && remainingTime === 0 && !this.state.shouldNotify
+    });
   }
 }

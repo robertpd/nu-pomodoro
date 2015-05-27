@@ -15,12 +15,12 @@ export default class AppFlux extends Flux {
     this.createActions('session', SessionActions, this);
     this.createStore('session', SessionStore, this);
 
-    this.createStore('timesUp', TimesUpStore, this);
-
     this.createActions('pomodoro', PomodoroActions, this);
     this.createStore('pomodoro', PomodoroStore, this);
     this.createStore('remoteClient', RemoteClientStore, this);
     this.pomodoroSocket = new PomodoroSocket(this);
+
+    this.createStore('timesUp', TimesUpStore, this);
   }
 }
 
