@@ -32,6 +32,10 @@ const App = React.createClass({
     }
   },
 
+  componentWillUnmount() {
+    this.sessionStore.removeAllListeners();
+  },
+
   _updateSession() {
     this.setState({
       client: this.sessionStore.getClient()

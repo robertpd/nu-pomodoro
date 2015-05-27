@@ -19,6 +19,7 @@ export default React.createClass({
 
   componentDidMount() {
     this.actions = this.context.flux.getActions('pomodoro');
+    this.sessionActions = this.context.flux.getActions('session');
 
     this.pomodoroStore = this.context.flux.getStore('pomodoro');
     this.remoteClientStore = this.context.flux.getStore('remoteClient');
@@ -35,6 +36,8 @@ export default React.createClass({
 
   componentWillUnmount() {
     clearInterval(this._heartbeat);
+    this.pomodoroStore.removeAllListeners();
+    this.remoteClientStore.removeAllListeners();
   },
 
   render() {
@@ -47,7 +50,9 @@ export default React.createClass({
 
         <div className="navigation">
           <div className="navigation--item">
-            Hello {this.props.client.user.name}!
+            <a href="#" title="Sign out" onClick={this._signOut}>
+              {this.props.client.user.name} <i className="fa fa-power-off"></i>
+            </a>
           </div>
         </div>
 
@@ -97,5 +102,10 @@ export default React.createClass({
       client: this.props.client,
       pomodoro: this.state.pomodoro
     });
+  },
+
+  _signOut(evt) {
+    evt.preventDefault();
+    this.sessionActions.signOut();
   }
 });
