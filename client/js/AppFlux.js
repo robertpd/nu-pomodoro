@@ -6,6 +6,7 @@ import PomodoroActions from './actions/PomodoroActions';
 import PomodoroStore from './stores/PomodoroStore';
 import RemoteClientStore from './stores/RemoteClientStore';
 import PomodoroSocket from './sockets/PomodoroSocket';
+import TimesUpStore from './stores/TimesUpStore';
 
 export default class AppFlux extends Flux {
   constructor() {
@@ -13,6 +14,8 @@ export default class AppFlux extends Flux {
 
     this.createActions('session', SessionActions, this);
     this.createStore('session', SessionStore, this);
+
+    this.createStore('timesUp', TimesUpStore, this);
 
     this.createActions('pomodoro', PomodoroActions, this);
     this.createStore('pomodoro', PomodoroStore, this);

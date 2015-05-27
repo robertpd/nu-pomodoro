@@ -12,7 +12,7 @@ export default React.createClass({
   render() {
     const Notification = this.props.notificationClass;
 
-    if (this.props.remainingTime === 0 && this.props.status !== Status.STOPPED) {
+    if (this.props.shouldNotify) {
       new Notification("Time's up!");
       return <audio src="/assets/alarm.wav" autoPlay />;
     } else {

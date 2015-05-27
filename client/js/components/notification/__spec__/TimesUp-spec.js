@@ -14,8 +14,7 @@ describe('TimesUp', () => {
   it('displays notification if status is not stopped and remaining time is zero', () => {
     const component = TestUtils.renderIntoDocument(
       <TimesUp notificationClass={Notification}
-               status={'in_pomodoro'}
-               remainingTime={0} />
+               shouldNotify={true}/>
     );
 
     expect(Notification.calledWithNew()).to.be.true;
@@ -24,8 +23,7 @@ describe('TimesUp', () => {
   it('does not display notification if status is stopped', () => {
     const component = TestUtils.renderIntoDocument(
       <TimesUp notificationClass={Notification}
-               status={'stopped'}
-               remainingTime={0} />
+               shouldNotify={false} />
     );
 
     expect(Notification.calledWithNew()).to.be.false;
