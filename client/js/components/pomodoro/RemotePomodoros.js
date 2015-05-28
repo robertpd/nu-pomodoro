@@ -5,6 +5,8 @@ import { Status } from '../../constants';
 import { formatTime } from '../../utils/datetime';
 import { humanize } from '../../utils/string';
 
+const { classSet } = React.addons;
+
 export default React.createClass({
   propTypes: {
     client: React.PropTypes.object.isRequired,
@@ -85,14 +87,17 @@ const RemotePomodoro = React.createClass({
   },
 
   render() {
+    const classes = classSet({
+      'remote-pomodoro': true,
+      'remote-pomodoro--stopped': this.props.status === Status.STOPPED,
+      'remote-pomodoro--on-break': this.props.status === Status.ON_BREAK,
+      'remote-pomodoro--in-pomodoro': this.props.status === Status.IN_POMODORO
+    })
     return (
-      <div className="remote-pomodoro">
+      <div className={classes}>
         <div className="remote-pomodoro__content">
           <span className="remote-pomodoro__user">
-            {this.props.user.name} ({humanize(this.props.status)})
-          </span>
-          <span className="remote-pomodoro__ping">
-            <i className="fa fa-bullhorn"></i>
+            {this.props.user.name}
           </span>
           <span className="remote-pomodoro__time">{formatTime(this.state.remainingTime)}</span>
         </div>

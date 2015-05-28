@@ -15,15 +15,15 @@
 }
 
 .my-pomodoro--in-pomodoro {
-  color: #2e6da4;
+  color: $in-pomodoro-color;
 }
 
 .my-pomodoro--on-break {
-  color: #eea236;
+  color: $on-break-color;
 }
 
 .my-pomodoro--stopped {
-  color: #d43f3a;
+  color: $stopped-color;
 }
 
 .my-pomodoro button {
