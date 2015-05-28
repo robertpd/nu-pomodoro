@@ -1,9 +1,12 @@
 import { Store } from 'flummox';
 
+import { Status } from '../constants';
+
 export default class TimesUpStore extends Store {
   constructor(flux) {
     super();
     const actionIds = flux.getActionIds('pomodoro');
+    this.register(actionIds.changeStatus, this._update);
     this.register(actionIds.tick, this._update);
     this.state = { shouldNotify: false };
   }
@@ -13,8 +16,14 @@ export default class TimesUpStore extends Store {
   }
 
   _update({ status, remainingTime }) {
+    const shouldNotify = !this.state.shouldNotify &&
+                         status !== Status.STOPPED &&
+                         remainingTime === 0 &&
+                         remainingTime !== this.state.prevRemainingTime;
+
     this.setState({
-      shouldNotify: status !== 'stopped' && remainingTime === 0 && !this.state.shouldNotify
+      prevRemainingTime: remainingTime,
+      shouldNotify: shouldNotify
     });
   }
 }

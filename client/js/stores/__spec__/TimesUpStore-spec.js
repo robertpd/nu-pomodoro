@@ -21,25 +21,49 @@ describe('TimesUpStore', () => {
     store = new TimesUpStore(flux);
   });
 
-  it('does not notify when remaining time reaches zero, but we are stopped', () => {
+  it('notifies when remaining time reaches zero during pomodoro or break', () => {
+    // Start stopped
     simulateAction(store, actionIds.tick, {status: 'stopped', remainingTime: 0 });
     expect(store.shouldNotify()).to.be.false;
-  });
 
-  it('notifies on when remaining time reaches zero, and we are not stopped', () => {
+    // Pomodoro starts
+    simulateAction(store, actionIds.tick, {status: 'in_pomodoro', remainingTime: 2 * 1000 });
+    expect(store.shouldNotify()).to.be.false;
+
+    simulateAction(store, actionIds.tick, {status: 'in_pomodoro', remainingTime: 1 * 1000 });
+    expect(store.shouldNotify()).to.be.false;
+
+    // Pomodoro ends
     simulateAction(store, actionIds.tick, {status: 'in_pomodoro', remainingTime: 0 });
+    expect(store.shouldNotify()).to.be.true;
+
+    // Break starts
+    simulateAction(store, actionIds.tick, {status: 'on_break', remainingTime: 2 * 1000 });
+    expect(store.shouldNotify()).to.be.false;
+
+    simulateAction(store, actionIds.tick, {status: 'on_break', remainingTime: 1 * 1000 });
+    expect(store.shouldNotify()).to.be.false;
+
+    // Break ends
+    simulateAction(store, actionIds.tick, {status: 'on_break', remainingTime: 0 });
     expect(store.shouldNotify()).to.be.true;
   });
 
-  it('does not notify on when already notified', () => {
+  it('does not notify when already previously notified', () => {
     simulateAction(store, actionIds.tick, {status: 'in_pomodoro', remainingTime: 0 });
+    expect(store.shouldNotify()).to.be.true;
+
     simulateAction(store, actionIds.tick, {status: 'in_pomodoro', remainingTime: 0 });
     expect(store.shouldNotify()).to.be.false;
   });
 
-  it('does not notify on when remaining time is already zero', () => {
-    simulateAction(store, actionIds.tick, {status: 'stopped', remainingTime: 0 });
+  it('does not notify when remaining time is already zero', () => {
     simulateAction(store, actionIds.tick, {status: 'in_pomodoro', remainingTime: 0 });
+    simulateAction(store, actionIds.tick, {status: 'stopped', remainingTime: 0 });
+    expect(store.shouldNotify()).to.be.false;
+
+    simulateAction(store, actionIds.tick, {status: 'on_break', remainingTime: 0 });
+    simulateAction(store, actionIds.tick, {status: 'stopped', remainingTime: 0 });
     expect(store.shouldNotify()).to.be.false;
   });
 });
