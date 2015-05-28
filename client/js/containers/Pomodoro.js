@@ -24,8 +24,12 @@ export default React.createClass({
     this.pomodoroStore = this.context.flux.getStore('pomodoro');
     this.remoteClientStore = this.context.flux.getStore('remoteClient');
 
+    this.timesUpStore = this.context.flux.getStore('timesUp');
+
     this.pomodoroStore.addListener('change', this._updatePomodoro);
     this.remoteClientStore.addListener('change', this._updateRemoteClients);
+
+    this.timesUpStore.addListener('change', this._updateTimesUp);
 
     this._updatePomodoro();
     this._updateRemoteClients();
@@ -38,6 +42,7 @@ export default React.createClass({
     clearInterval(this._heartbeat);
     this.pomodoroStore.removeAllListeners();
     this.remoteClientStore.removeAllListeners();
+    this.timesUpStore.removeAllListeners();
   },
 
   render() {
@@ -45,8 +50,7 @@ export default React.createClass({
       <div>
         <TitleUpdater remainingTime={this.state.pomodoro.remainingTime} />
 
-        <TimesUp remainingTime={this.state.pomodoro.remainingTime}
-                 status={this.state.pomodoro.status} />
+        <TimesUp shouldNotify={this.state.shouldNotify} />
 
         <div className="navigation">
           <div className="navigation--item">
@@ -96,6 +100,12 @@ export default React.createClass({
   _updateRemoteClients() {
     this.setState({
       remoteClients: this.remoteClientStore.getRemoteClients()
+    });
+  },
+
+  _updateTimesUp() {
+    this.setState({
+      shouldNotify: this.timesUpStore.shouldNotify()
     });
   },
 
