@@ -28,4 +28,21 @@ describe('TimesUp', () => {
 
     expect(Notification.calledWithNew()).to.be.false;
   });
+
+  it('does not notify if shouldUpdate has not changed', () => {
+    const Parent = React.createClass({
+      getInitialState() {
+        return { shouldNotify: true };
+      },
+
+      render() {
+        return <TimesUp notificationClass={Notification} shouldNotify={this.state.shouldNotify}/>;
+      }
+    });
+
+    const parent = TestUtils.renderIntoDocument(<Parent/>);
+    parent.setState({shouldUpdate: true});
+
+    expect(Notification.calledOnce).to.be.true;
+  });
 });
