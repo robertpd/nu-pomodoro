@@ -9,6 +9,10 @@ export default React.createClass({
     }
   },
 
+  shouldComponentUpdate(nextProps) {
+    return nextProps.shouldNotify !== this.props.shouldNotify;
+  },
+
   render() {
     const Notification = this.props.notificationClass;
 

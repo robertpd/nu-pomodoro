@@ -11,7 +11,7 @@ describe('TimesUp', () => {
     Notification = sinon.spy();
   });
 
-  it('displays notification if status is not stopped and remaining time is zero', () => {
+  it('notifies if shouldNotify is true', () => {
     const component = TestUtils.renderIntoDocument(
       <TimesUp notificationClass={Notification}
                shouldNotify={true}/>
@@ -20,7 +20,7 @@ describe('TimesUp', () => {
     expect(Notification.calledWithNew()).to.be.true;
   });
 
-  it('does not display notification if status is stopped', () => {
+  it('does not notify if shouldNotify is false', () => {
     const component = TestUtils.renderIntoDocument(
       <TimesUp notificationClass={Notification}
                shouldNotify={false} />
