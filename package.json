@@ -1,13 +1,13 @@
 {
   "name": "nulogy-pomodoro",
-  "version": "1.0.3",
+  "version": "1.0.6",
   "description": "Nulogy's pomodoro application",
   "repository": {
     "type": "git",
     "url": "git@github.com:nulogy/nu-pomodoro.git"
   },
   "scripts": {
-    "build": "./node_modules/.bin/gulp build bump --production",
+    "build": "./node_modules/.bin/gulp build bump --production && git commit -am 'bumped version'",
     "start-dev": "./node_modules/.bin/nodemon server/index.js --watch server",
     "start": "node server --production",
     "test": "./node_modules/.bin/mocha test-main.js",
