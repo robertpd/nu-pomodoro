@@ -40,12 +40,13 @@ export default React.createClass({
 
   componentWillUnmount() {
     clearInterval(this._heartbeat);
-    this.pomodoroStore.removeAllListeners();
-    this.remoteClientStore.removeAllListeners();
-    this.timesUpStore.removeAllListeners();
+    this.pomodoroStore.removeListener('change', this._updatePomodoro);
+    this.remoteClientStore.removeListener('change', this._updateRemoteClients);
+    this.timesUpStore.removeListener('change', this._updateTimesUp);
   },
 
-  render() {
+
+render() {
     return (
       <div>
         <TitleUpdater remainingTime={this.state.pomodoro.remainingTime} />
