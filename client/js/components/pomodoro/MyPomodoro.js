@@ -28,24 +28,43 @@ export default React.createClass({
 
 const Timer = React.createClass({
   componentDidMount() {
-    this.pomodoroTimer = Rx.Observable.timer(0, 1000)
-      .map(x => DefaultTimeLengths.POMODORO - x * 1000)
-      .filter(t => t >= 0)
-      .map(t => ({ remainingTime: t }))
-      .pausable();
+    this.timer = createTimer(DefaultTimeLengths.POMODORO, this._tick);
 
-    this.breakTimer = Rx.Observable.timer(0, 1000)
-      .map(x => DefaultTimeLengths.SHORT_BREAK - x * 1000)
-      .filter(t => t >= 0)
-      .map(t => ({ remainingTime: t }))
-      .pausable();
+    function createTimer(defaultDuration, onTick) {
+      let timerStream;
+      let tickSub;
 
-    const ticks = Rx.Observable.merge(this.pomodoroTimer, this.breakTimer);
-    this.ticksSub = ticks.subscribe(this._tick);
+      initializeTimer(defaultDuration);
+
+      return {
+        start() {
+          timerStream.resume();
+        },
+        setDuration(duration) {
+          this.dispose();
+          initializeTimer(duration);
+        },
+        dispose() { tickSub.dispose() },
+        pause() { timerStream.pause() }
+      };
+
+      function initializeTimer(duration) {
+        timerStream = createTimeStream(duration);
+        tickSub = timerStream.subscribe(onTick);
+      }
+
+      function createTimeStream(duration) {
+        return Rx.Observable.timer(0, 1000)
+          .map(x => duration - x * 1000)
+          .filter(t => t >= 0)
+          .map(t => ({ remainingTime: t }))
+          .pausable();
+      }
+    }
   },
 
   componentWillUnmount() {
-    this.ticksSub.dispose();
+    this.timer.dispose();
   },
 
   render() {
@@ -67,21 +86,24 @@ const Timer = React.createClass({
           <button className="my-pomodoro--start-pomodoro btn btn-lg btn-primary"
                   data-status={Status.IN_POMODORO}
                   data-length={DefaultTimeLengths.POMODORO}
-                  onClick={this._onStatusChange}
-                  disabled={pomodoro.status === Status.IN_POMODORO}>
+                  onClick={this._onStatusChange}>
             Start Pomodoro
           </button>
           <button className="my-pomodoro--start-break btn btn-lg btn-warning"
                   data-status={Status.ON_BREAK}
                   data-length={DefaultTimeLengths.SHORT_BREAK}
-                  onClick={this._onStatusChange}
-                  disabled={pomodoro.status === Status.ON_BREAK}>
-            Start Break
+                  onClick={this._onStatusChange}>
+            Start Short Break
+          </button>
+          <button className="my-pomodoro--start-break btn btn-lg btn-warning"
+                  data-status={Status.ON_BREAK}
+                  data-length={DefaultTimeLengths.LONG_BREAK}
+                  onClick={this._onStatusChange}>
+            Start Long Break
           </button>
           <button className="my-pomodoro--stop-all btn btn-lg btn-danger"
                   data-status={Status.STOPPED}
-                  onClick={this._onStatusChange}
-                  disabled={pomodoro.status === Status.STOPPED}>
+                  onClick={this._onStatusChange}>
             Stop
           </button>
         </div>
@@ -94,26 +116,19 @@ const Timer = React.createClass({
 
     switch (status) {
       case Status.IN_POMODORO:
-        // restart if needed
-        this.pomodoroTimer.pause();
-        this.pomodoroTimer.resume();
-
-        this.breakTimer.pause();
+        this.timer.setDuration(length);
+        this.timer.start();
 
         break;
 
       case Status.ON_BREAK:
-        this.pomodoroTimer.pause();
-
-        // restart if needed
-        this.breakTimer.pause();
-        this.breakTimer.resume();
+        this.timer.setDuration(length);
+        this.timer.start();
 
         break;
 
       case Status.STOPPED:
-        this.pomodoroTimer.pause();
-        this.breakTimer.pause();
+        this.timer.pause();
 
         break;
 
