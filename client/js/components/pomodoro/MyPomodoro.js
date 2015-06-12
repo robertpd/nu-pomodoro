@@ -28,23 +28,44 @@ export default React.createClass({
 
 const Timer = React.createClass({
   componentDidMount() {
-    this.pomodoroTimer = createTimer(DefaultTimeLengths.POMODORO);
-    this.breakTimer = createTimer(DefaultTimeLengths.SHORT_BREAK);
+    this.timer = createTimer(DefaultTimeLengths.POMODORO, this._tick);
 
-    const ticks = Rx.Observable.merge(this.pomodoroTimer, this.breakTimer);
-    this.ticksSub = ticks.subscribe(this._tick);
+    function createTimer(defaultDuration, onTick) {
+      let timerStream;
+      let tickSub;
 
-    function createTimer(length) {
-      return Rx.Observable.timer(0, 1000)
-      .map(x => length - x * 1000)
-      .filter(t => t >= 0)
-      .map(t => ({ remainingTime: t }))
-      .pausable();
+      initializeTimer(defaultDuration);
+
+      return {
+        start() {
+          timerStream.resume();
+        },
+        resetDuration(duration) {
+          this.stop();
+          initializeTimer(duration);
+          this.start();
+        },
+        stop() { tickSub.dispose() },
+        pause() { timerStream.pause() }
+      };
+
+      function initializeTimer(duration) {
+        timerStream = createTimeStream(duration);
+        tickSub = timerStream.subscribe(onTick);
+      }
+
+      function createTimeStream(duration) {
+        return Rx.Observable.timer(0, 1000)
+          .map(x => duration - x * 1000)
+          .filter(t => t >= 0)
+          .map(t => ({ remainingTime: t }))
+          .pausable();
+      }
     }
   },
 
   componentWillUnmount() {
-    this.ticksSub.dispose();
+    this.timer.stop();
   },
 
   render() {
@@ -93,26 +114,17 @@ const Timer = React.createClass({
 
     switch (status) {
       case Status.IN_POMODORO:
-        // restart if needed
-        this.pomodoroTimer.pause();
-        this.pomodoroTimer.resume();
-
-        this.breakTimer.pause();
+        this.timer.resetDuration(DefaultTimeLengths.POMODORO);
 
         break;
 
       case Status.ON_BREAK:
-        this.pomodoroTimer.pause();
-
-        // restart if needed
-        this.breakTimer.pause();
-        this.breakTimer.resume();
+        this.timer.resetDuration(DefaultTimeLengths.SHORT_BREAK);
 
         break;
 
       case Status.STOPPED:
-        this.pomodoroTimer.pause();
-        this.breakTimer.pause();
+        this.timer.pause();
 
         break;
 
@@ -126,6 +138,7 @@ const Timer = React.createClass({
   },
 
   _tick({ remainingTime }) {
+    console.log("tick!", remainingTime);
     // Invoke callback from owner.
     this.props.onTick({
       status: this.props.pomodoro.status,
