@@ -68,6 +68,11 @@ io.on('connection', function (socket) {
   socket.on('updateSession', function (data) {
     console.log('updateSession', data);
 
+    updateClientData({
+      id: data.client.id,
+      user: data.client.user
+    }, socket);
+
     clientPool.clients.forEach(function (c) {
       if (c.id !== data.id) {
         c.socket.emit('remoteUpdateSession', data);
