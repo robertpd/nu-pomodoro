@@ -86,28 +86,24 @@ const Timer = React.createClass({
           <button className="my-pomodoro--start-pomodoro btn btn-lg btn-primary"
                   data-status={Status.IN_POMODORO}
                   data-length={DefaultTimeLengths.POMODORO}
-                  onClick={this._onStatusChange}
-                  disabled={pomodoro.status === Status.IN_POMODORO}>
+                  onClick={this._onStatusChange}>
             Start Pomodoro
           </button>
           <button className="my-pomodoro--start-break btn btn-lg btn-warning"
                   data-status={Status.ON_BREAK}
                   data-length={DefaultTimeLengths.SHORT_BREAK}
-                  onClick={this._onStatusChange}
-                  disabled={pomodoro.status === Status.ON_BREAK}>
+                  onClick={this._onStatusChange}>
             Start Short Break
           </button>
           <button className="my-pomodoro--start-break btn btn-lg btn-warning"
                   data-status={Status.ON_BREAK}
                   data-length={DefaultTimeLengths.LONG_BREAK}
-                  onClick={this._onStatusChange}
-                  disabled={pomodoro.status === Status.ON_BREAK}>
+                  onClick={this._onStatusChange}>
             Start Long Break
           </button>
           <button className="my-pomodoro--stop-all btn btn-lg btn-danger"
                   data-status={Status.STOPPED}
-                  onClick={this._onStatusChange}
-                  disabled={pomodoro.status === Status.STOPPED}>
+                  onClick={this._onStatusChange}>
             Stop
           </button>
         </div>
