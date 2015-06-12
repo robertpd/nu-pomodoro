@@ -9,7 +9,7 @@ export default class ClientPool {
     this._heartbeats = {};
   }
 
-  add(client) {
+  update(client) {
     if (!client.id) {
       console.error('Client without ID detected!');
       return;

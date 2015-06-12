@@ -76,5 +76,5 @@ function updateClientData(data, socket) {
   client.socket = socket;
   client.data = data;
 
-  clientPool.add(client);
+  clientPool.update(client);
 }
