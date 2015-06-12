@@ -16,13 +16,16 @@ export default class PomodoroActions extends Actions {
     return { status, remainingTime };
   }
 
-  // TODO: id and user should be grouped in client object; status and remainingTime should be a pomodoro object.
   remoteStatusChange({ id, user, status, remainingTime }) {
     return { id, user, status, remainingTime };
   }
 
   remoteClientRemoved({ id }) {
     return { id };
+  }
+
+  remoteSessionUpdated({ id, user }) {
+    return { id, user };
   }
 
   heartbeat({ client, pomodoro }) {

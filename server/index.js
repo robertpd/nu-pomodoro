@@ -64,6 +64,16 @@ io.on('connection', function (socket) {
 
     clientPool.heartbeat(data.client.id);
   });
+
+  socket.on('updateSession', function (data) {
+    console.log('updateSession', data);
+
+    clientPool.clients.forEach(function (c) {
+      if (c.id !== data.id) {
+        c.socket.emit('remoteUpdateSession', data);
+      }
+    });
+  });
 });
 
 server.listen(config.port, function () {

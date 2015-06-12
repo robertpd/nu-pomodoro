@@ -5,20 +5,15 @@
   height: 60vh;
 }
 
-
-.sign-in-form--group {
-  max-width: 50%;
-}
-
 .sign-in-form--input {
   box-sizing: border-box;
   display: inline-block;
   margin: 0 10px 0 0;
   vertical-align: bottom;
-  font-size: 16px;
-  padding: 3px 5px;
-  height: 30px;
-  line-height: 20px;
+  font-size: 5vh;
+  padding: 0.3em 0.7em;
+  height: 9vh;
+  line-height: 9vh;
 }
 
 .sign-in-form--btn {
@@ -26,8 +21,8 @@
   display: inline-block;
   margin: 0;
   vertical-align: bottom;
-  font-size: 16px;
-  padding: 3px 15px;
-  height: 30px;
-  line-height: 20px;
+  font-size: 5vh;
+  padding: 0.3em 0.7em;
+  height: 9vh;
+  line-height: 5vh;
 }

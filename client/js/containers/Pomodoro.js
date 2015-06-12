@@ -1,4 +1,5 @@
 import React from 'react/addons';
+import { DropdownButton, MenuItem } from 'react-bootstrap';
 
 import MyPomodoro from '../components/pomodoro/MyPomodoro';
 import RemotePomodoros from '../components/pomodoro/RemotePomodoros';
@@ -55,11 +56,15 @@ render() {
 
         <div className="navigation">
           <div className="navigation--item">
-            <a href="https://github.com/nulogy/nu-pomodoro/issues">
-              <i className="fa fa-comment"></i> Feedback/Issues
-            </a> | <a href="#" title="Sign out" onClick={this._signOut}>
-              <i className="fa fa-power-off"></i> {this.props.client.user.name}
-            </a>
+
+            <DropdownButton bsStyle="link" pullRight={true} title={this._username()}>
+              <MenuItem eventKey='1' href="https://github.com/nulogy/nu-pomodoro/issues" target="_blank">
+                <i className="fa fa-comment"></i> Feedback/Issues
+              </MenuItem>
+              <MenuItem eventKey='2' onSelect={this._signOut}>
+                <i className="fa fa-user"></i> Change name
+              </MenuItem>
+            </DropdownButton>
           </div>
         </div>
 
@@ -117,8 +122,12 @@ render() {
     });
   },
 
-  _signOut(evt) {
-    evt.preventDefault();
-    this.sessionActions.signOut();
+  _signOut() {
+    this.sessionActions.updateSession({ user: null });
+  },
+
+  _username() {
+    const { user } = this.props.client;
+    return user ? user.name : '';
   }
 });
