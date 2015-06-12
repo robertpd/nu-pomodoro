@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 
 import ClientPool from '../ClientPool';
 
@@ -43,6 +44,14 @@ describe('ClientPool', () => {
 
     it('returns true if client does not exist', () => {
       expect(pool.remove('1234')).to.be.false;
+    });
+
+    it.only('notifies remove', () => {
+      const removeSpy = sinon.spy();
+      pool = new ClientPool({ onClientRemoved: removeSpy });
+      pool.update({ id: '1234' });
+      pool.remove('1234');
+      expect(removeSpy.called).to.be.true;
     });
   });
 });

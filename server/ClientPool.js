@@ -7,6 +7,7 @@ export default class ClientPool {
 
     this._clients = {};
     this._heartbeats = {};
+    this._onClientRemoved = opts.onClientRemoved || (() => {});
   }
 
   update(client) {
@@ -25,8 +26,11 @@ export default class ClientPool {
   }
 
   remove(id) {
-    if (this.get(id)) {
+    var client = this.get(id);
+
+    if (client) {
       delete this._clients[id];
+      this._onClientRemoved(client);
       return true;
     } else {
       return false;
