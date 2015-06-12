@@ -139,7 +139,6 @@ const Timer = React.createClass({
   },
 
   _tick({ remainingTime }) {
-    console.log("tick!", remainingTime);
     // Invoke callback from owner.
     this.props.onTick({
       status: this.props.pomodoro.status,
