@@ -46,11 +46,23 @@ const App = React.createClass({
   },
 
   render() {
-    if (this.state.client.user) {
-      return <PomodoroContainer client={this.state.client} />;
-    } else {
-      return <SignInForm />;
-    }
+    const classes = React.addons.classSet({
+      'app': true,
+      'app--has-user': this.state.client.user
+    });
+
+    return (
+      <div className={classes}>
+        {
+          !this.state.client.user
+            ? <SignInForm />
+            : null
+        }
+        <div className="app__pomodoro">
+          <PomodoroContainer client={this.state.client} />
+        </div>
+      </div>
+    );
   }
 });
 

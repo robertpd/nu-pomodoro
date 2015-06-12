@@ -57,7 +57,7 @@ render() {
         <div className="navigation">
           <div className="navigation--item">
 
-            <DropdownButton bsStyle="link" pullRight={true} title={this.props.client.user.name}>
+            <DropdownButton bsStyle="link" pullRight={true} title={this._username()}>
               <MenuItem eventKey='1' href="https://github.com/nulogy/nu-pomodoro/issues" target="_blank">
                 <i className="fa fa-comment"></i> Feedback/Issues
               </MenuItem>
@@ -124,5 +124,10 @@ render() {
 
   _signOut() {
     this.sessionActions.updateSession({ user: null });
+  },
+
+  _username() {
+    const { user } = this.props.client;
+    return user ? user.name : '';
   }
 });
