@@ -28,20 +28,19 @@ export default React.createClass({
 
 const Timer = React.createClass({
   componentDidMount() {
-    this.pomodoroTimer = Rx.Observable.timer(0, 1000)
-      .map(x => DefaultTimeLengths.POMODORO - x * 1000)
-      .filter(t => t >= 0)
-      .map(t => ({ remainingTime: t }))
-      .pausable();
-
-    this.breakTimer = Rx.Observable.timer(0, 1000)
-      .map(x => DefaultTimeLengths.SHORT_BREAK - x * 1000)
-      .filter(t => t >= 0)
-      .map(t => ({ remainingTime: t }))
-      .pausable();
+    this.pomodoroTimer = createTimer(DefaultTimeLengths.POMODORO);
+    this.breakTimer = createTimer(DefaultTimeLengths.SHORT_BREAK);
 
     const ticks = Rx.Observable.merge(this.pomodoroTimer, this.breakTimer);
     this.ticksSub = ticks.subscribe(this._tick);
+
+    function createTimer(length) {
+      return Rx.Observable.timer(0, 1000)
+      .map(x => length - x * 1000)
+      .filter(t => t >= 0)
+      .map(t => ({ remainingTime: t }))
+      .pausable();
+    }
   },
 
   componentWillUnmount() {
