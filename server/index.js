@@ -26,7 +26,7 @@ var server = http.createServer(app);
 var io = socketIo(server);
 
 var clientPool = new ClientPool({
-  heartbeatWithin: 7000,
+  heartbeatWithin: 30000,
   onClientRemoved: notifyClientRemoved
 });
 

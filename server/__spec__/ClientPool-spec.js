@@ -46,7 +46,7 @@ describe('ClientPool', () => {
       expect(pool.remove('1234')).to.be.false;
     });
 
-    it.only('notifies remove', () => {
+    it('notifies remove', () => {
       const removeSpy = sinon.spy();
       pool = new ClientPool({ onClientRemoved: removeSpy });
       pool.update({ id: '1234' });
