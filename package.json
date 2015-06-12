@@ -1,13 +1,13 @@
 {
   "name": "nulogy-pomodoro",
-  "version": "1.0.8",
+  "version": "1.0.10",
   "description": "Nulogy's pomodoro application",
   "repository": {
     "type": "git",
     "url": "git@github.com:nulogy/nu-pomodoro.git"
   },
   "scripts": {
-    "build": "./node_modules/.bin/gulp build bump --production && git commit -am 'bumped version'",
+    "build": "./node_modules/.bin/gulp build bump --production && git add . && git commit -am 'bumped version'",
     "deploy": "git push heroku master",
     "start-dev": "./node_modules/.bin/nodemon server/index.js --watch server",
     "start": "node server --production",
