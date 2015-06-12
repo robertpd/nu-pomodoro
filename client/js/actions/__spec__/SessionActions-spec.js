@@ -3,12 +3,16 @@ import { expect } from 'chai';
 import sinon from 'sinon';
 
 describe('SessionActions', () => {
-  let storage;
+  let storage, flux;
 
   beforeEach(() => {
     storage = {
       getItem: sinon.stub(),
       setItem: sinon.spy()
+    };
+
+    flux = {
+      pomodoroSocket: {updateSession: sinon.spy()}
     };
   });
 
@@ -31,7 +35,7 @@ describe('SessionActions', () => {
         user: { name: 'Bob' }
       }));
 
-      const sessionData = SessionActions.prototype.updateSession.call({storage: storage}, { user: { name: 'Fred' } });
+      const sessionData = SessionActions.prototype.updateSession.call({flux: flux, storage: storage}, { user: { name: 'Fred' } });
 
       expect(sessionData.user.name).to.equal('Fred');
     });

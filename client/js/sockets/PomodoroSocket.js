@@ -9,6 +9,7 @@ export default class PomodoroSocket {
     this.socket = io(config.socketUrl);
     this.socket.on('remoteStatusChange', this._handleRemoteStatusChange.bind(this));
     this.socket.on('remoteClientRemoved', data => { this.actions.remoteClientRemoved(data) });
+    this.socket.on('remoteUpdateSession', data => { this.actions.remoteSessionUpdated(data) });
   }
 
   heartbeat({ client, pomodoro }) {
@@ -30,6 +31,13 @@ export default class PomodoroSocket {
       user: client.user,
       status: status,
       remainingTime: remainingTime
+    });
+  }
+
+  updateSession({ id, user }) {
+    this.socket.emit('updateSession', {
+      id: id,
+      user: user
     });
   }
 

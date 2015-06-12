@@ -5,6 +5,7 @@ import uuid from 'node-uuid';
 export default class SessionActions extends Actions {
   constructor(flux, storage=window.localStorage) {
     super();
+    this.flux = flux;
     this.storage = storage;
   }
 
@@ -25,6 +26,8 @@ export default class SessionActions extends Actions {
 
   updateSession(session) {
     const data = JSON.parse(this.storage.getItem('session-data'));
+
+    this.flux.pomodoroSocket.updateSession({ id: data.id, user: session.user });
 
     _.assign(data, session);
 

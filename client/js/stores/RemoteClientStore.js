@@ -7,6 +7,7 @@ export default class RemoteClientStore extends Store {
     const pomodoroActionIds = flux.getActionIds('pomodoro');
     this.register(pomodoroActionIds.remoteStatusChange, this._handleRemoteStatusChange);
     this.register(pomodoroActionIds.remoteClientRemoved, this._handleRemoteClientRemoved);
+    this.register(pomodoroActionIds.remoteSessionUpdated, this._handleRemoteSessionUpdated);
     this.state = { remoteClients: [] };
   }
 
@@ -32,5 +33,19 @@ export default class RemoteClientStore extends Store {
     this.setState({
       remoteClients: this.state.remoteClients.filter(c => c.id !== id)
     });
+  }
+
+  _handleRemoteSessionUpdated({ id, user }) {
+    let remoteClients = _.clone(this.state.remoteClients);
+    let client = _.find(remoteClients, {id: id});
+
+    if (!client) {
+      client = {};
+      remoteClients.push(client);
+    }
+
+    _.assign(client, { id, user });
+
+    this.setState({ remoteClients });
   }
 }

@@ -52,9 +52,9 @@ const RemotePomodoro = React.createClass({
   },
 
   propTypes: {
-    user: React.PropTypes.object.isRequired,
-    status: React.PropTypes.string.isRequired,
-    remainingTime: React.PropTypes.number.isRequired
+    user: React.PropTypes.object,
+    status: React.PropTypes.string,
+    remainingTime: React.PropTypes.number
   },
 
   componentWillMount() {
@@ -97,7 +97,7 @@ const RemotePomodoro = React.createClass({
       <div className={classes}>
         <div className="remote-pomodoro__content">
           <span className="remote-pomodoro__user">
-            {this.props.user.name}
+            {this.props.user ? this.props.user.name : ''}
           </span>
           <span className="remote-pomodoro__time">{formatTime(this.state.remainingTime)}</span>
         </div>
