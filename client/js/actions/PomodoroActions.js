@@ -21,6 +21,10 @@ export default class PomodoroActions extends Actions {
     return { id, user, status, remainingTime };
   }
 
+  remoteClientRemoved({ id }) {
+    return { id };
+  }
+
   heartbeat({ client, pomodoro }) {
     this.flux.pomodoroSocket.heartbeat({ client, pomodoro });
   }

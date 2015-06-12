@@ -15,8 +15,8 @@ describe('ClientPool', () => {
   describe('heartbeats', (done) => {
     it('removes clients that have not sent heartbeat within given time', (done) => {
 
-      pool.add({ id: '1234' });
-      pool.add({ id: '5678' });
+      pool.update({ id: '1234' });
+      pool.update({ id: '5678' });
 
       setTimeout(() => {
         pool.heartbeat('5678');

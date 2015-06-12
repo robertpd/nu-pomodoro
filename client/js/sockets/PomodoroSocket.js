@@ -8,6 +8,7 @@ export default class PomodoroSocket {
 
     this.socket = io(config.socketUrl);
     this.socket.on('remoteStatusChange', this._handleRemoteStatusChange.bind(this));
+    this.socket.on('remoteClientRemoved', data => { this.actions.remoteClientRemoved(data) });
   }
 
   heartbeat({ client, pomodoro }) {
