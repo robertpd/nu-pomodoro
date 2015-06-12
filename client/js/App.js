@@ -3,13 +3,15 @@ import React from 'react/addons';
 import AppFlux from './AppFlux';
 
 import PomodoroContainer from './containers/Pomodoro';
-import SignInForm from './components/auth/SignInForm';
+import SignInForm from './components/ChangeUsernameForm';
 
 const flux = new AppFlux();
 
 const App = React.createClass({
   getInitialState() {
-    return {};
+    return {
+      client: {}
+    };
   },
 
   childContextTypes: {
@@ -23,8 +25,9 @@ const App = React.createClass({
   componentDidMount() {
     this.sessionActions = flux.getActions('session');
     this.sessionStore = flux.getStore('session');
+
     this.sessionStore.addListener('change', this._updateSession);
-    this._updateSession();
+    this.sessionActions.createSession();
 
     // Make sure we have Notification permission from browser.
     if (Notification.permission !== 'granted') {
@@ -43,7 +46,7 @@ const App = React.createClass({
   },
 
   render() {
-    if (this.state.client.id && this.state.client.user) {
+    if (this.state.client.user) {
       return <PomodoroContainer client={this.state.client} />;
     } else {
       return <SignInForm />;

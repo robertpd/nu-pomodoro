@@ -1,6 +1,6 @@
-import React from 'react/addons';
+import React from '../../../node_modules/react/addons';
 
-import AppFlux from '../../AppFlux';
+import AppFlux from '../AppFlux';
 
 export default React.createClass({
   mixins: [React.addons.LinkedStateMixin],
@@ -19,7 +19,7 @@ export default React.createClass({
 
   render() {
     return (
-      <form className="sign-in-form" onSubmit={this._requestSignIn}>
+      <form className="sign-in-form" onSubmit={this._changeUserName}>
         <div className="sign-in-form--group">
           <input className="sign-in-form--input"
                  placeholder="Enter your name"
@@ -33,11 +33,13 @@ export default React.createClass({
     );
   },
 
-  _requestSignIn(evt) {
+  _changeUserName(evt) {
     evt.preventDefault();
 
-    this.sessionActions.signIn({
-      name: this.state.username
+    this.sessionActions.updateSession({
+      user: {
+        name: this.state.username
+      }
     });
   }
 });

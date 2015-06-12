@@ -123,6 +123,6 @@ render() {
   },
 
   _signOut() {
-    this.sessionActions.signOut();
+    this.sessionActions.updateSession({ user: null });
   }
 });

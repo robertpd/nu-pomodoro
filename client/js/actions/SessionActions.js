@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import { Actions } from 'flummox';
 import uuid from 'node-uuid';
 
@@ -22,10 +23,10 @@ export default class SessionActions extends Actions {
     return data;
   }
 
-  updateSessionUser(user) {
+  updateSession(session) {
     const data = JSON.parse(this.storage.getItem('session-data'));
 
-    data.user = user;
+    _.assign(data, session);
 
     this.storage.setItem('session-data', JSON.stringify(data));
 

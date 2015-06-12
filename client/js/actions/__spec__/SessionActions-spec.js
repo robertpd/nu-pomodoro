@@ -25,13 +25,13 @@ describe('SessionActions', () => {
     });
   });
 
-  describe('updateSessionUser', () => {
+  describe('updateSession', () => {
     it('updates user in session', () => {
       storage.getItem.returns(JSON.stringify({
         user: { name: 'Bob' }
       }));
 
-      const sessionData = SessionActions.prototype.updateSessionUser.call({storage: storage}, { name: 'Fred' });
+      const sessionData = SessionActions.prototype.updateSession.call({storage: storage}, { user: { name: 'Fred' } });
 
       expect(sessionData.user.name).to.equal('Fred');
     });
