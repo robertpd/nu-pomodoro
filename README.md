@@ -4,7 +4,7 @@ http://nu-pomodoro.herokuapp.com/
 
 Requirement:
 
-- NodeJS 0.12+
+- NodeJS 0.10
 
 
 Install dependencies:
