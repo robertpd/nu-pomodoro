@@ -2,20 +2,33 @@ import { Actions } from 'flummox';
 import uuid from 'node-uuid';
 
 export default class SessionActions extends Actions {
-  signIn(user) {
-    const data = {
-      user: user,
-      id: uuid.v4()
-    };
+  constructor(flux, storage=window.localStorage) {
+    super();
+    this.storage = storage;
+  }
 
-    window.localStorage.setItem('session-data', JSON.stringify(data));
+  createSession() {
+    const fromLocalStorage = this.storage.getItem('session-data');
+
+    let data;
+
+    if (fromLocalStorage) {
+      data = JSON.parse(fromLocalStorage);
+    } else {
+      data = { id: uuid.v4() };
+      this.storage.setItem('session-data', JSON.stringify(data))
+    }
 
     return data;
   }
 
-  signOut() {
-    window.localStorage.removeItem('session-data');
+  updateSessionUser(user) {
+    const data = JSON.parse(this.storage.getItem('session-data'));
 
-    return {};
+    data.user = user;
+
+    this.storage.setItem('session-data', JSON.stringify(data));
+
+    return data;
   }
 }

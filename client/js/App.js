@@ -20,13 +20,13 @@ const App = React.createClass({
     return { flux };
   },
 
-  componentWillMount() {
+  componentDidMount() {
+    this.sessionActions = flux.getActions('session');
     this.sessionStore = flux.getStore('session');
     this.sessionStore.addListener('change', this._updateSession);
     this._updateSession();
-  },
 
-  componentDidMount() {
+    // Make sure we have Notification permission from browser.
     if (Notification.permission !== 'granted') {
       Notification.requestPermission();
     }
@@ -43,7 +43,7 @@ const App = React.createClass({
   },
 
   render() {
-    if (this.state.client.id) {
+    if (this.state.client.id && this.state.client.user) {
       return <PomodoroContainer client={this.state.client} />;
     } else {
       return <SignInForm />;

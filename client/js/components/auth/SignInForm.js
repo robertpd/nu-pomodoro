@@ -16,6 +16,7 @@ export default React.createClass({
   componentWillMount() {
     this.sessionActions = this.context.flux.getActions('session');
   },
+
   render() {
     return (
       <form className="sign-in-form" onSubmit={this._requestSignIn}>
