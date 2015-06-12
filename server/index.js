@@ -69,8 +69,8 @@ io.on('connection', function (socket) {
     console.log('updateSession', data);
 
     updateClientData({
-      id: data.client.id,
-      user: data.client.user
+      id: data.id,
+      user: data.user
     }, socket);
 
     clientPool.clients.forEach(function (c) {
