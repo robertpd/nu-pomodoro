@@ -62,7 +62,7 @@ render() {
                 <i className="fa fa-comment"></i> Feedback/Issues
               </MenuItem>
               <MenuItem eventKey='2' onSelect={this._signOut}>
-                <i className="fa fa-power-off"></i> Sign out
+                <i className="fa fa-user"></i> Change name
               </MenuItem>
             </DropdownButton>
           </div>

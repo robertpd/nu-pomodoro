@@ -21,7 +21,7 @@ export default React.createClass({
       <form className="sign-in-form" onSubmit={this._requestSignIn}>
         <div className="sign-in-form--group">
           <input className="sign-in-form--input"
-                 placeholder="Enter your username"
+                 placeholder="Enter your name"
                  name="username"
                  type="text"
                  autoFocus
