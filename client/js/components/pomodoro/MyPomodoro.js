@@ -40,12 +40,11 @@ const Timer = React.createClass({
         start() {
           timerStream.resume();
         },
-        resetDuration(duration) {
-          this.stop();
+        setDuration(duration) {
+          this.dispose();
           initializeTimer(duration);
-          this.start();
         },
-        stop() { tickSub.dispose() },
+        dispose() { tickSub.dispose() },
         pause() { timerStream.pause() }
       };
 
@@ -65,7 +64,7 @@ const Timer = React.createClass({
   },
 
   componentWillUnmount() {
-    this.timer.stop();
+    this.timer.dispose();
   },
 
   render() {
@@ -114,12 +113,14 @@ const Timer = React.createClass({
 
     switch (status) {
       case Status.IN_POMODORO:
-        this.timer.resetDuration(DefaultTimeLengths.POMODORO);
+        this.timer.setDuration(DefaultTimeLengths.POMODORO);
+        this.timer.start();
 
         break;
 
       case Status.ON_BREAK:
-        this.timer.resetDuration(DefaultTimeLengths.SHORT_BREAK);
+        this.timer.setDuration(DefaultTimeLengths.SHORT_BREAK);
+        this.timer.start();
 
         break;
 
