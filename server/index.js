@@ -26,7 +26,8 @@ var server = http.createServer(app);
 var io = socketIo(server);
 
 var clientPool = new ClientPool({
-  heartbeatWithin: 30000
+  heartbeatWithin: 7000,
+  onClientRemoved: notifyClientRemoved
 });
 
 io.on('connection', function (socket) {
@@ -77,4 +78,14 @@ function updateClientData(data, socket) {
   client.data = data;
 
   clientPool.update(client);
+}
+
+function notifyClientRemoved(removedClient) {
+  console.log('Removed', removedClient);
+  clientPool.clients.forEach(function (c) {
+    if (c.id !== removedClient.id) {
+      console.log('Notifying', c.id);
+      c.socket.emit('remoteClientRemoved', removedClient.data);
+    }
+  });
 }

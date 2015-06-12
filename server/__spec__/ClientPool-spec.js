@@ -52,6 +52,7 @@ describe('ClientPool', () => {
       pool.update({ id: '1234' });
       pool.remove('1234');
       expect(removeSpy.called).to.be.true;
+      expect(removeSpy.getCall(0).args[0].id).to.equal('1234');
     });
   });
 });
