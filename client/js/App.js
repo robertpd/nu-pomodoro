@@ -1,72 +1,82 @@
-import React from 'react/addons';
+import React, { Component } from 'react';
+import { createStore, bindActionCreators, combineReducers } from 'redux';
+import { connect, Provider } from 'react-redux';
 
-import AppFlux from './AppFlux';
+import PomodoroSocket from './sockets/PomodoroSocket.js';
+import * as SessionActions from './actions/session.js'
+import * as RemoteClientActions from './actions/remote-clients.js'
+import rootReducer from './reducers/index.js';
+import PomodoroContainer from './containers/Pomodoro.js';
+import ChangeUsernameContainer from './containers/ChangeUsernameForm.js';
 
-import PomodoroContainer from './containers/Pomodoro';
-import SignInForm from './components/ChangeUsernameForm';
-
-const flux = new AppFlux();
+const store = createStore(rootReducer);
 
 const App = React.createClass({
-  getInitialState() {
-    return {
-      client: {}
-    };
-  },
-
   childContextTypes: {
-    flux: React.PropTypes.instanceOf(AppFlux)
+    pomodoroSocket: React.PropTypes.instanceOf(PomodoroSocket)
   },
 
   getChildContext() {
-    return { flux };
-  },
+    const { dispatch } = this.props;
+    const remoteActions = bindActionCreators(RemoteClientActions, dispatch);
 
-  componentDidMount() {
-    this.sessionActions = flux.getActions('session');
-    this.sessionStore = flux.getStore('session');
-
-    this.sessionStore.addListener('change', this._updateSession);
-    this.sessionActions.createSession();
-
-    // Make sure we have Notification permission from browser.
-    if (Notification.permission !== 'granted') {
-      Notification.requestPermission();
+    return {
+      pomodoroSocket: new PomodoroSocket(remoteActions)
     }
   },
 
-  componentWillUnmount() {
-    this.sessionStore.removeAllListeners();
-  },
-
-  _updateSession() {
-    this.setState({
-      client: this.sessionStore.getClient()
-    });
+  componentDidMount() {
+    if (!this.props.sessionId) {
+      const { dispatch } = this.props;
+      const sessionActions = bindActionCreators(SessionActions, dispatch);
+      sessionActions.createSession();
+    }
   },
 
   render() {
+    const client = this.props.client || {};
+
     const classes = React.addons.classSet({
       'app': true,
-      'app--has-user': this.state.client.user
+      'app--has-user': client.user
     });
 
     return (
       <div className={classes}>
         {
-          !this.state.client.user
-            ? <SignInForm />
+          !client.user
+            ? <ChangeUsernameContainer />
             : null
         }
         <div className="app__pomodoro">
-          <PomodoroContainer client={this.state.client} />
+          <PomodoroContainer />
         </div>
       </div>
     );
   }
 });
 
-React.render(<App />, document.getElementById('app'));
+const select = state => (
+  {
+    pomodoro: state.pomodoro,
+    sessionId: state.session.id,
+    client: state.session.client
+  }
+);
 
-export default App;
+const ConnectedApp = connect(select)(App);
+
+class Root extends Component {
+  render() {
+    return (
+      <Provider store={store}>
+        {() => <ConnectedApp /> }
+      </Provider>
+    );
+  }
+}
+
+React.render(<Root />, document.getElementById('app'));
+
+export default Root;
 

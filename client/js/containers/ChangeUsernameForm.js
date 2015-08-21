@@ -1,23 +1,20 @@
-import React from '../../../node_modules/react/addons';
+import React from 'react/addons';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import * as SessionActions from '../actions/session.js';
 
-import AppFlux from '../AppFlux';
-
-export default React.createClass({
+const ChangeUsernameForm = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
-
-  contextTypes: {
-    flux: React.PropTypes.instanceOf(AppFlux).isRequired
-  },
 
   getInitialState() {
     return {};
   },
 
-  componentWillMount() {
-    this.sessionActions = this.context.flux.getActions('session');
-  },
-
   render() {
+    const { dispatch } = this.props;
+
+    this.actions = bindActionCreators(SessionActions, dispatch);
+
     return (
       <form className="sign-in-form" onSubmit={this._changeUserName}>
         <div className="sign-in-form--group">
@@ -36,10 +33,20 @@ export default React.createClass({
   _changeUserName(evt) {
     evt.preventDefault();
 
-    this.sessionActions.updateSession({
+    this.actions.updateSession({
       user: {
         name: this.state.username
       }
     });
   }
 });
+
+
+
+const select = state => (
+  {
+    client: state.client
+  }
+);
+
+export default connect(select)(ChangeUsernameForm);

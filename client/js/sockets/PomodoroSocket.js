@@ -3,13 +3,12 @@ import io from 'socket.io-client';
 import config from '../config';
 
 export default class PomodoroSocket {
-  constructor(flux) {
-    this.actions = flux.getActions('pomodoro');
-
+  constructor(remoteActions) {
+    this.remoteActions = remoteActions;
     this.socket = io(config.socketUrl);
     this.socket.on('remoteStatusChange', this._handleRemoteStatusChange.bind(this));
-    this.socket.on('remoteClientRemoved', data => { this.actions.remoteClientRemoved(data) });
-    this.socket.on('remoteUpdateSession', data => { this.actions.remoteSessionUpdated(data) });
+    this.socket.on('remoteClientRemoved', data => { remoteActions.remoteClientRemoved(data) });
+    this.socket.on('remoteUpdateSession', data => { remoteActions.remoteSessionUpdated(data) });
   }
 
   heartbeat({ client, pomodoro }) {
@@ -42,13 +41,11 @@ export default class PomodoroSocket {
   }
 
   _handleRemoteStatusChange({ id, user, status, remainingTime}) {
-    console.log('socket:status-change', id, user, status, remainingTime);
-
     if (!id) {
       return;
     }
 
-    this.actions.remoteStatusChange({
+    this.remoteActions.remoteStatusChange({
       id,
       user,
       status,

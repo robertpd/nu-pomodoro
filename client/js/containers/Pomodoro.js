@@ -1,58 +1,54 @@
-import React from 'react/addons';
+import React, { Component } from 'react';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
+import * as PomodoroActions from '../actions/pomodoro.js';
+import * as SessionActions from '../actions/session.js';
+import * as RemoteActions from '../actions/remote-clients.js';
+import PomodoroSocket from '../sockets/PomodoroSocket.js';
 
 import MyPomodoro from '../components/pomodoro/MyPomodoro';
 import RemotePomodoros from '../components/pomodoro/RemotePomodoros';
 import { Status } from '../constants';
-import AppFlux from '../AppFlux';
 import { formatTime } from '../utils/datetime';
 import TimesUp from '../components/notification/TimesUp';
 import TitleUpdater from '../components/TitleUpdater';
 
-export default React.createClass({
+const Pomodoro = React.createClass({
   contextTypes: {
-    flux: React.PropTypes.instanceOf(AppFlux).isRequired
-  },
-
-  getInitialState() {
-    return { pomodoro: {}, remoteClients: [] };
+    pomodoroSocket: React.PropTypes.instanceOf(PomodoroSocket)
   },
 
   componentDidMount() {
-    this.actions = this.context.flux.getActions('pomodoro');
-    this.sessionActions = this.context.flux.getActions('session');
-
-    this.pomodoroStore = this.context.flux.getStore('pomodoro');
-    this.remoteClientStore = this.context.flux.getStore('remoteClient');
-
-    this.timesUpStore = this.context.flux.getStore('timesUp');
-
-    this.pomodoroStore.addListener('change', this._updatePomodoro);
-    this.remoteClientStore.addListener('change', this._updateRemoteClients);
-
-    this.timesUpStore.addListener('change', this._updateTimesUp);
-
-    this._updatePomodoro();
-    this._updateRemoteClients();
-
     this._sendHeartbeat();
     this._heartbeat = setInterval(this._sendHeartbeat, 5000);
   },
 
   componentWillUnmount() {
     clearInterval(this._heartbeat);
-    this.pomodoroStore.removeListener('change', this._updatePomodoro);
-    this.remoteClientStore.removeListener('change', this._updateRemoteClients);
-    this.timesUpStore.removeListener('change', this._updateTimesUp);
   },
 
+  render() {
+    let {
+      pomodoro,
+      client,
+      remoteClients,
+      shouldNotify,
+      dispatch
+    } = this.props;
 
-render() {
+    pomodoro = pomodoro || {};
+    client = client || {};
+
+    this.actions = bindActionCreators(PomodoroActions, dispatch);
+    this.remoteActions = bindActionCreators(RemoteActions, dispatch);
+    this.sessionActions = bindActionCreators(SessionActions, dispatch);
+
     return (
       <div>
-        <TitleUpdater remainingTime={this.state.pomodoro.remainingTime} />
+        <TitleUpdater remainingTime={pomodoro.remainingTime} />
 
-        <TimesUp shouldNotify={this.state.shouldNotify} />
+        <TimesUp shouldNotify={shouldNotify} />
 
         <div className="navigation">
           <div className="navigation--item">
@@ -68,58 +64,44 @@ render() {
           </div>
         </div>
 
-        <MyPomodoro client={this.props.client}
-                    pomodoro={this.state.pomodoro}
+        <MyPomodoro client={client}
+                    pomodoro={pomodoro}
                     onStatusChange={this.onStatusChange}
                     onTick={this.onTick} />
 
-        <RemotePomodoros client={this.props.client}
-                         remoteClients={this.state.remoteClients} />
+        <RemotePomodoros client={client}
+                         remoteClients={remoteClients} />
       </div>
     );
   },
 
   onStatusChange(data) {
-    this.actions.changeStatus({
+    const payload = {
       client: this.props.client,
       status: data.status,
       remainingTime: data.remainingTime
-    });
+    };
+    //this.context.pomodoroSocket.changeStatus(payload);
+    this.actions.changeStatus(payload);
   },
 
   onTick(data) {
-    this.actions.tick({
+    const payload = {
       client: this.props.client,
       status: data.status,
       remainingTime: data.remainingTime
-    });
-  },
-
-  _updatePomodoro() {
-    const pomodoro = this.pomodoroStore.getPomodoro();
-
-    this.setState({
-      pomodoro: pomodoro
-    })
-  },
-
-  _updateRemoteClients() {
-    this.setState({
-      remoteClients: this.remoteClientStore.getRemoteClients()
-    });
-  },
-
-  _updateTimesUp() {
-    this.setState({
-      shouldNotify: this.timesUpStore.shouldNotify()
-    });
+    };
+    //this.context.pomodoroSocket.tick(payload);
+    this.actions.tick(payload);
   },
 
   _sendHeartbeat() {
-    this.actions.heartbeat({
+    const payload = {
       client: this.props.client,
-      pomodoro: this.state.pomodoro
-    });
+      pomodoro: this.props.pomodoro
+    };
+    this.context.pomodoroSocket.heartbeat(payload);
+    //this.remoteActions.heartbeat(payload);
   },
 
   _signOut() {
@@ -127,7 +109,18 @@ render() {
   },
 
   _username() {
-    const { user } = this.props.client;
-    return user ? user.name : '';
+    const client = this.props.client || {};
+    return client.user ? client.user.name : '';
   }
 });
+
+const select = state => {
+  return {
+    pomodoro: state.pomodoro,
+    client: state.session.client,
+    remoteClients: state.remoteClients,
+    shouldNotify: state.shouldNotify
+  }
+};
+
+export default connect(select)(Pomodoro);
