@@ -38,7 +38,7 @@ describe('Times up reducer', () => {
 
   it('does not notify when already previously notified', () => {
     let state = {};
-    
+
     state = timesUp(state, { type: ActionTypes.POMODORO_TICKED, status: 'in_pomodoro', remainingTime: 0 });
     expect(state.shouldNotify).to.be.true;
 

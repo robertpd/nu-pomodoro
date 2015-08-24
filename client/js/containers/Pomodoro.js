@@ -119,7 +119,7 @@ const select = state => {
     pomodoro: state.pomodoro,
     client: state.session.client,
     remoteClients: state.remoteClients,
-    shouldNotify: state.shouldNotify
+    shouldNotify: state.timesUp.shouldNotify
   }
 };
 
