@@ -5,7 +5,7 @@ import objectAssign from 'lodash/object/assign';
 
 const initialState = [];
 
-const pomodoro = (state = initialState, action = {}) => {
+const remoteClient = (state = initialState, action = {}) => {
   const { id, user, status, remainingTime } = action;
   const remoteClients = clone(state);
   let client = find(remoteClients, {id: id});
@@ -40,4 +40,4 @@ const pomodoro = (state = initialState, action = {}) => {
   }
 };
 
-export default pomodoro;
+export default remoteClient;
