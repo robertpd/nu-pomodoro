@@ -1,5 +1,4 @@
 import React from 'react/addons';
-import Flux from 'flummox';
 import assign from 'react/lib/Object.assign';
 import sinon from 'sinon';
 import _ from 'lodash';
@@ -53,39 +52,9 @@ const stubRouterContext = (Component, props, stubs) => {
   });
 };
 
-// Flux helpers
-class FakeFlux extends Flux {
-  constructor({ actions = {}, stores = {} } = {}) {
-    super();
-
-    this.getStore = sinon.stub();
-    this.getActions = sinon.stub();
-    this.getActionIds = sinon.stub();
-
-    _.each(actions, (v, k) => {
-      this.getActions.withArgs(k).returns(v);
-      this.getActionIds.withArgs(k).returns(v.getActionIds());
-    });
-
-    _.each(stores, (v, k) => {
-      this.getStore.withArgs(k).returns(v);
-    });
-  }
-}
-
-const FakeStore = () => {
-  const store = {
-    addListener: sinon.stub()
-  };
-
-  return store;
-};
-
-const simulateAction = (store, actionId, body) => store.handler( { actionId: actionId, body: body });
-
 const seq = (function () {
   let i = 1;
   return () => i++;
 });
 
-export { renderInto, stubRouterContext, FakeFlux, FakeStore, simulateAction, seq };
+export { renderInto, stubRouterContext, seq };

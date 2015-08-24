@@ -20,9 +20,6 @@ export const createSession = () => {
 export const updateSession = session => {
   const data = JSON.parse(window.localStorage.getItem('session-data')) || {};
 
-  // TODO: Move this to container?
-  //this.flux.pomodoroSocket.updateSession({ id: data.id, user: session.user });
-
   objectAssign(data, session);
 
   window.localStorage.setItem('session-data', JSON.stringify(data));

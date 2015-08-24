@@ -40,7 +40,7 @@ export default React.createClass({
   },
 
   _others() {
-    return this.props.remoteClients.filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.id);
+    return this.props.remoteClients.filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.get('id'));
   }
 });
 

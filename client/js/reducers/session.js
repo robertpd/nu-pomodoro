@@ -1,22 +1,22 @@
+import Immutable from 'immutable';
 import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
-import objectAssign from 'lodash/object/assign';
 
-const initialState = {
-  id: null,
-  client: null
-};
+const initialState = Immutable.fromJS({
+  id: 0,
+  client: { user: {} }
+});
 
 const session = (state = initialState, action = {}) => {
   switch (action.type) {
     case ActionTypes.SESSION_CREATED:
-      return objectAssign({}, state, {
+      return state.merge({
         id: action.id,
-        client: { id: action.id, user: action.user }
+        client: { id: action.id, user: Immutable.fromJS(action.user) }
       });
 
     case ActionTypes.SESSION_UPDATED:
-      return objectAssign({}, state, {
-        client: {id: state.client.id, user: action.user }
+      return state.merge({
+        client: {id: state.get('client').get('id'), user: Immutable.fromJS(action.user) }
       });
 
     default:

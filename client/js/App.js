@@ -34,19 +34,19 @@ const App = React.createClass({
   },
 
   render() {
-    const client = this.props.client || {};
+    const client = this.props.client;
 
     const classes = React.addons.classSet({
       'app': true,
-      'app--has-user': client.user
+      'app--has-user': client.getIn(['user', 'name'])
     });
 
     return (
       <div className={classes}>
         {
-          !client.user
-            ? <ChangeUsernameContainer />
-            : null
+          client.getIn(['user', 'name'])
+            ? null
+            : <ChangeUsernameContainer />
         }
         <div className="app__pomodoro">
           <PomodoroContainer />
@@ -58,9 +58,8 @@ const App = React.createClass({
 
 const select = state => (
   {
-    pomodoro: state.pomodoro,
-    sessionId: state.session.id,
-    client: state.session.client
+    sessionId: state.session.get('id'),
+    client: state.session.get('client')
   }
 );
 

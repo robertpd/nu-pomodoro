@@ -9,7 +9,6 @@ import { formatTime } from '../../utils/datetime';
 
 export default React.createClass({
   propTypes: {
-    client: React.PropTypes.object.isRequired,
     onStatusChange: React.PropTypes.func,
     onTick: React.PropTypes.func
   },
@@ -17,7 +16,7 @@ export default React.createClass({
   render() {
     return (
       <div className="my-pomodoro">
-        <Timer className="my-pomodoro--timer" client={this.props.client}
+        <Timer className="my-pomodoro--timer"
                pomodoro={this.props.pomodoro}
                onStatusChange={this.props.onStatusChange}
                onTick={this.props.onTick} />
@@ -72,15 +71,15 @@ const Timer = React.createClass({
 
     const classes = classSet({
       'my-pomodoro__remaining-time': true,
-      'my-pomodoro--in-pomodoro': pomodoro.status === Status.IN_POMODORO,
-      'my-pomodoro--on-break': pomodoro.status === Status.ON_BREAK,
-      'my-pomodoro--stopped': pomodoro.status === Status.STOPPED
+      'my-pomodoro--in-pomodoro': pomodoro.get('status') === Status.IN_POMODORO,
+      'my-pomodoro--on-break': pomodoro.get('status') === Status.ON_BREAK,
+      'my-pomodoro--stopped': pomodoro.get('status') === Status.STOPPED
     });
 
     return (
       <div>
         <div className={classes}>
-          {formatTime(pomodoro.remainingTime)}
+          {formatTime(pomodoro.get('remainingTime'))}
         </div>
         <div>
           <button className="my-pomodoro--start-pomodoro btn btn-lg btn-primary"
@@ -144,7 +143,7 @@ const Timer = React.createClass({
   _tick({ remainingTime }) {
     // Invoke callback from owner.
     this.props.onTick({
-      status: this.props.pomodoro.status,
+      status: this.props.pomodoro.get('status'),
       remainingTime: remainingTime
     });
   }
