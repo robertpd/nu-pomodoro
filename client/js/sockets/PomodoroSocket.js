@@ -34,6 +34,7 @@ export default class PomodoroSocket {
   }
 
   updateSession({ id, user }) {
+    console.log(id, user);
     this.socket.emit('updateSession', {
       id: id,
       user: user

@@ -2,12 +2,17 @@ import React from 'react/addons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as SessionActions from '../actions/session.js';
+import PomodoroSocket from '../sockets/PomodoroSocket.js';
 
 const ChangeUsernameForm = React.createClass({
   mixins: [React.addons.LinkedStateMixin],
 
   getInitialState() {
     return {};
+  },
+
+  contextTypes: {
+    pomodoroSocket: React.PropTypes.instanceOf(PomodoroSocket)
   },
 
   render() {
@@ -33,20 +38,25 @@ const ChangeUsernameForm = React.createClass({
   _changeUserName(evt) {
     evt.preventDefault();
 
-    this.actions.updateSession({
+    const payload = {
+      id: this.props.sessionId,
       user: {
         name: this.state.username
       }
-    });
+    };
+
+    this.context.pomodoroSocket.updateSession(payload);
+    this.actions.updateSession(payload);
   }
 });
 
 
 
-const select = state => (
-  {
-    client: state.client
-  }
-);
+const select = state => {
+  console.log(state);
+  return {
+    sessionId: state.session.id
+  };
+};
 
 export default connect(select)(ChangeUsernameForm);
