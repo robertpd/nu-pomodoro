@@ -11,12 +11,12 @@ const session = (state = initialState, action = {}) => {
     case ActionTypes.SESSION_CREATED:
       return objectAssign({}, state, {
         id: action.id,
-        client: {user: action.user }
+        client: { id: action.id, user: action.user }
       });
 
     case ActionTypes.SESSION_UPDATED:
       return objectAssign({}, state, {
-        client: {user: action.user }
+        client: {id: state.client.id, user: action.user }
       });
 
     default:
