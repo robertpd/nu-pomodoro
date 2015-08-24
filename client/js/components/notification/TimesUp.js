@@ -1,5 +1,4 @@
 import React from 'react';
-import AppFlux from '../../AppFlux';
 import { Status } from '../../constants';
 
 export default React.createClass({
