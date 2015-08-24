@@ -11,7 +11,3 @@ export const remoteClientRemoved = ({ id }) => {
 export const remoteSessionUpdated = ({ id, user }) => {
   return { type: ActionTypes.REMOTE_SESSION_UPDATED, id, user };
 };
-
-export const heartbeat = ({ client, pomodoro }) => {
-  getPomodoroSocket().heartbeat({ client, pomodoro });
-};

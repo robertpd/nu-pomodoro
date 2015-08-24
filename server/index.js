@@ -55,6 +55,8 @@ io.on('connection', function (socket) {
   });
 
   socket.on('heartbeat', function (data) {
+    if (!data.client) return;
+
     updateClientData({
       id: data.client.id,
       user: data.client.user,

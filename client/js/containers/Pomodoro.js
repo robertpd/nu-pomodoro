@@ -81,7 +81,7 @@ const Pomodoro = React.createClass({
       status: data.status,
       remainingTime: data.remainingTime
     };
-    //this.context.pomodoroSocket.changeStatus(payload);
+    this.context.pomodoroSocket.changeStatus(payload);
     this.actions.changeStatus(payload);
   },
 
@@ -91,7 +91,7 @@ const Pomodoro = React.createClass({
       status: data.status,
       remainingTime: data.remainingTime
     };
-    //this.context.pomodoroSocket.tick(payload);
+    this.context.pomodoroSocket.tick(payload);
     this.actions.tick(payload);
   },
 
@@ -101,7 +101,6 @@ const Pomodoro = React.createClass({
       pomodoro: this.props.pomodoro
     };
     this.context.pomodoroSocket.heartbeat(payload);
-    //this.remoteActions.heartbeat(payload);
   },
 
   _signOut() {
