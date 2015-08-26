@@ -1,39 +1,30 @@
 import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
-import clone from 'lodash/lang/clone';
-import find from 'lodash/collection/find';
-import objectAssign from 'lodash/object/assign';
+import Immutable from 'immutable';
 
-const initialState = [];
+const initialState = Immutable.List([]);
 
 const remoteClient = (state = initialState, action = {}) => {
   const { id, user, status, remainingTime } = action;
-  const remoteClients = clone(state);
-  let client = find(remoteClients, {id: id});
+  let clientIndex = state.findIndex(c => c.get('id') === id, state.size);
+
+  if (clientIndex === -1) {
+    clientIndex = state.size;
+  }
 
   switch (action.type) {
     case ActionTypes.REMOTE_STATUS_CHANGED:
-
-      if (!client) {
-        client = {};
-        remoteClients.push(client);
-      }
-
-      objectAssign(client, { id, user, status, remainingTime });
-
-      return remoteClients;
+      return state.update(clientIndex, client => {
+        if (!client) {
+          client = Immutable.Map();
+        }
+        return client.merge({ id, user, status, remainingTime })
+      });
 
     case ActionTypes.REMOTE_CLIENT_REMOVED:
-      return state.filter(c => c.id !== id);
+      return state.filter(c => c.get('id') !== id);
 
     case ActionTypes.REMOTE_SESSION_UPDATED:
-      if (!client) {
-        client = {};
-        remoteClients.push(client);
-      }
-
-      objectAssign(client, { id, user });
-
-      return remoteClients;
+      return state.update(clientIndex, client => client.merge({ id, user }));
 
     default:
       return state;

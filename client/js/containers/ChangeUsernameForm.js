@@ -53,9 +53,8 @@ const ChangeUsernameForm = React.createClass({
 
 
 const select = state => {
-  console.log(state);
   return {
-    sessionId: state.session.id
+    sessionId: state.session.get('id')
   };
 };
 

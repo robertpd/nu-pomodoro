@@ -37,16 +37,13 @@ const Pomodoro = React.createClass({
       dispatch
     } = this.props;
 
-    pomodoro = pomodoro || {};
-    client = client || {};
-
     this.actions = bindActionCreators(PomodoroActions, dispatch);
     this.remoteActions = bindActionCreators(RemoteActions, dispatch);
     this.sessionActions = bindActionCreators(SessionActions, dispatch);
 
     return (
       <div>
-        <TitleUpdater remainingTime={pomodoro.remainingTime} />
+        <TitleUpdater remainingTime={pomodoro.get('remainingTime')} />
 
         <TimesUp shouldNotify={shouldNotify} />
 
@@ -77,7 +74,7 @@ const Pomodoro = React.createClass({
 
   onStatusChange(data) {
     const payload = {
-      client: this.props.client,
+      client: this.props.client.toJS(),
       status: data.status,
       remainingTime: data.remainingTime
     };
@@ -87,7 +84,7 @@ const Pomodoro = React.createClass({
 
   onTick(data) {
     const payload = {
-      client: this.props.client,
+      client: this.props.client.toJS(),
       status: data.status,
       remainingTime: data.remainingTime
     };
@@ -96,11 +93,13 @@ const Pomodoro = React.createClass({
   },
 
   _sendHeartbeat() {
-    const payload = {
-      client: this.props.client,
-      pomodoro: this.props.pomodoro
-    };
-    this.context.pomodoroSocket.heartbeat(payload);
+    if (this.props.client.getIn(['user', 'id'])) {
+      const payload = {
+        client: this.props.client.toJS(),
+        pomodoro: this.props.pomodoro
+      };
+      this.context.pomodoroSocket.heartbeat(payload);
+    }
   },
 
   _signOut() {
@@ -108,17 +107,16 @@ const Pomodoro = React.createClass({
   },
 
   _username() {
-    const client = this.props.client || {};
-    return client.user ? client.user.name : '';
+    return this.props.client.getIn(['user', 'name']);
   }
 });
 
 const select = state => {
   return {
     pomodoro: state.pomodoro,
-    client: state.session.client,
+    client: state.session.get('client'),
     remoteClients: state.remoteClients,
-    shouldNotify: state.timesUp.shouldNotify
+    shouldNotify: state.timesUp.get('shouldNotify')
   }
 };
 
