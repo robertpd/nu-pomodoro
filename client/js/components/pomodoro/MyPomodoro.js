@@ -8,6 +8,8 @@ import { Status, DefaultTimeLengths } from '../../constants';
 import { formatTime } from '../../utils/datetime';
 
 export default React.createClass({
+  mixins: [React.addons.PureRenderMixin],
+
   propTypes: {
     onStatusChange: React.PropTypes.func,
     onTick: React.PropTypes.func

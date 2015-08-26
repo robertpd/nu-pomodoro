@@ -13,7 +13,12 @@ const remoteClient = (state = initialState, action = {}) => {
 
   switch (action.type) {
     case ActionTypes.REMOTE_STATUS_CHANGED:
-      return state.update(clientIndex, client => Immutable.fromJS({ id, user, status, remainingTime }));
+      return state.update(clientIndex, client => {
+        if (!client) {
+          client = Immutable.Map();
+        }
+        return client.merge({ id, user, status, remainingTime })
+      });
 
     case ActionTypes.REMOTE_CLIENT_REMOVED:
       return state.filter(c => c.get('id') !== id);

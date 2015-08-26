@@ -8,6 +8,8 @@ import { humanize } from '../../utils/string';
 const { classSet } = React.addons;
 
 export default React.createClass({
+  mixins: [React.addons.PureRenderMixin],
+
   propTypes: {
     client: React.PropTypes.object.isRequired,
     remoteClients: React.PropTypes.instanceOf(Immutable.List).isRequired
