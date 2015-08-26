@@ -1,6 +1,5 @@
 import React from 'react/addons';
 import Rx from 'rx';
-import _ from 'lodash';
 
 const { classSet } = React.addons;
 

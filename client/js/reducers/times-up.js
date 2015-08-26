@@ -1,5 +1,4 @@
 import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
-import objectAssign from 'lodash/object/assign';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({
