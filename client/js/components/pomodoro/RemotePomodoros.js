@@ -1,6 +1,6 @@
 import React from 'react/addons';
 import Rx from 'rx';
-
+import Immutable from 'immutable';
 import { Status } from '../../constants';
 import { formatTime } from '../../utils/datetime';
 import { humanize } from '../../utils/string';
@@ -10,11 +10,11 @@ const { classSet } = React.addons;
 export default React.createClass({
   propTypes: {
     client: React.PropTypes.object.isRequired,
-    remoteClients: React.PropTypes.array.isRequired
+    remoteClients: React.PropTypes.instanceOf(Immutable.List).isRequired
   },
 
   render() {
-    const otherCount = this._others().length;
+    const otherCount = this._others().size;
 
     return (
       <div className="remote-pomodoros">
@@ -29,10 +29,10 @@ export default React.createClass({
         <div className="remote-pomodoros__list" id="remote-pomodoros">
           {
             this._others()
-              .map(c => <RemotePomodoro key={c.id}
-                                        remainingTime={c.remainingTime}
-                                        user={c.user}
-                                        status={c.status} />)
+              .map(c => <RemotePomodoro key={c.get('id')}
+                                        remainingTime={c.get('remainingTime')}
+                                        user={c.get('user')}
+                                        status={c.get('status')} />)
           }
         </div>
       </div>
@@ -40,7 +40,7 @@ export default React.createClass({
   },
 
   _others() {
-    return this.props.remoteClients.filter(c => c.status !== Status.STOPPED && c.id !== this.props.client.get('id'));
+    return this.props.remoteClients.filter(c => c.get('status') !== Status.STOPPED && c.get('id') !== this.props.client.get('id'));
   }
 });
 
@@ -81,7 +81,6 @@ const RemotePomodoro = React.createClass({
   componentDidUpdate(prevProps) {
     // Only update if remaining time was changed.
     if (this.props.remainingTime !== prevProps.remainingTime) {
-      console.log('updating remaining time for ' + this.props.user.name);
       this.remainingTimeSubject.onNext(this.props.remainingTime);
     }
   },
@@ -97,7 +96,7 @@ const RemotePomodoro = React.createClass({
       <div className={classes}>
         <div className="remote-pomodoro__content">
           <span className="remote-pomodoro__user">
-            {this.props.user ? this.props.user.name : ''}
+            {this.props.user ? this.props.user.get('name') : ''}
           </span>
           <span className="remote-pomodoro__time">{formatTime(this.state.remainingTime)}</span>
         </div>
