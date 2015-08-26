@@ -93,11 +93,13 @@ const Pomodoro = React.createClass({
   },
 
   _sendHeartbeat() {
-    const payload = {
-      client: this.props.client.toJS(),
-      pomodoro: this.props.pomodoro
-    };
-    this.context.pomodoroSocket.heartbeat(payload);
+    if (this.props.client.getIn(['user', 'id'])) {
+      const payload = {
+        client: this.props.client.toJS(),
+        pomodoro: this.props.pomodoro
+      };
+      this.context.pomodoroSocket.heartbeat(payload);
+    }
   },
 
   _signOut() {
