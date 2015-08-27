@@ -6,6 +6,8 @@ const { classSet } = React.addons;
 import { Status, DefaultTimeLengths } from '../../constants';
 import { formatTime } from '../../utils/datetime';
 
+import styles from './MyPomodoro.scss';
+
 export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
 
@@ -16,8 +18,8 @@ export default React.createClass({
 
   render() {
     return (
-      <div className="my-pomodoro">
-        <Timer className="my-pomodoro--timer"
+      <div className={styles.this + ' my-pomodoro'}>
+        <Timer className={styles.timer}
                pomodoro={this.props.pomodoro}
                onStatusChange={this.props.onStatusChange}
                onTick={this.props.onTick} />
@@ -71,10 +73,10 @@ const Timer = React.createClass({
     const pomodoro = this.props.pomodoro;
 
     const classes = classSet({
-      'my-pomodoro__remaining-time': true,
-      'my-pomodoro--in-pomodoro': pomodoro.get('status') === Status.IN_POMODORO,
-      'my-pomodoro--on-break': pomodoro.get('status') === Status.ON_BREAK,
-      'my-pomodoro--stopped': pomodoro.get('status') === Status.STOPPED
+      [styles.remainingTime]: true,
+      [styles.inPomodoro]: pomodoro.get('status') === Status.IN_POMODORO,
+      [styles.onBreak]: pomodoro.get('status') === Status.ON_BREAK,
+      [styles.stopped]: pomodoro.get('status') === Status.STOPPED
     });
 
     return (
@@ -83,25 +85,25 @@ const Timer = React.createClass({
           {formatTime(pomodoro.get('remainingTime'))}
         </div>
         <div>
-          <button className="my-pomodoro--start-pomodoro btn btn-lg btn-primary"
+          <button className={styles.button + ' start-pomodoro btn btn-lg btn-primary ' + styles.buttonStart}
                   data-status={Status.IN_POMODORO}
                   data-length={DefaultTimeLengths.POMODORO}
                   onClick={this._onStatusChange}>
             Start Pomodoro
           </button>
-          <button className="my-pomodoro--start-break btn btn-lg btn-warning"
+          <button className={styles.button + ' start-break btn btn-lg btn-warning ' + styles.buttonBreak}
                   data-status={Status.ON_BREAK}
                   data-length={DefaultTimeLengths.SHORT_BREAK}
                   onClick={this._onStatusChange}>
             Start Short Break
           </button>
-          <button className="my-pomodoro--start-break btn btn-lg btn-warning"
+          <button className={styles.button + ' start-break btn btn-lg btn-warning ' + styles.buttonBreak}
                   data-status={Status.ON_BREAK}
                   data-length={DefaultTimeLengths.LONG_BREAK}
                   onClick={this._onStatusChange}>
             Start Long Break
           </button>
-          <button className="my-pomodoro--stop-all btn btn-lg btn-danger"
+          <button className={styles.button + ' stop-all btn btn-lg btn-danger ' + styles.buttonStop}
                   data-status={Status.STOPPED}
                   onClick={this._onStatusChange}>
             Stop

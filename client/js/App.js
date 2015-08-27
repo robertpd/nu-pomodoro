@@ -9,6 +9,8 @@ import rootReducer from './reducers/index.js';
 import PomodoroContainer from './containers/Pomodoro.js';
 import ChangeUsernameContainer from './containers/ChangeUsernameForm.js';
 
+import styles from './App.scss';
+
 const store = createStore(rootReducer);
 
 const App = React.createClass({
@@ -36,19 +38,17 @@ const App = React.createClass({
   render() {
     const client = this.props.client;
 
-    const classes = React.addons.classSet({
-      'app': true,
-      'app--has-user': client.getIn(['user', 'name'])
-    });
-
     return (
-      <div className={classes}>
+      <div className={styles.this}>
         {
           client.getIn(['user', 'name'])
             ? null
             : <ChangeUsernameContainer />
         }
-        <div className="app__pomodoro">
+        <div className={React.addons.classSet({
+                         [styles.hasUser]: client.getIn(['user', 'name']),
+                         [styles.noUser]: !client.getIn(['user', 'name'])
+                       })}>
           <PomodoroContainer />
         </div>
       </div>

@@ -1,11 +1,11 @@
-.sign-in-form {
+.this {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 60vh;
 }
 
-.sign-in-form--input {
+.input {
   box-sizing: border-box;
   display: inline-block;
   margin: 0 10px 0 0;
@@ -16,7 +16,7 @@
   line-height: 9vh;
 }
 
-.sign-in-form--btn {
+.button {
   box-sizing: border-box;
   display: inline-block;
   margin: 0;
