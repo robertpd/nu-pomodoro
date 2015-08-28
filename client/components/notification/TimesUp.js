@@ -1,6 +1,8 @@
 import React from 'react';
 import { Status } from '../../constants';
 
+import alarmSound from './alarm.wav';
+
 export default React.createClass({
   getDefaultProps() {
     return {
@@ -17,7 +19,7 @@ export default React.createClass({
 
     if (this.props.shouldNotify) {
       new Notification("Time's up!");
-      return <audio src="/assets/alarm.wav" autoPlay />;
+      return <audio src={alarmSound} autoPlay />;
     } else {
       return null;
     }
