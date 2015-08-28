@@ -4,7 +4,7 @@ http://nu-pomodoro.herokuapp.com/
 
 Requirement:
 
-- NodeJS 0.10
+- NodeJS 0.10+
 
 
 Install dependencies:
@@ -17,10 +17,10 @@ npm install
 
 ## Running development server
 
-Run webpack (for assets):
+Run webpack dev server (for assets):
 
 ```
-gulp run hot-dev-server
+npm run dev-server
 ```
 
 Run server:
@@ -31,8 +31,32 @@ npm run start-dev
 
 ### Testing
 
+To run tests, use:
+
 ```
 npm test
+```
+
+To start a watch test task:
+
+```
+npm run test-watch
+```
+
+---
+
+## Running production server
+
+Build assets:
+
+```
+npm run build
+```
+
+Start server:
+
+```
+npm start
 ```
 
 ---
