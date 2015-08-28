@@ -1,5 +1,5 @@
 import { ActionTypes } from '../constants';
-import objectAssign from 'lodash/object/assign';
+import objectAssign from '../../node_modules/node-sass/node_modules/sass-graph/node_modules/lodash/object/assign';
 import uuid from 'node-uuid';
 
 export const createSession = () => {

@@ -1,7 +1,7 @@
 import React from 'react';
 import TimesUp from '../TimesUp';
 import { expect } from 'chai';
-import TestUtils from 'react/lib/ReactTestUtils';
+import TestUtils from '../../../../node_modules/react/lib/ReactTestUtils';
 import sinon from 'sinon';
 
 describe('TimesUp', () => {

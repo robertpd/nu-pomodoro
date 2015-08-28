@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from '../../../node_modules/react/addons';
 import Rx from 'rx';
 import Immutable from 'immutable';
 import { Status } from '../../constants';
@@ -6,6 +6,8 @@ import { formatTime } from '../../utils/datetime';
 import { humanize } from '../../utils/string';
 
 const { classSet } = React.addons;
+
+import styles from './RemotePomodoros.scss';
 
 export default React.createClass({
   mixins: [React.addons.PureRenderMixin],
@@ -19,16 +21,16 @@ export default React.createClass({
     const otherCount = this._others().size;
 
     return (
-      <div className="remote-pomodoros">
-        <div className="remote-pomodoros__info">
+      <div className={styles.this}>
+        <div className={styles.info}>
           <a href="#remote-pomodoros">Other users ({otherCount})</a>
         </div>
 
-        <div className="remote-pomodoros__back">
+        <div className={styles.back}>
           <a href="#top">Back to top</a>
         </div>
 
-        <div className="remote-pomodoros__list" id="remote-pomodoros">
+        <div className={styles.list} id="remote-pomodoros">
           {
             this._others()
               .map(c => <RemotePomodoro key={c.get('id')}
@@ -88,19 +90,18 @@ const RemotePomodoro = React.createClass({
   },
 
   render() {
-    const classes = classSet({
-      'remote-pomodoro': true,
-      'remote-pomodoro--stopped': this.props.status === Status.STOPPED,
-      'remote-pomodoro--on-break': this.props.status === Status.ON_BREAK,
-      'remote-pomodoro--in-pomodoro': this.props.status === Status.IN_POMODORO
-    })
     return (
-      <div className={classes}>
-        <div className="remote-pomodoro__content">
-          <span className="remote-pomodoro__user">
+      <div className={styles.pomodoro}>
+        <div className={classSet({
+                          [styles.pomodoroContent]: true,
+                          [styles.pomodoroContentStopped]: this.props.status === Status.STOPPED,
+                          [styles.pomodoroContentOnBreak]: this.props.status === Status.ON_BREAK,
+                          [styles.pomodoroContentInPomodoro]: this.props.status === Status.IN_POMODORO
+                        })}>
+          <span className={styles.user}>
             {this.props.user ? this.props.user.get('name') : ''}
           </span>
-          <span className="remote-pomodoro__time">{formatTime(this.state.remainingTime)}</span>
+          <span className={styles.time}>{formatTime(this.state.remainingTime)}</span>
         </div>
       </div>
     );

@@ -6,14 +6,13 @@ var loadersByExtension = require("./config/loadersByExtension");
 
 module.exports = function(options) {
 	var entry = {
-		//main: options.prerender ? "./config/mainPrerenderer" : "./config/mainApp"
-		// second: options.prerender ? "./config/secondPrerenderer" : "./config/secondApp"
-		main: './client/js/App'
+		main: [
+			'./client/App'
+		]
 	};
 	var loaders = {
-		"jsx": options.hotComponents ? ["react-hot-loader", "babel-loader?stage=0"] : "babel-loader?stage=0",
 		"js": {
-			loader: "babel-loader?stage=0",
+			loaders: options.hotComponents ? ["react-hot-loader", "babel-loader?stage=0"] : ["babel-loader?stage=0"],
 			include: path.join(__dirname, "client")
 		},
 		"json": "json-loader",
@@ -29,10 +28,10 @@ module.exports = function(options) {
 	};
 	var cssLoader = options.minimize ? "css-loader?module" : "css-loader?module&localIdentName=[path][name]---[local]---[hash:base64:5]";
 	var stylesheetLoaders = {
-		"css": cssLoader,
+		"css": 'css-loader',
 		"less": [cssLoader, "less-loader"],
 		"styl": [cssLoader, "stylus-loader"],
-		"scss|sass": [cssLoader, "sass-loader"]
+		"scss|sass": (options.hotComponents ? ["react-hot-loader"] : []).concat([cssLoader, "sass-loader"])
 	};
 	var additionalLoaders = [
 		// { test: /some-reg-exp$/, loader: "any-loader" }
@@ -63,7 +62,8 @@ module.exports = function(options) {
 	};
 	var excludeFromStats = [
 		/node_modules[\\\/]react(-router)?[\\\/]/,
-		/node_modules[\\\/]items-store[\\\/]/
+		/node_modules[\\\/]socket.io-client[\\\/]/,
+		/node_modules[\\\/]rx[\\\/]/
 	];
 	var plugins = [
 		new webpack.PrefetchPlugin("react"),

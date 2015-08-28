@@ -1,13 +1,15 @@
+@import '../../variables';
+
 $dark-blue: darken($in-pomodoro-color, 10);
 
-.remote-pomodoros {
+.this {
   position: relative;
   min-height: 100vh;
   background-color: $dark-blue;
   color: #eee;
 }
 
-.remote-pomodoros__back {
+.back {
   height: 30px;
   text-align: right;
   width: 100%;
@@ -15,7 +17,7 @@ $dark-blue: darken($in-pomodoro-color, 10);
   a { color: white }
 }
 
-.remote-pomodoros__info {
+.info {
   border-radius: 5px 5px 0 0;
   position: absolute;
   top: -29px;
@@ -29,7 +31,7 @@ $dark-blue: darken($in-pomodoro-color, 10);
   a { color: $dark-blue}
 }
 
-.remote-pomodoros__list {
+.list {
   display: flex;
   align-items: flex-start;
   justify-content: flex-start;
@@ -37,14 +39,14 @@ $dark-blue: darken($in-pomodoro-color, 10);
   flex-flow: row wrap;
 }
 
-.remote-pomodoro {
+.pomodoro {
   width: 300px;
   height: 225px;
   font-size: 18px;
   padding: 10px;
 }
 
-.remote-pomodoro__content {
+.pomodoroContent {
   height: 100%;
   display: flex;
   align-items: center;
@@ -54,31 +56,31 @@ $dark-blue: darken($in-pomodoro-color, 10);
   padding: 15px;
 }
 
-.remote-pomodoro--stopped .remote-pomodoro__content {
+.pomodoroContentStopped {
   background-color: $stopped-color;
 }
 
-.remote-pomodoro--in-pomodoro .remote-pomodoro__content {
+.pomodoroContentInPomodoro {
   background-color: $in-pomodoro-color;
 }
 
-.remote-pomodoro--on-break .remote-pomodoro__content {
+.pomodoroContentOnBreak {
   background-color: darken($on-break-color, 5);
 }
 
-.remote-pomodoro__ping {
+.ping {
   position: absolute;
   top: 15px;
   right: 15px;
 }
 
-.remote-pomodoro__user {
+.user {
   position: absolute;
   top: 15px;
   left: 15px;
 }
 
-.remote-pomodoro__time {
+.time {
   margin-right: .5em;
   font-size: 48px;
 }

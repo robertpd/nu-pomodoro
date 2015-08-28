@@ -1,7 +1,7 @@
 import React from 'react';
 import TitleUpdater from '../TitleUpdater';
 import { expect } from 'chai';
-import TestUtils from 'react/lib/ReactTestUtils';
+import TestUtils from '../../../node_modules/react/lib/ReactTestUtils';
 
 describe('TitleUpdater', () => {
   it('displays time in title when remaining time is not zero', () => {

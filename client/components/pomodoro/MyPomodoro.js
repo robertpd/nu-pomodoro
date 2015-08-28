@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from '../../../node_modules/react/addons';
 import Rx from 'rx';
 
 const { classSet } = React.addons;

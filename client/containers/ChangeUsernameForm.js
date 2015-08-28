@@ -1,4 +1,4 @@
-import React from 'react/addons';
+import React from '../../node_modules/react/addons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import * as SessionActions from '../actions/session.js';
@@ -31,7 +31,7 @@ const ChangeUsernameForm = React.createClass({
                  type="text"
                  autoFocus
                  valueLink={this.linkState('username')} />
-          <button type="submit" className={styles.button}>Go</button>
+          <button type="submit" className={styles.button + ' btn btn-primary'}>Go</button>
         </div>
       </form>
     );

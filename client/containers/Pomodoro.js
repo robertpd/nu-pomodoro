@@ -14,6 +14,8 @@ import { formatTime } from '../utils/datetime';
 import TimesUp from '../components/notification/TimesUp';
 import TitleUpdater from '../components/TitleUpdater';
 
+import styles from './Pomodoro.scss';
+
 const Pomodoro = React.createClass({
   contextTypes: {
     pomodoroSocket: React.PropTypes.instanceOf(PomodoroSocket)
@@ -47,8 +49,8 @@ const Pomodoro = React.createClass({
 
         <TimesUp shouldNotify={shouldNotify} />
 
-        <div className="navigation">
-          <div className="navigation--item">
+        <div className={styles.navigation}>
+          <div className={styles.navigationItem}>
 
             <DropdownButton bsStyle="link" pullRight={true} title={this._username()}>
               <MenuItem eventKey='1' href="https://github.com/nulogy/nu-pomodoro/issues" target="_blank">

@@ -1,5 +1,5 @@
-import React from 'react/addons';
-import assign from 'react/lib/Object.assign';
+import React from '../node_modules/react/addons';
+import assign from '../node_modules/react/lib/Object.assign.js';
 import sinon from 'sinon';
 import _ from 'lodash';
 

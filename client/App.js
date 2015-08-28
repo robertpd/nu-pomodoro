@@ -1,3 +1,5 @@
+import 'bootstrap/dist/css/bootstrap.css';
+
 import React, { Component } from 'react';
 import { createStore, bindActionCreators, combineReducers } from 'redux';
 import { connect, Provider } from 'react-redux';
