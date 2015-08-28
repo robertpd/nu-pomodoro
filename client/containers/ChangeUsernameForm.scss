@@ -1,0 +1,28 @@
+.this {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.input {
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0 10px 0 0;
+  vertical-align: bottom;
+  font-size: 5vh;
+  padding: 0.3em 0.7em;
+  height: 9vh;
+  line-height: 9vh;
+}
+
+.button {
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0;
+  vertical-align: bottom;
+  font-size: 5vh;
+  padding: 0.3em 0.7em;
+  height: 9vh;
+  line-height: 5vh;
+}

@@ -1,0 +1,47 @@
+@import '../../variables';
+
+.this {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.timer {
+  max-width: 60vw;
+}
+
+.remainingTime {
+  font-size: 20vw;
+  text-align: center;
+}
+
+.inPomodoro {
+  color: $in-pomodoro-color;
+}
+
+.onBreak {
+  color: $on-break-color;
+}
+
+.stopped {
+  color: $stopped-color;
+}
+
+.button {
+  margin: .3em;
+  font-size: 3vw;
+  padding: .5em .7em;
+}
+
+.buttonStart {
+  background-color:  $in-pomodoro-color;
+}
+
+.buttonBreak {
+  background-color:  $on-break-color;
+}
+
+.buttonStop {
+  background-color:  $stopped-color;
+}

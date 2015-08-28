@@ -17,10 +17,10 @@ npm install
 
 ## Running development server
 
-Run gulp:
+Run webpack (for assets):
 
 ```
-gulp watch
+gulp run hot-dev-server
 ```
 
 Run server:
@@ -53,7 +53,7 @@ npm test
 1. Build production assets:
 
     ```
-    npm run build && git commit -m 'bump client'
+    npm run build
     ```
 
 2. Deploy to Heroku:
