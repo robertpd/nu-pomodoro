@@ -1,4 +1,5 @@
 import 'bootstrap/dist/css/bootstrap.css';
+import 'font-awesome/css/font-awesome.css';
 
 import React, { Component } from 'react';
 import { createStore, bindActionCreators, combineReducers } from 'redux';
