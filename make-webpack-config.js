@@ -5,14 +5,23 @@ var StatsPlugin = require("stats-webpack-plugin");
 var loadersByExtension = require("./config/loadersByExtension");
 
 module.exports = function(options) {
-	var entry = {
-		main: [
+	var entry;
+
+	if (options.hotComponents) {
+		entry = [
+			'webpack-dev-server/client?http://0.0.0.0:2992',
+			'webpack/hot/only-dev-server',
 			'./client/App'
-		]
-	};
+		];
+	} else {
+		entry = [
+			'./client/App'
+		];
+	}
+
 	var loaders = {
 		"js": {
-			loaders: options.hotComponents ? ["react-hot-loader", "babel-loader?stage=0"] : ["babel-loader?stage=0"],
+			loaders: options.hotComponents ? ["react-hot", "babel-loader?stage=0"] : ["babel-loader?stage=0"],
 			include: path.join(__dirname, "client")
 		},
 		"json": "json-loader",
@@ -31,7 +40,7 @@ module.exports = function(options) {
 		"css": 'css-loader',
 		"less": [cssLoader, "less-loader"],
 		"styl": [cssLoader, "stylus-loader"],
-		"scss|sass": (options.hotComponents ? ["react-hot-loader"] : []).concat([cssLoader, "sass-loader"])
+		"scss|sass": (options.hotComponents ? ["react-hot"] : []).concat([cssLoader, "sass-loader"])
 	};
 	var additionalLoaders = [
 		// { test: /some-reg-exp$/, loader: "any-loader" }
@@ -129,6 +138,13 @@ module.exports = function(options) {
 					NODE_ENV: JSON.stringify("production")
 				}
 			}),
+			new webpack.NoErrorsPlugin()
+		);
+	}
+
+	if (options.hotComponents) {
+		plugins.push(
+			new webpack.HotModuleReplacementPlugin(),
 			new webpack.NoErrorsPlugin()
 		);
 	}
