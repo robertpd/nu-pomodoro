@@ -40,7 +40,7 @@ module.exports = function(options) {
 		"css": 'css-loader',
 		"less": [cssLoader, "less-loader"],
 		"styl": [cssLoader, "stylus-loader"],
-		"scss|sass": (options.hotComponents ? ["react-hot"] : []).concat([cssLoader, "sass-loader"])
+		"scss|sass": (options.hotComponents ? ["react-hot-loader"] : []).concat([cssLoader, "sass-loader"])
 	};
 	var additionalLoaders = [
 		// { test: /some-reg-exp$/, loader: "any-loader" }
