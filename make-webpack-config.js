@@ -61,7 +61,7 @@ module.exports = function(options) {
 		"http://localhost:2992/_assets/" :
 		"/_assets/";
 	var output = {
-		path: path.join(__dirname, "build", options.prerender ? "prerender" : "public"),
+		path: path.join(__dirname, "build", options.devServer ? "development" : "public"),
 		publicPath: publicPath,
 		filename: "[name].js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
