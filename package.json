@@ -10,7 +10,7 @@
     "deploy": "git push heroku master",
     "dev-server": "node webpack/dev-server.js",
     "build": "webpack --config webpack/webpack-production.config.js --progress --profile --colors",
-    "bump": "git add . && git commit -m 'bump assets'",
+    "bump": "git add . && git commit -f -m 'bump assets'",
     "start-dev": "node lib/server-development",
     "start": "node lib/server-production",
     "test": "./node_modules/.bin/mocha test-main.js",
