@@ -80,9 +80,15 @@ npm start
     npm run build
     ```
 
-2. Deploy to Heroku:
+2. Bump up asset revisions.
 
     ```
-    git push heroku master
+    npm run bump
+    ```
+
+3. Deploy to Heroku:
+
+    ```
+    npm run deploy
     ```
 
