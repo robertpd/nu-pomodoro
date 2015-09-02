@@ -2,7 +2,7 @@ var jsdom = require('jsdom');
 var glob = require('glob');
 
 require("babel/register")({
-  stage: 1,
+  stage: 0,
   optional: ['runtime'],
   ignore: /node_modules/
 });

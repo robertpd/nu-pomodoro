@@ -21,7 +21,7 @@ module.exports = function(options) {
 
 	var loaders = {
 		"js": {
-			loaders: options.hotComponents ? ["react-hot", "babel-loader?stage=0"] : ["babel-loader?stage=0"],
+			loaders: options.hotComponents ? ["react-hot", "babel-loader?stage=1"] : ["babel-loader?stage=1"],
 			include: path.join(__dirname, "client")
 		},
 		"json": "json-loader",
