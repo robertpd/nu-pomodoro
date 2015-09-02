@@ -93,7 +93,7 @@ module.exports = function(options) {
 		);
 		plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }));
 	} else {
-		plugins.push(new StatsPlugin(path.join(__dirname, "build", "stats.json"), {
+		plugins.push(new StatsPlugin(path.join(__dirname, "build", options.devServer ? "stats-dev.json" : "stats.json"), {
 			chunkModules: true,
 			exclude: excludeFromStats
 		}));
