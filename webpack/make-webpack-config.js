@@ -2,7 +2,7 @@ var path = require("path");
 var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var StatsPlugin = require("stats-webpack-plugin");
-var loadersByExtension = require("./config/loadersByExtension");
+var loadersByExtension = require("../config/loadersByExtension");
 
 module.exports = function(options) {
 	var entry;
@@ -22,7 +22,7 @@ module.exports = function(options) {
 	var loaders = {
 		"js": {
 			loaders: options.development ? ["react-hot", "babel-loader?stage=1"] : ["babel-loader?stage=1"],
-			include: path.join(__dirname, "client")
+			include: path.join(__dirname, "..", "client")
 		},
 		"json": "json-loader",
 		"coffee": "coffee-redux-loader",
@@ -43,7 +43,6 @@ module.exports = function(options) {
 		"scss|sass": [cssLoader, "sass-loader"]
 	};
 	var additionalLoaders = [
-		// { test: /some-reg-exp$/, loader: "any-loader" }
 	];
 	var alias = {
 
@@ -54,14 +53,14 @@ module.exports = function(options) {
 	var externals = [
 
 	];
-	var modulesDirectories = ["web_modules", "node_modules"];
+	var modulesDirectories = ["node_modules"];
 	var extensions = ["", ".web.js", ".js", ".jsx"];
-	var root = path.join(__dirname, "app");
+	var root = path.join(__dirname, "..", "app");
 	var publicPath = options.development ?
 		"http://localhost:2992/_assets/" :
 		"/_assets/";
 	var output = {
-		path: path.join(__dirname, "build", options.development ? "development" : "public"),
+		path: path.join(__dirname, "..", "build", options.development ? "development" : "public"),
 		publicPath: publicPath,
 		filename: "[name].js" + (options.longTermCaching ? "?[chunkhash]" : ""),
 		chunkFilename: (options.development ? "[id].js" : "[name].js") + (options.longTermCaching ? "?[chunkhash]" : ""),
@@ -76,7 +75,7 @@ module.exports = function(options) {
 	var plugins = [
 		new webpack.PrefetchPlugin("react"),
 		new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment"),
-		new StatsPlugin(path.join(__dirname, "build", options.development ? "stats-dev.json" : "stats.json"), {
+		new StatsPlugin(path.join(__dirname, "..", "build", options.development ? "stats-dev.json" : "stats.json"), {
 			chunkModules: true,
 			exclude: excludeFromStats
 		})
@@ -118,12 +117,6 @@ module.exports = function(options) {
 		);
 	}
 
-	if (options.development) {
-		plugins.push(
-
-		);
-	}
-
   if (options.development) {
     plugins = plugins.concat([
 			new webpack.HotModuleReplacementPlugin(),
@@ -148,7 +141,7 @@ module.exports = function(options) {
 		devtool: options.devtool,
 		debug: options.debug,
 		resolveLoader: {
-			root: path.join(__dirname, "node_modules"),
+			root: path.join(__dirname, '..', "node_modules"),
 			alias: aliasLoader
 		},
 		externals: externals,
