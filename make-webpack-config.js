@@ -7,7 +7,7 @@ var loadersByExtension = require("./config/loadersByExtension");
 module.exports = function(options) {
 	var entry;
 
-	if (options.hotComponents) {
+	if (options.development) {
 		entry = [
 			'webpack-dev-server/client?http://0.0.0.0:2992',
 			'webpack/hot/only-dev-server',
@@ -21,7 +21,7 @@ module.exports = function(options) {
 
 	var loaders = {
 		"js": {
-			loaders: options.hotComponents ? ["react-hot", "babel-loader?stage=1"] : ["babel-loader?stage=1"],
+			loaders: options.development ? ["react-hot", "babel-loader?stage=1"] : ["babel-loader?stage=1"],
 			include: path.join(__dirname, "client")
 		},
 		"json": "json-loader",
@@ -57,14 +57,14 @@ module.exports = function(options) {
 	var modulesDirectories = ["web_modules", "node_modules"];
 	var extensions = ["", ".web.js", ".js", ".jsx"];
 	var root = path.join(__dirname, "app");
-	var publicPath = options.devServer ?
+	var publicPath = options.development ?
 		"http://localhost:2992/_assets/" :
 		"/_assets/";
 	var output = {
-		path: path.join(__dirname, "build", options.devServer ? "development" : "public"),
+		path: path.join(__dirname, "build", options.development ? "development" : "public"),
 		publicPath: publicPath,
 		filename: "[name].js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
-		chunkFilename: (options.devServer ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
+		chunkFilename: (options.development ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
 		sourceMapFilename: "debugging/[file].map",
 		libraryTarget: options.prerender ? "commonjs2" : undefined,
 		pathinfo: options.debug || options.prerender
@@ -93,7 +93,7 @@ module.exports = function(options) {
 		);
 		plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }));
 	} else {
-		plugins.push(new StatsPlugin(path.join(__dirname, "build", options.devServer ? "stats-dev.json" : "stats.json"), {
+		plugins.push(new StatsPlugin(path.join(__dirname, "build", options.development ? "stats-dev.json" : "stats.json"), {
 			chunkModules: true,
 			exclude: excludeFromStats
 		}));
@@ -142,14 +142,14 @@ module.exports = function(options) {
 		);
 	}
 
-	if (options.hotComponents) {
+	if (options.development) {
 		plugins.push(
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.NoErrorsPlugin()
 		);
 	}
 
-  if (options.devServer) {
+  if (options.development) {
     plugins.push(new webpack.DefinePlugin({
       __DEVELOPMENT__: true
     }));
