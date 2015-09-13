@@ -149,6 +149,16 @@ module.exports = function(options) {
 		);
 	}
 
+  if (options.devServer) {
+    plugins.push(new webpack.DefinePlugin({
+      __DEVELOPMENT__: true
+    }));
+  } else {
+    plugins.push(new webpack.DefinePlugin({
+      __DEVELOPMENT__: false
+    }));
+  }
+
 	return {
 		entry: entry,
 		output: output,

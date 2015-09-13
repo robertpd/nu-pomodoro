@@ -2,7 +2,7 @@ import 'bootstrap/dist/css/bootstrap.css';
 import 'font-awesome/css/font-awesome.css';
 
 import React, { Component } from 'react';
-import { createStore, bindActionCreators, combineReducers } from 'redux';
+import { compose, createStore, bindActionCreators, combineReducers } from 'redux';
 import { connect, Provider } from 'react-redux';
 
 import PomodoroSocket from './sockets/PomodoroSocket.js';
@@ -12,9 +12,23 @@ import rootReducer from './reducers/index.js';
 import PomodoroContainer from './containers/Pomodoro.js';
 import ChangeUsernameContainer from './containers/ChangeUsernameForm.js';
 
+import { devTools, persistState } from 'redux-devtools';
+import { DevTools, DebugPanel, LogMonitor } from 'redux-devtools/lib/react';
+
 import styles from './App.scss';
 
-const store = createStore(rootReducer);
+let store;
+
+if (__DEVELOPMENT__) {
+  store = compose(
+    devTools(),
+    persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
+    createStore
+  )(rootReducer);
+} else {
+  store = createStore(rootReducer);
+}
+
 
 const App = React.createClass({
   childContextTypes: {
@@ -71,9 +85,16 @@ const ConnectedApp = connect(select)(App);
 class Root extends Component {
   render() {
     return (
-      <Provider store={store}>
-        {() => <ConnectedApp /> }
-      </Provider>
+      <div>
+        <Provider store={store}>
+          {() => <ConnectedApp /> }
+        </Provider>
+        { __DEVELOPMENT__
+            ? <DebugPanel top left bottom>
+                <DevTools store={store} monitor={LogMonitor} />
+              </DebugPanel>
+            : null }
+      </div>
     );
   }
 }
