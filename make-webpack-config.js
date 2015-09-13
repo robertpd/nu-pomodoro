@@ -63,11 +63,10 @@ module.exports = function(options) {
 	var output = {
 		path: path.join(__dirname, "build", options.development ? "development" : "public"),
 		publicPath: publicPath,
-		filename: "[name].js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
-		chunkFilename: (options.development ? "[id].js" : "[name].js") + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : ""),
+		filename: "[name].js" + (options.longTermCaching ? "?[chunkhash]" : ""),
+		chunkFilename: (options.development ? "[id].js" : "[name].js") + (options.longTermCaching ? "?[chunkhash]" : ""),
 		sourceMapFilename: "debugging/[file].map",
-		libraryTarget: options.prerender ? "commonjs2" : undefined,
-		pathinfo: options.debug || options.prerender
+		pathinfo: options.debug
 	};
 	var excludeFromStats = [
 		/node_modules[\\\/]react(-router)?[\\\/]/,
@@ -76,52 +75,28 @@ module.exports = function(options) {
 	];
 	var plugins = [
 		new webpack.PrefetchPlugin("react"),
-		new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment")
+		new webpack.PrefetchPlugin("react/lib/ReactComponentBrowserEnvironment"),
+		new StatsPlugin(path.join(__dirname, "build", options.development ? "stats-dev.json" : "stats.json"), {
+			chunkModules: true,
+			exclude: excludeFromStats
+		})
 	];
-	if(options.prerender) {
-		plugins.push(new StatsPlugin(path.join(__dirname, "build", "stats.prerender.json"), {
-			chunkModules: true,
-			exclude: excludeFromStats
-		}));
-		aliasLoader["react-proxy$"] = "react-proxy/unavailable";
-		aliasLoader["react-proxy-loader$"] = "react-proxy-loader/unavailable";
-		externals.push(
-			/^react(\/.*)?$/,
-			/^reflux(\/.*)?$/,
-			"superagent",
-			"async"
-		);
-		plugins.push(new webpack.optimize.LimitChunkCountPlugin({ maxChunks: 1 }));
-	} else {
-		plugins.push(new StatsPlugin(path.join(__dirname, "build", options.development ? "stats-dev.json" : "stats.json"), {
-			chunkModules: true,
-			exclude: excludeFromStats
-		}));
-	}
-	if(options.commonsChunk) {
-		plugins.push(new webpack.optimize.CommonsChunkPlugin("commons", "commons.js" + (options.longTermCaching && !options.prerender ? "?[chunkhash]" : "")));
-	}
-	var asyncLoader = {
-		loader: options.prerender ? "react-proxy-loader/unavailable" : "react-proxy-loader"
-	};
-
-
 
 	Object.keys(stylesheetLoaders).forEach(function(ext) {
 		var stylesheetLoader = stylesheetLoaders[ext];
 		if(Array.isArray(stylesheetLoader)) stylesheetLoader = stylesheetLoader.join("!");
-		if(options.prerender) {
-			stylesheetLoaders[ext] = stylesheetLoader.replace(/^css-loader/, "css-loader/locals");
-		} else if(options.separateStylesheet) {
+		if(options.separateStylesheet) {
 			stylesheetLoaders[ext] = ExtractTextPlugin.extract("style-loader", stylesheetLoader);
 		} else {
 			stylesheetLoaders[ext] = "style-loader!" + stylesheetLoader;
 		}
 	});
-	if(options.separateStylesheet && !options.prerender) {
+
+	if(options.separateStylesheet) {
 		plugins.push(new ExtractTextPlugin("[name].css" + (options.longTermCaching ? "?[contenthash]" : "")));
 	}
-	if(options.minimize && !options.prerender) {
+
+	if(options.minimize) {
 		plugins.push(
 			new webpack.optimize.UglifyJsPlugin({
 				compressor: {
@@ -131,6 +106,7 @@ module.exports = function(options) {
 			new webpack.optimize.DedupePlugin()
 		);
 	}
+
 	if(options.minimize) {
 		plugins.push(
 			new webpack.DefinePlugin({
@@ -144,15 +120,18 @@ module.exports = function(options) {
 
 	if (options.development) {
 		plugins.push(
-			new webpack.HotModuleReplacementPlugin(),
-			new webpack.NoErrorsPlugin()
+
 		);
 	}
 
   if (options.development) {
-    plugins.push(new webpack.DefinePlugin({
-      __DEVELOPMENT__: true
-    }));
+    plugins = plugins.concat([
+			new webpack.HotModuleReplacementPlugin(),
+			new webpack.NoErrorsPlugin(),
+			new webpack.DefinePlugin({
+				__DEVELOPMENT__: true
+			})
+		]);
   } else {
     plugins.push(new webpack.DefinePlugin({
       __DEVELOPMENT__: false
@@ -162,7 +141,7 @@ module.exports = function(options) {
 	return {
 		entry: entry,
 		output: output,
-		target: options.prerender ? "node" : "web",
+		target: 'web',
 		module: {
 			loaders: loadersByExtension(loaders).concat(loadersByExtension(stylesheetLoaders)).concat(additionalLoaders)
 		},
