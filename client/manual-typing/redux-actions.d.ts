@@ -1,9 +1,22 @@
 declare module 'redux-actions' {
-  type PayloadCreator = (state: any, action: any)=>any;
+  // FSA-compliant action.
+  // See: https://github.com/acdlite/flux-standard-action
+  export type Action = {
+    type: string
+    payload: any
+    error?: boolean
+    meta?: any
+  };
 
-  export function createAction(actionType: string, payloadCreator: PayloadCreator, metaCreator?: PayloadCreator): any;
+  type Reducer<T> = (state: T, action: Action) => T;
 
-  export function handleAction(actionType: string, reducer: any): any;
+  type ReducerMap<T> = {
+    [actionType: string]: Reducer<T>
+  };
 
-  export function handleActions(handlers: any, initialState: any): any;
+  export function createAction<T>(actionType: string, payloadCreator: Reducer<T>, metaCreator?: Reducer<T>): Reducer<T>;
+
+  export function handleAction<T>(actionType: string, reducer: Reducer<T>): T;
+
+  export function handleActions<T>(reducerMap: ReducerMap<T>, initialState: T): T;
 }
