@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { DropdownButton, MenuItem } from 'react-bootstrap';
 import * as PomodoroActions from '../actions/pomodoro.js';
-import * as SessionActions from '../actions/session.js';
+import * as SessionActions from '../actions/session.ts';
 import * as RemoteActions from '../actions/remote-clients.js';
 import PomodoroSocket from '../sockets/PomodoroSocket.js';
 

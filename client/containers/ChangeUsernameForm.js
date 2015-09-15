@@ -1,7 +1,7 @@
 import React from '../../node_modules/react/addons';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import * as SessionActions from '../actions/session.js';
+import * as SessionActions from '../actions/session.ts';
 import PomodoroSocket from '../sockets/PomodoroSocket.js';
 
 import styles from './ChangeUsernameForm.scss';

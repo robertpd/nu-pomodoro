@@ -1,5 +1,5 @@
 import { ActionTypes } from '../constants.ts';
-import uuid from 'node-uuid';
+import { v4 } from 'node-uuid';
 import { createAction } from 'redux-actions';
 
 export const createSession = createAction(
@@ -12,7 +12,7 @@ export const createSession = createAction(
     if (fromLocalStorage) {
       data = JSON.parse(fromLocalStorage) || {};
     } else {
-      data = {id: uuid.v4()};
+      data = {id: v4()};
       window.localStorage.setItem('session-data', JSON.stringify(data))
     }
 
@@ -23,11 +23,7 @@ export const createSession = createAction(
 export const updateSession = createAction(
   ActionTypes.SESSION_UPDATED,
   session => {
-    let data = JSON.parse(window.localStorage.getItem('session-data')) || {};
-    data = {...data, ...session};
-
-    window.localStorage.setItem('session-data', JSON.stringify(data));
-
-    return data;
+    window.localStorage.setItem('session-data', JSON.stringify(session));
+    return session;
   }
 );

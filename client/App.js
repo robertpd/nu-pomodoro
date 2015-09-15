@@ -6,7 +6,7 @@ import { compose, createStore, bindActionCreators, combineReducers } from 'redux
 import { connect, Provider } from 'react-redux';
 
 import PomodoroSocket from './sockets/PomodoroSocket.js';
-import * as SessionActions from './actions/session.js'
+import * as SessionActions from './actions/session.ts'
 import * as RemoteClientActions from './actions/remote-clients.js'
 import rootReducer from './reducers/index.js';
 import PomodoroContainer from './containers/Pomodoro.js';
