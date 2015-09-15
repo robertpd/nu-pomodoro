@@ -1,7 +1,7 @@
 import * as RemoteActions from '../../actions/remote-clients';
 import remoteClients from '../remote-clients';
 import { expect } from 'chai';
-import { ActionTypes } from '../../constants';
+import { ActionTypes } from '../../constants.ts';
 import { List, Map } from 'immutable';
 
 describe('Remote client reducers', () => {

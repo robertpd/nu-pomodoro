@@ -1,3 +1,5 @@
+require('typescript-require')(require('./tsconfig.json'));
+
 var jsdom = require('jsdom');
 var glob = require('glob');
 

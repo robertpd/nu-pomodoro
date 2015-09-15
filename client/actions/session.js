@@ -1,4 +1,4 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes } from '../constants.ts';
 import uuid from 'node-uuid';
 import { createAction } from 'redux-actions';
 

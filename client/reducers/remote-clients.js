@@ -1,4 +1,4 @@
-import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
+import { ActionTypes, Status, DefaultTimeLengths } from '../constants.ts';
 import { List, Map } from 'immutable';
 import { handleActions } from 'redux-actions';
 

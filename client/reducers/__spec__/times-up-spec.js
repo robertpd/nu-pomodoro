@@ -1,6 +1,6 @@
 import * as PomodoroActions from '../../actions/pomodoro';
 import timesUp from '../times-up';
-import { ActionTypes } from '../../constants';
+import { ActionTypes } from '../../constants.ts';
 import { expect } from 'chai';
 import Immutable from 'immutable'
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Status } from '../../constants';
+import { Status } from '../../constants.ts';
 
 import alarmSound from './alarm.wav';
 

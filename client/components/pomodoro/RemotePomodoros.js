@@ -1,7 +1,7 @@
 import React from '../../../node_modules/react/addons';
 import Rx from 'rx';
 import Immutable from 'immutable';
-import { Status } from '../../constants';
+import { Status } from '../../constants.ts';
 import { formatTime } from '../../utils/datetime';
 import { humanize } from '../../utils/string';
 

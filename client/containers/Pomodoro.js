@@ -9,7 +9,7 @@ import PomodoroSocket from '../sockets/PomodoroSocket.js';
 
 import MyPomodoro from '../components/pomodoro/MyPomodoro';
 import RemotePomodoros from '../components/pomodoro/RemotePomodoros';
-import { Status } from '../constants';
+import { Status } from '../constants.ts';
 import { formatTime } from '../utils/datetime';
 import TimesUp from '../components/notification/TimesUp';
 import TitleUpdater from '../components/TitleUpdater';

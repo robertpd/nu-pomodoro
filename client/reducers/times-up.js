@@ -1,4 +1,4 @@
-import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
+import { ActionTypes, Status, DefaultTimeLengths } from '../constants.ts';
 import Immutable from 'immutable';
 
 const initialState = Immutable.fromJS({

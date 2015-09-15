@@ -3,7 +3,7 @@ import Rx from 'rx';
 
 const { classSet } = React.addons;
 
-import { Status, DefaultTimeLengths } from '../../constants';
+import { Status, DefaultTimeLengths } from '../../constants.ts';
 import { formatTime } from '../../utils/datetime';
 
 import styles from './MyPomodoro.scss';

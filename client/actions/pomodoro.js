@@ -1,4 +1,4 @@
-import { ActionTypes } from '../constants';
+import { ActionTypes } from '../constants.ts';
 import { createAction } from 'redux-actions';
 
 export const tick = createAction(

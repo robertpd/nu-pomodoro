@@ -24,6 +24,9 @@ module.exports = function(options) {
 			loaders: options.development ? ["react-hot", "babel-loader?stage=1"] : ["babel-loader?stage=1"],
 			include: path.join(__dirname, "..", "client")
 		},
+		"ts|tsx": {
+			loaders: ['ts-loader']
+		},
 		"json": "json-loader",
 		"coffee": "coffee-redux-loader",
 		"json5": "json5-loader",

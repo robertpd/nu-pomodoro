@@ -1,6 +1,6 @@
 import { Map } from 'immutable';
 import { handleActions } from 'redux-actions';
-import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
+import { ActionTypes, Status, DefaultTimeLengths } from '../constants.ts';
 
 const initialState = Map({
   remainingTime: 0,
