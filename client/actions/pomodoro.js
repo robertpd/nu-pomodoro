@@ -1,9 +1,12 @@
 import { ActionTypes } from '../constants';
+import { createAction } from 'redux-actions';
 
-export const tick = ({ client, status, remainingTime }) => {
-  return { type: ActionTypes.POMODORO_TICKED, status, remainingTime };
-};
+export const tick = createAction(
+  ActionTypes.POMODORO_TICKED,
+  ({ client, status, remainingTime }) => ({ status, remainingTime })
+);
 
-export const changeStatus = ({ client, status, remainingTime }) =>  {
-  return { type: ActionTypes.POMODORO_STATUS_CHANGED, status, remainingTime };
-};
+export const changeStatus = createAction(
+  ActionTypes.POMODORO_STATUS_CHANGED,
+  ({ client, status, remainingTime }) =>  ({ status, remainingTime })
+);

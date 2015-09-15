@@ -1,27 +1,25 @@
-import Immutable from 'immutable';
+import { Map } from 'immutable';
+import { handleActions } from 'redux-actions';
 import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
 
-const initialState = Immutable.fromJS({
+const initialState = Map({
   remainingTime: 0,
   status: Status.STOPPED
 });
 
-const pomodoro = (state = initialState, action = {}) => {
-  switch (action.type) {
-    case ActionTypes.POMODORO_TICKED:
-      return state.merge({
-        remainingTime: action.remainingTime
-      });
+const pomodoro = handleActions({
+  [ActionTypes.POMODORO_TICKED]: (state, action) => (
+    state.merge({
+      remainingTime: action.payload.remainingTime
+    })
+  ),
 
-    case ActionTypes.POMODORO_STATUS_CHANGED:
-      return state.merge({
-        status: action.status,
-        remainingTime: action.remainingTime
-      });
-
-    default:
-      return state;
-  }
-};
+  [ActionTypes.POMODORO_STATUS_CHANGED]: (state, action) => (
+    state.merge({
+      status: action.payload.status,
+      remainingTime: action.payload.remainingTime
+    })
+  )
+}, initialState);
 
 export default pomodoro;
