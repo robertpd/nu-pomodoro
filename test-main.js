@@ -7,6 +7,11 @@ require("babel/register")({
   ignore: /node_modules/
 });
 
+['.wav', '.css', 'sass', '.scss'].forEach(function (ext) {
+  require.extensions[ext] = function (module, filename) {
+  };
+});
+
 // Setup browser environment so that we can test React components.
 global.document = jsdom.jsdom('<!doctype html><html><body></body></html>');
 global.window = document.parentWindow;
