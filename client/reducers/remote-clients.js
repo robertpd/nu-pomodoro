@@ -1,34 +1,41 @@
 import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
-import Immutable from 'immutable';
+import { List, Map } from 'immutable';
+import { handleActions } from 'redux-actions';
 
-const initialState = Immutable.List([]);
+const initialState = List([]);
 
-const remoteClient = (state = initialState, action = {}) => {
-  const { id, user, status, remainingTime } = action;
-  let clientIndex = state.findIndex(c => c.get('id') === id, state.size);
+// Gets index of client in state or returns index to insert at.
+const getClientUpsertIndex = (state, clientId) => {
+  let clientIndex = state.findIndex(c => c.get('id') === clientId, state.size);
 
   if (clientIndex === -1) {
     clientIndex = state.size;
   }
 
-  switch (action.type) {
-    case ActionTypes.REMOTE_STATUS_CHANGED:
-      return state.update(clientIndex, client => {
-        if (!client) {
-          client = Immutable.Map();
-        }
-        return client.merge({ id, user, status, remainingTime })
-      });
-
-    case ActionTypes.REMOTE_CLIENT_REMOVED:
-      return state.filter(c => c.get('id') !== id);
-
-    case ActionTypes.REMOTE_SESSION_UPDATED:
-      return state.update(clientIndex, client => client.merge({ id, user }));
-
-    default:
-      return state;
-  }
+  return clientIndex;
 };
+
+
+const remoteClient = handleActions({
+  [ActionTypes.REMOTE_STATUS_CHANGED]: (state, action) => {
+    const { id,  user, status, remainingTime } = action.payload;
+    const clientIndex = getClientUpsertIndex(state, id);
+
+    return state.update(clientIndex, client => {
+      if (!client) {
+        client = Map();
+      }
+      return client.merge({ id, user, status, remainingTime })
+    });
+  },
+
+  [ActionTypes.REMOTE_CLIENT_REMOVED]: (state, action) => state.filter(c => c.get('id') !== action.payload.id),
+
+  [ActionTypes.REMOTE_SESSION_UPDATED]: (state, action) => {
+    const { id,  user } = action.payload;
+    const clientIndex = getClientUpsertIndex(state, id);
+    return state.update(clientIndex, client => client.merge({ id, user }));
+  }
+}, initialState);
 
 export default remoteClient;

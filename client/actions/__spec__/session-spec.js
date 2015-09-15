@@ -36,7 +36,7 @@ describe('session actions', () => {
         user: { name: 'Bob' }
       }));
 
-      const sessionData = SessionActions.updateSession({ user: { name: 'Fred' } });
+      const { payload: sessionData } = SessionActions.updateSession({ user: { name: 'Fred' } });
 
       expect(sessionData.user.name).to.equal('Fred');
     });

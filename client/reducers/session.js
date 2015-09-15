@@ -1,27 +1,26 @@
-import Immutable from 'immutable';
+import { Map } from 'immutable';
 import { ActionTypes, Status, DefaultTimeLengths } from '../constants';
+import { handleActions } from 'redux-actions';
 
-const initialState = Immutable.fromJS({
+const initialState = Map({
   id: 0,
-  client: { user: {} }
+  client: Map({ user: Map() })
 });
 
-const session = (state = initialState, action = {}) => {
-  switch (action.type) {
-    case ActionTypes.SESSION_CREATED:
-      return state.merge({
-        id: action.id,
-        client: { id: action.id, user: Immutable.fromJS(action.user) }
-      });
 
-    case ActionTypes.SESSION_UPDATED:
-      return state.merge({
-        client: {id: state.get('client').get('id'), user: Immutable.fromJS(action.user) }
-      });
+const session = handleActions({
+  [ActionTypes.SESSION_CREATED]: (state, action) => (
+    state.merge({
+      id: action.payload.id,
+      client: { id: action.payload.id, user: Map(action.payload.user) }
+    })
+  ),
 
-    default:
-      return state;
-  }
-};
+  [ActionTypes.SESSION_UPDATED]: (state, action) => (
+    state.merge({
+      client: {id: state.get('client').get('id'), user: Map(action.payload.user) }
+    })
+  )
+}, initialState);
 
 export default session;

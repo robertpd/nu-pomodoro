@@ -1,28 +1,33 @@
 import { ActionTypes } from '../constants';
-import objectAssign from '../../node_modules/node-sass/node_modules/sass-graph/node_modules/lodash/object/assign';
 import uuid from 'node-uuid';
+import { createAction } from 'redux-actions';
 
-export const createSession = () => {
-  const fromLocalStorage = window.localStorage.getItem('session-data');
+export const createSession = createAction(
+  ActionTypes.SESSION_CREATED,
+  () => {
+    const fromLocalStorage = window.localStorage.getItem('session-data');
 
-  let data = {};
+    let data = {};
 
-  if (fromLocalStorage) {
-    data = JSON.parse(fromLocalStorage) || {};
-  } else {
-    data = { id: uuid.v4() };
-    window.localStorage.setItem('session-data', JSON.stringify(data))
+    if (fromLocalStorage) {
+      data = JSON.parse(fromLocalStorage) || {};
+    } else {
+      data = {id: uuid.v4()};
+      window.localStorage.setItem('session-data', JSON.stringify(data))
+    }
+
+    return data
   }
+);
 
-  return objectAssign({type: ActionTypes.SESSION_CREATED}, data);
-};
+export const updateSession = createAction(
+  ActionTypes.SESSION_UPDATED,
+  session => {
+    let data = JSON.parse(window.localStorage.getItem('session-data')) || {};
+    data = {...data, ...session};
 
-export const updateSession = session => {
-  const data = JSON.parse(window.localStorage.getItem('session-data')) || {};
+    window.localStorage.setItem('session-data', JSON.stringify(data));
 
-  objectAssign(data, session);
-
-  window.localStorage.setItem('session-data', JSON.stringify(data));
-
-  return objectAssign({type: ActionTypes.SESSION_UPDATED}, data);
-};
+    return data;
+  }
+);
