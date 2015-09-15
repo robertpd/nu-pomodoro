@@ -19,7 +19,7 @@ import styles from './App.scss';
 
 let store;
 
-if (__DEVELOPMENT__) {
+if (__DEVPANEL__) {
   store = compose(
     devTools(),
     persistState(window.location.href.match(/[?&]debug_session=([^&]+)\b/)),
@@ -89,7 +89,7 @@ class Root extends Component {
         <Provider store={store}>
           {() => <ConnectedApp /> }
         </Provider>
-        { __DEVELOPMENT__
+        { __DEVPANEL__
             ? <DebugPanel top left bottom>
                 <DevTools store={store} monitor={LogMonitor} />
               </DebugPanel>

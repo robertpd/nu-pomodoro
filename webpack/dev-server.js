@@ -2,6 +2,8 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require("./make-webpack-config")({
   development: true,
+  // Set to true to enable redux dev panel.
+  devPanel: false,
   devtool: "eval",
   debug: true
 });

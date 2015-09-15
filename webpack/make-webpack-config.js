@@ -122,12 +122,14 @@ module.exports = function(options) {
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.NoErrorsPlugin(),
 			new webpack.DefinePlugin({
-				__DEVELOPMENT__: true
+				__DEVELOPMENT__: true,
+				__DEVPANEL__: options.devPanel
 			})
 		]);
   } else {
     plugins.push(new webpack.DefinePlugin({
-      __DEVELOPMENT__: false
+      __DEVELOPMENT__: false,
+      __DEVPANEL__: false
     }));
   }
 
