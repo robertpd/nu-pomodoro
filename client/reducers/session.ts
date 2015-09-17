@@ -1,3 +1,6 @@
+///<reference path='../../node_modules/immutable/dist/immutable.d.ts'/>
+///<reference path='../../typings/redux-actions/redux-actions.d.ts'/>
+
 import { Map } from 'immutable';
 import { ActionTypes, Status, DefaultTimeLengths } from '../constants.ts';
 import { handleActions, Action } from 'redux-actions';

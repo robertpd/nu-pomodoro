@@ -1,3 +1,6 @@
+///<reference path='../manual-typing/node-uuid.d.ts'/>
+///<reference path='../../typings/redux-actions/redux-actions.d.ts'/>
+
 import { ActionTypes } from '../constants.ts';
 import { v4 } from 'node-uuid';
 import { createAction } from 'redux-actions';
