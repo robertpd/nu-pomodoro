@@ -6,8 +6,8 @@
   },
   "files": [
     "client/manual-typing/node-uuid.d.ts",
-    "client/manual-typing/redux-actions.d.ts",
     "typings/redux/redux.d.ts",
+    "typings/redux-actions/redux-actions.d.ts",
     "node_modules/immutable/dist/immutable.d.ts"
   ]
 }
