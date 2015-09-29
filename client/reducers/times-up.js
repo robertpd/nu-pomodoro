@@ -10,7 +10,7 @@ const timesUp = (state = initialState, action = {}) => {
   switch (action.type) {
     case ActionTypes.POMODORO_TICKED:
     case ActionTypes.POMODORO_STATUS_CHANGED:
-      const { status, remainingTime } = action;
+      const { status, remainingTime } = action.payload;
       const shouldNotify = !state.get('shouldNotify ')&&
         status !== Status.STOPPED &&
         remainingTime === 0 &&
