@@ -16,6 +16,9 @@
     "test": "./node_modules/.bin/mocha test-main.js",
     "test-watch": "./node_modules/.bin/mocha test-main.js --watch"
   },
+  "engines": {
+    "node": "0.10.33"
+  },
   "author": "Engineering <engineering@nulogy.com>",
   "license": "ISC",
   "dependencies": {
